@@ -1,5 +1,7 @@
+// Footer.jsx
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'; // Importar Link de react-router-dom
 import { FaFacebook, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 
 const FooterContainer = styled.footer`
@@ -7,6 +9,7 @@ const FooterContainer = styled.footer`
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   text-align: center;
+  backdrop-filter: blur(10px);
 `;
 
 const LinksList = styled.ul`
@@ -36,9 +39,9 @@ const SocialIcons = styled.div`
 const Footer = () => (
   <FooterContainer>
     <LinksList>
-      <li><a href="/cookies">Cookies</a></li>
-      <li><a href="/terminos">Términos y Condiciones</a></li>
-      <li><a href="/privacidad">Política de Privacidad</a></li>
+      <li><Link to="/cookies">Cookies</Link></li>
+      <li><Link to="/terminos">Términos y Condiciones</Link></li>
+      <li><Link to="/privacidad">Política de Privacidad</Link></li>
     </LinksList>
     <SocialIcons>
       <a href="https://facebook.com/megamadera" aria-label="Facebook"><FaFacebook /></a>

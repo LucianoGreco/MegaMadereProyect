@@ -1,21 +1,24 @@
-// CardHome.jsx:
+// CardHome.jsx
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import data from "../../data/data";
 
-// Componente Home
 const CardHome = () => {
   return (
     <Container>
       {Object.values(data.secciones).map((section) => (
-        <Card key={section.id} background={section.imagen}>
-          <CardTitle>{section.nombre}</CardTitle>
+        <Card background={section.imagen}>
+          <CardLink to={`/${section.pagina}`} key={section.id}>
+            {section.nombre}
+          </CardLink>
         </Card>
       ))}
     </Container>
   );
 };
 
+// Estilos usando styled-components
 // Estilos usando styled-components
 const Container = styled.div`
   display: grid;
@@ -26,16 +29,16 @@ const Container = styled.div`
 
   // Layout especial para las tarjetas en 7 posiciones
   & > div:nth-child(1) {
-      grid-column: 1 / span 1;
-      grid-row: 1 / span 2;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 2;
   }
   & > div:nth-child(2) {
-      grid-column: 2 / span 1;
-      grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
   }
   & > div:nth-child(3) {
-      grid-column: 2 / span 1;
-      grid-row: 2 / span 1;
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
   }
   & > div:nth-child(4) {
     grid-column: 1 / span 2;
@@ -48,9 +51,14 @@ const Container = styled.div`
     grid-column: 1 / span 1;
   }
   & > div:nth-child(7) {
-      grid-column: 2 / span 1;
-      grid-row: 4 / span 2;
+    grid-column: 2 / span 1;
+    grid-row: 4 / span 2;
   }
+`;
+
+const CardLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Card = styled.div`
@@ -76,13 +84,6 @@ const Card = styled.div`
     transform: scale(1.05); /* Agrandar la tarjeta al pasar el mouse */
     filter: grayscale(0%); /* Volver la imagen a color */
   }
-`;
-
-const CardTitle = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-bottom: 20px; // Espacio de 20px desde el borde inferior de la tarjeta
 `;
 
 export default CardHome;

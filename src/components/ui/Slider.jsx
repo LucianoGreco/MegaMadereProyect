@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import articulos from "../../data/palcas/articulos"; // Asegúrate de que la ruta sea correcta
+import GlobalStyle from "../../styles/globalStyles"
+
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,11 +37,12 @@ const Slider = () => {
         &lt;
       </ArrowButton>
 
+        <GlobalStyle/>
       <ImageContainer>
         {visibleImages.map((product, index) => (
           <ImageWrapper
-            key={index}
-            scale={index === 2 ? 1.2 : 1} // Imagen central (índice 2) se agranda
+          key={index}
+          scale={index === 2 ? 1.2 : 1} // Imagen central (índice 2) se agranda
           >
             {index === 2 && ( // Solo mostrar el nombre sobre la imagen central
               <ProductName>{product.nombre}</ProductName>
@@ -115,10 +118,12 @@ const ProductName = styled.div`
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  color: white;
-  font-size: 1.5em;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Agrega una sombra al texto */
+      color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    font-size: 1.5em;
+    font-weight: bold;
+    font-weight: 600;
+
 `;
 
 export default Slider;

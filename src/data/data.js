@@ -5,7 +5,7 @@ import melaminas  from "../assets/Images/melaminas.jpg";
 import herrajes   from "../assets/Images/herrajes.png";
 import contactos  from "../assets/Images/contactos.jpg";
 import envios from "../assets/Images/envios.jpg";
-import logo       from "../assets/logo.png";
+import logo       from "../assets/logoB.png";
 import background from "../assets/Images/background.jpg";
 
 
@@ -65,6 +65,12 @@ const data = {
       email: "contacto@megamadera.com",
       horario: "Lunes a viernes 9:00 a 18:00",
       logo: logo,
+      redes:{
+        facebook: "https://facebook.com/megamadera",
+        instagram: "https://facebook.com/megamadera",
+        whatsApp: "https://wa.me/+549260433172",
+        gmail: "mailto:contacto@megamadera.com",
+      }
     },
     muebles: {
       id: 7,
