@@ -1,22 +1,19 @@
-// Navbar.jsx:
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom"; // Importa Link
+import { Link } from "react-router-dom";
 import data from "../../../data/data";
-import GlobalStyles from "../../../styles/globalStyles";
 
 const Navbar = () => {
-  const secciones = Object.values(data.secciones);
+  const sections = useMemo(() => Object.values(data.secciones), [data.secciones]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
     <Nav>
-      < GlobalStyles />
       <NavList>
-        {secciones.map((section, index) => (
+        {sections.map((section, index) => (
           <NavItem key={section.id}>
             <StyledLink
-              to={`/${section.pagina}`} // Redirecciona con Link
+              to={`/${section.pagina}`}
               isSelected={selectedIndex === index}
               onClick={() => setSelectedIndex(index)}
             >
@@ -29,13 +26,12 @@ const Navbar = () => {
   );
 };
 
-// Estilos usando styled-components
 const Nav = styled.nav`
   display: flex;
   align-items: center;
-  justify-content: center; /* Centrado de los elementos */
+  justify-content: center;
   margin-right: 30px;
-  `;
+`;
 
 const NavList = styled.ul`
   display: flex;
@@ -49,7 +45,7 @@ const NavItem = styled.li`
   margin: 0 10px;
 `;
 
-const StyledLink = styled(Link)` // Usar Link estilizado
+const StyledLink = styled(Link)`
   color: ${(props) => (props.isSelected ? "#f0f0f0" : "white")};
   text-decoration: none;
   transition: color 0.3s;

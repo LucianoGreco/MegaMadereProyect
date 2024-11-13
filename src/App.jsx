@@ -1,7 +1,6 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import GlobalStyles from './styles/globalStyles.js';
+import GlobalStyles from './styles/globalStyles';
 import Home from './pages/home.jsx';
 import Novedades from './pages/novedades.jsx';
 import Disenios from './pages/disenios.jsx';
@@ -15,12 +14,13 @@ import Privacidad from './components/policies/Privacidad.jsx';
 import Terminos from './components/policies/Terminos.jsx';
 import Footer from './components/layout/Footer.jsx';
 import Header from './components/layout/Header.jsx';
+import data from './data/data';
 
 const App = () => {
   return (
-    <Router>
+    <div className="App">
       <GlobalStyles />
-      <div>
+      <Router>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,8 +36,8 @@ const App = () => {
           <Route path="/privacidad" element={<Privacidad />} />
         </Routes>
         <Footer />
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 };
 

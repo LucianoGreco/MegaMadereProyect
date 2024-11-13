@@ -1,8 +1,8 @@
+// src/components/Slider.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import articulos from "../../data/palcas/articulos"; // Asegúrate de que la ruta sea correcta
-import GlobalStyle from "../../styles/globalStyles"
-
+import GlobalStyle from "../../styles/globalStyles";
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -37,16 +37,17 @@ const Slider = () => {
         &lt;
       </ArrowButton>
 
-        <GlobalStyle/>
+      <GlobalStyle />
+
+      {/* Nombre del producto fuera de las tarjetas, sobre el slider */}
+      <ProductName>{products[currentIndex].nombre}</ProductName>
+
       <ImageContainer>
         {visibleImages.map((product, index) => (
           <ImageWrapper
-          key={index}
-          scale={index === 2 ? 1.2 : 1} // Imagen central (índice 2) se agranda
+            key={index}
+            scale={index === 2 ? 1.2 : 1} // Imagen central (índice 2) se agranda
           >
-            {index === 2 && ( // Solo mostrar el nombre sobre la imagen central
-              <ProductName>{product.nombre}</ProductName>
-            )}
             <ProductImage src={product.imagenChica} alt={`Imagen ${index + 1}`} />
           </ImageWrapper>
         ))}
@@ -99,6 +100,7 @@ const ImageWrapper = styled.div`
   width: 100px; /* Ajusta el tamaño de las imágenes */
   height: 100px;
   margin: 0 10px;
+  position: relative;
 
   /* Agregamos el efecto de sombra al pasar el mouse */
   &:hover {
@@ -115,15 +117,14 @@ const ProductImage = styled.img`
 
 const ProductName = styled.div`
   position: absolute;
-  top: 10px;
+  top: 50%; /* Centrado en la parte superior del slider */
   left: 50%;
-  transform: translateX(-50%);
-      color: #fff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-    font-size: 1.5em;
-    font-weight: bold;
-    font-weight: 600;
-
+  transform: translate(-50%, -50%); /* Centrado vertical y horizontal */
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  font-size: 2em;
+  font-weight: bold;
+  z-index: 2; /* Asegura que el nombre esté por encima de las imágenes */
 `;
 
 export default Slider;

@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import NavItem from "../components/layout/navbar/NavItem";
 
-const melaminas = () => {
+const Melaminas = () => {
   return (
-    <div>melaminas</div>
-  )
-}
+    <>
+      <div>melaminas</div>
+      <NavItem />
+    </>
+  );
+};
 
-export default melaminas
+export default Melaminas;
