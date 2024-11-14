@@ -1,11 +1,14 @@
-import articulos from './palcas/articulos';
+import articulos from "./palcas/articulos";
 
-// Clasificación de melaminas
-const clasificacionMelaminas = {
-  categorias: {
-    melaminas: {
-      lineas: {
-        blend: [
+const menuData = [
+  // melaminas
+  {
+    name: "melaminas",
+    items: [
+      // Blend
+      {
+        name: "Blend",
+        items: [
           articulos.amaranto,
           articulos.camellia,
           articulos.merlot,
@@ -13,7 +16,11 @@ const clasificacionMelaminas = {
           articulos.sauco,
           articulos.scotch,
         ],
-        etnica: [
+      },
+      // Etnica
+      {
+        name: "Etnica",
+        items: [
           articulos.everest,
           articulos.himalaya,
           articulos.safari,
@@ -21,7 +28,11 @@ const clasificacionMelaminas = {
           articulos.tribal,
           articulos.tuareg,
         ],
-        hilados: [
+      },
+      // Hilados
+      {
+        name: "Hilados",
+        items: [
           // articulos.linoChiaro,
           // articulos.linoNegro,
           // articulos.linoTerra,
@@ -29,7 +40,11 @@ const clasificacionMelaminas = {
           // articulos.sedaGiorno,
           // articulos.sedaNotte,
         ],
-        lisos: [
+      },
+      // Lisos
+      {
+        name: "Lisos",
+        items: [
           // articulos.almendra,
           articulos.aluminio,
           articulos.azulLago,
@@ -41,7 +56,11 @@ const clasificacionMelaminas = {
           articulos.negroProfundo,
           articulos.rojo,
         ],
-        maderaClásica: [
+      },
+      // Madera Clásica
+      {
+        name: "Madera Clásica",
+        items: [
           articulos.cedroNature,
           articulos.cedroWoodtext,
           articulos.ebanoNegro,
@@ -51,7 +70,11 @@ const clasificacionMelaminas = {
           // articulos.robleDakarWoodtext,
           articulos.tanganicaTabaco,
         ],
-        mesopotamia: [
+      },
+      // Mesopotamia
+      {
+        name: "Mesopotamia",
+        items: [
           articulos.amatista,
           articulos.grisBasalto,
           articulos.grisCaliza,
@@ -60,7 +83,11 @@ const clasificacionMelaminas = {
           articulos.kiri,
           articulos.paraiso,
         ],
-        nature: [
+      },
+      // Nature
+      {
+        name: "Nature",
+        items: [
           articulos.blancoNature,
           // articulos.caju,
           articulos.carvalhoAserrado,
@@ -74,14 +101,22 @@ const clasificacionMelaminas = {
           articulos.terrarum,
           articulos.venezia,
         ],
-        nordica: [
+      },
+      // Nórdica
+      {
+        name: "Nórdica",
+        items: [
           articulos.baltico,
           articulos.helsinki,
           articulos.olmoFinlandes,
           articulos.robleEscandinavo,
           articulos.tekaOslo,
         ],
-        urbanConcept: [
+      },
+      // Urban Concept
+      {
+        name: "Urban Concept",
+        items: [
           articulos.amberes,
           articulos.coliseo,
           articulos.home,
@@ -91,10 +126,16 @@ const clasificacionMelaminas = {
           articulos.viena,
         ],
       },
-    },
-    revestimientos: {
-      lineas: {
-        blend: [
+    ],
+  },
+  // revestimientos
+  {
+    name: "revestimientos",
+    items: [
+      // Blend
+      {
+        name: "Blend",
+        items: [
           articulos.amaranto,
           articulos.camellia,
           articulos.merlot,
@@ -102,7 +143,11 @@ const clasificacionMelaminas = {
           articulos.sauco,
           articulos.scotch,
         ],
-        etnica: [
+      },
+      // Etnica
+      {
+        name: "Etnica",
+        items: [
           articulos.everest,
           articulos.himalaya,
           articulos.safari,
@@ -110,7 +155,11 @@ const clasificacionMelaminas = {
           articulos.tribal,
           articulos.tuareg,
         ],
-        hilados: [
+      },
+      // Hilados
+      {
+        name: "Hilados",
+        items: [
           articulos.everest,
           articulos.himalaya,
           // articulos.linoBlanco,
@@ -125,7 +174,11 @@ const clasificacionMelaminas = {
           articulos.tribal,
           articulos.tuareg,
         ],
-        lisos: [
+      },
+      // Lisos
+      {
+        name: "Lisos",
+        items: [
           // articulos.almendra,
           articulos.aluminio,
           articulos.azulLago,
@@ -137,11 +190,16 @@ const clasificacionMelaminas = {
           articulos.negroProfundo,
           articulos.rojo,
         ],
-        maderaClasica: [
-          articulos.robleAmericanoNature,
-          articulos.robleDakarNature,
-        ],
-        mesopotamia: [
+      },
+      // Madera Clásica
+      {
+        name: "Madera Clásica",
+        items: [articulos.robleAmericanoNature, articulos.robleDakarNature],
+      },
+      // Mesopotamia
+      {
+        name: "Mesopotamia",
+        items: [
           articulos.grisBasalto,
           articulos.grisCaliza,
           articulos.grisTapir,
@@ -149,7 +207,11 @@ const clasificacionMelaminas = {
           articulos.kiri,
           articulos.paraiso,
         ],
-        nature: [
+      },
+      // Nature
+      {
+        name: "Nature",
+        items: [
           articulos.blancoNature,
           articulos.carvalhoAserrado,
           articulos.carvalhoMezzo,
@@ -161,14 +223,22 @@ const clasificacionMelaminas = {
           articulos.terrarum,
           articulos.venezia,
         ],
-        nordica: [
+      },
+      // Nórdica
+      {
+        name: "Nórdica",
+        items: [
           articulos.baltico,
           articulos.helsinki,
           articulos.olmoFinlandes,
           articulos.robleEscandinavo,
           articulos.tekaOslo,
         ],
-        urbanConcept: [
+      },
+      // Urban Concept
+      {
+        name: "Urban Concept",
+        items: [
           articulos.amberes,
           articulos.coliseo,
           articulos.home,
@@ -178,28 +248,46 @@ const clasificacionMelaminas = {
           articulos.viena,
         ],
       },
-    },
-    fondos: {
-      lineas: {
-        hilados: [
+    ],
+  },
+  // fondos
+  {
+    name: "fondos",
+    items: [
+      // Hilados
+      {
+        name: "Hilados",
+        items: [
           // articulos.linoChiaro,
           // articulos.sedaGiorno,
           // articulos.sedaNotte,
         ],
-        lisos: [
+      },
+      // Lisos
+      {
+        name: "Lisos",
+        items: [
           // articulos.almendra,
           // articulos.blanco,
           articulos.ceniza,
           articulos.grafito,
           articulos.negroProfundo,
         ],
-        maderaClásica: [
+      },
+      // Madera Clásica
+      {
+        name: "Madera Clásica",
+        items: [
           articulos.cedroWoodtext,
           articulos.ebanoNegro,
           // articulos.robleDakarWoodtext,
           articulos.tanganicaTabaco,
         ],
-        nature: [
+      },
+      // Nature
+      {
+        name: "Nature",
+        items: [
           articulos.carvalhoAserrado,
           articulos.carvalhoMezzo,
           articulos.linosaCinza,
@@ -207,83 +295,93 @@ const clasificacionMelaminas = {
           articulos.tekaArtico,
           articulos.venezia,
         ],
-        nordica: [
+      },
+      // Nórdica
+      {
+        name: "Nórdica",
+        items: [articulos.baltico, articulos.helsinki],
+      },
+    ],
+  },
+  // todas
+  {
+    name: "todas",
+    items: [
+      {
+        name: "Todas",
+        items: [
+          // articulos.almendra,
+          articulos.aluminio,
+          articulos.amaranto,
+          articulos.amatista,
+          articulos.amberes,
+          articulos.azulLago,
           articulos.baltico,
+          // articulos.blanco,
+          articulos.blancoNature,
+          articulos.blancoTundra,
+          // articulos.caju,
+          articulos.camellia,
+          articulos.carvalhoAserrado,
+          articulos.carvalhoMezzo,
+          articulos.cedroNature,
+          articulos.cedroWoodtext,
+          articulos.ceniza,
+          articulos.coliseo,
+          articulos.ebanoNegro,
+          articulos.everest,
+          articulos.gaudi,
+          articulos.grafito,
+          articulos.grisBasalto,
+          articulos.grisCaliza,
+          articulos.grisHumo,
+          articulos.grisTapir,
           articulos.helsinki,
+          articulos.himalaya,
+          articulos.home,
+          articulos.jade,
+          articulos.kiri,
+          // articulos.linoBlanco,
+          // articulos.linoChiaro,
+          // articulos.linoNegro,
+          articulos.linosaCinza,
+          // articulos.linoTerra,
+          articulos.litio,
+          articulos.merlot,
+          articulos.montBlanc,
+          articulos.moscu,
+          articulos.negroProfundo,
+          articulos.nocceMilano,
+          articulos.nogalTerracota,
+          articulos.olmoFinlandes,
+          articulos.paraiso,
+          articulos.pinotGris,
+          articulos.praga,
+          articulos.robleAmericanoNature,
+          // articulos.robleAmericanoSupermate,
+          articulos.robleDakarNature,
+          // articulos.robleDakarWoodtext,
+          articulos.robleEscandinavo,
+          articulos.rojo,
+          articulos.safari,
+          articulos.sahara,
+          articulos.sauco,
+          articulos.scotch,
+          // articulos.sedaAzzurra,
+          // articulos.sedaGiorno,
+          // articulos.sedaNotte,
+          articulos.street,
+          articulos.tanganicaTabaco,
+          articulos.tekaArtico,
+          articulos.tekaOslo,
+          articulos.tribal,
+          articulos.tuareg,
+          articulos.venezia,
+          articulos.viena,
         ],
       },
-    },
-    todas: [
-        articulos.almendra,
-        articulos.aluminio,
-        articulos.amaranto,
-        articulos.amatista,
-        articulos.amberes,
-        articulos.azulLago,
-        articulos.báltico,
-        articulos.blanco,
-        articulos.blancoNature,
-        articulos.blancoTundra,
-        articulos.baju,
-        articulos.bamellia,
-        articulos.barvalhoAserrado,
-        articulos.carvalhoMezzo,
-        articulos.cedroNature,
-        articulos.cedroWoodtext,
-        articulos.ceniza,
-        articulos.coliseo,
-        articulos.ebanoNegro,
-        articulos.everest,
-        articulos.gaudi,
-        articulos.grafito,
-        articulos.grisBasalto,
-        articulos.grisCaliza,
-        articulos.grisHumo,
-        articulos.grisTapir,
-        articulos.helsinki,
-        articulos.himalaya,
-        articulos.home,
-        articulos.jade,
-        articulos.kiri,
-        articulos.linoBlanco,
-        articulos.linoChiaro,
-        articulos.linoNegro,
-        articulos.linosaCinza,
-        articulos.linoTerra,
-        articulos.litio,
-        articulos.merlot,
-        articulos.montBlanc,
-        articulos.moscu,
-        articulos.negroProfundo,
-        articulos.nocceMilano,
-        articulos.nogalTerracota,
-        articulos.olmoFinlandes,
-        articulos.paraiso,
-        articulos.pinotGris,
-        articulos.praga,
-        articulos.robleAmericanoNature,
-        articulos.robleAmericanoSupermate,
-        articulos.robleDakarNature,
-        articulos.robleDakarWoodtext,
-        articulos.robleEscandinavo,
-        articulos.rojo,
-        articulos.safari,
-        articulos.sahara,
-        articulos.sauco,
-        articulos.scotch,
-        articulos.sedaAzzurra,
-        articulos.sedaGiorno,
-        articulos.sedaNotte,
-        articulos.street,
-        articulos.tanganicaTabaco,
-        articulos.tekaArtico,
-        articulos.tekaOslo,
-        articulos.tribal,
-        articulos.tuareg,
-        articulos.venezia,
-        articulos.viena,
-    ]
+    ],
   },
-};
+];
 
-export default clasificacionMelaminas;
+export default menuData;
