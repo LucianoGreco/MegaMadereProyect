@@ -1,50 +1,53 @@
-// NavItem.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import menuData from '../../../data/melaminas';
 
 // Botón principal para "Menú de Categorías"
 const MenuButton = styled.button`
+background-color: rgba(255, 255, 255, 0.6);
+
+color: black;
+  height: 200px;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  
-  &:hover {
+
+
+  &:hover, &:active {
     background-color: white;
     color: black;
   }
-    margin: 1px;
 
+  
+
+  
 `;
 
 // Contenedor para los submenús
 const SubMenuContainer = styled.div`
   display: ${({ open }) => (open ? 'block' : 'none')};
-
   margin-top: 2px;
   padding: 5px;
-  width: 50vw;
+  width: 30vw;
+  justify-content: center;
 
-
-  `;
+`;
 
 // Botones de categoría y subcategoría
 const CategoryButton = styled.button`
-  // background-color: #444;
+background-color: rgba(255, 255, 255, 0.6);
+color: black;
   display: block;
-  color: white;
+
   border: none;
   padding: 4px;
   margin: 2px;
-  width: fit-content;  // Ajusta el ancho al contenido
+  width: fit-content;
+  height: fit-content;
   text-align: left;
   cursor: pointer;
   transition: all 0.3s ease;
-  // margin-top: 5px;
- border: 1px solid red;
- font-size: 2px;
-font-weight: 100;
+
 
 
 
@@ -54,17 +57,22 @@ font-weight: 100;
   }
 `;
 
-// Subcategoría en formato de lista
-const SubCategoryList = styled.div`
+
+const MenuContainer = styled.div`
 display: flex;
-  margin-left: 20px;
-  padding-left: 10px;
-  border-left: 1px solid #fff;
-  display: block;
-  
 `;
 
-const NavItem = () => {
+// Subcategoría en formato de lista
+const SubCategoryList = styled.div`
+  // display: flex;
+  // margin-left: 20px;
+  // padding-left: 10px;
+  // border-left: 1px solid #fff;
+  // display: block;
+  // border: 1px solid yellow;
+`;
+
+const NavItem = ({ menuData, setCardData }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
@@ -81,44 +89,48 @@ const NavItem = () => {
     setActiveSubCategory(activeSubCategory === subIndex ? null : subIndex);
   };
 
+  const handleItemClick = (item) => {
+    setCardData(item);  // Pasamos los datos del artículo al Card
+  };
+
   return (
-    <div>
+    <MenuContainer>
       <MenuButton onClick={toggleMenu}>Menú de Categorías</MenuButton>
-      
+
       <SubMenuContainer open={menuOpen}>
         {menuData.map((category, index) => (
-          <div key={index}>
+          
+          
+          <MenuContainer key={index}>
             <CategoryButton onClick={() => toggleCategory(index)}>
               {category.name}
             </CategoryButton>
-            
+
             {activeCategory === index && (
               <SubCategoryList>
                 {category.items.map((subCategory, subIndex) => (
-                  <div key={subIndex}>
+                  <MenuContainer key={subIndex}>
                     <CategoryButton onClick={() => toggleSubCategory(subIndex)}>
                       {subCategory.name}
                     </CategoryButton>
-                    
+
                     {activeSubCategory === subIndex && (
                       <SubCategoryList>
                         {subCategory.items.map((item, itemIndex) => (
-                          <CategoryButton key={itemIndex}>
-                            {item.nombre}  {/* - ${item.precio}
-                            <div>Medidas: {item.medidas.ancho} x {item.medidas.alto} x {item.medidas.profundidad}</div>
-                            <div>Espesor: {item.medidas.espesor_material} mm</div> */}
+                          <CategoryButton key={itemIndex} onClick={() => handleItemClick(item)}>
+                            {item.nombre}  {/* Usamos el nombre del artículo */}
                           </CategoryButton>
                         ))}
                       </SubCategoryList>
                     )}
-                  </div>
+                  </MenuContainer>
                 ))}
               </SubCategoryList>
             )}
-          </div>
+          </MenuContainer>
         ))}
       </SubMenuContainer>
-    </div>
+    </MenuContainer>
   );
 };
 

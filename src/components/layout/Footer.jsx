@@ -10,6 +10,7 @@ const FooterContainer = styled.footer`
   color: white;
   text-align: center;
   backdrop-filter: blur(10px);
+  white: 100vw;
 `;
 
 const LinksList = styled.ul`
