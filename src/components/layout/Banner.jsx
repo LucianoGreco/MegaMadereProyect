@@ -11,9 +11,9 @@ const Banner = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setIsMovingLeftToRight(prev => !prev);
+      setIsMovingLeftToRight((prev) => !prev);
       if (isMovingLeftToRight) {
-        setCurrentIndex(prevIndex => (prevIndex + 1) % sections.length);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % sections.length);
       }
     }, 3000);
 
@@ -25,7 +25,7 @@ const Banner = () => {
   return (
     <BannerContainer>
       <ImageWrapper isMovingLeftToRight={isMovingLeftToRight}>
-        <BannerImage src={currentSection.imagen} alt={currentSection.nombre} />
+        <BannerImage src={currentSection.cardHome} alt={currentSection.nombre} />
       </ImageWrapper>
       <StyledButton to={`/${currentSection.pagina}`}>
         {currentSection.nombre}
@@ -36,9 +36,10 @@ const Banner = () => {
 
 const BannerContainer = styled.div`
   width: 100vw;
-  height: 55vh;
+  height: 80vh;
   position: relative;
   overflow: hidden;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);  /* Agregando la sombra */
 `;
 
 const ImageWrapper = styled.div`
@@ -46,24 +47,40 @@ const ImageWrapper = styled.div`
   top: 0;
   left: ${({ isMovingLeftToRight }) => (isMovingLeftToRight ? '0' : '-3vw')};
   width: 104vw;
-  height: 100%;
   transition: left 3s ease-in-out;
 `;
 
 const BannerImage = styled.img`
   width: 110vw;
-  height: 70vh;
-  object-fit: cover;
+  height: 100vh;
 `;
 
 const StyledButton = styled(Link)`
   position: absolute;
   bottom: 5rem;
   left: 10%;
-  color: #fff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-  font-size: 2rem; /* Rem para escalabilidad */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem; /* Ajusta el tamaño según sea necesario */
+  text-transform: uppercase; /* Opcional, para estilo */
+  text-decoration: none;
+
+  /* Estilos heredados de GlobalStyles */
+  backdrop-filter: blur(10px);
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  color: var(--text-color);
   font-weight: bold;
+  padding: 10px 20px;
+  text-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    color: var(--hover-text-color);
+    background-color: var(--hover-background-color);
+  }
 `;
 
 export default Banner;

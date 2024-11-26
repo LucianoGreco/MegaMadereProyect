@@ -1,136 +1,156 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-
-// Botón principal para "Menú de Categorías"
-const MenuButton = styled.button`
-background-color: rgba(255, 255, 255, 0.6);
-
-color: black;
-  height: 200px;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-
-  &:hover, &:active {
-    background-color: white;
-    color: black;
-  }
-
-  
-
-  
-`;
-
-// Contenedor para los submenús
-const SubMenuContainer = styled.div`
-  display: ${({ open }) => (open ? 'block' : 'none')};
-  margin-top: 2px;
-  padding: 5px;
-  width: 30vw;
-  justify-content: center;
-
-`;
-
-// Botones de categoría y subcategoría
-const CategoryButton = styled.button`
-background-color: rgba(255, 255, 255, 0.6);
-color: black;
-  display: block;
-
-  border: none;
-  padding: 4px;
-  margin: 2px;
-  width: fit-content;
-  height: fit-content;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-
-
-
-  &:hover, &:active {
-    background-color: white;
-    color: black;
-  }
-`;
-
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FaBars } from "react-icons/fa";
 
 const MenuContainer = styled.div`
-display: flex;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(30, 30, 40, 0.9);
+  height: 100%;
+  overflow-y: auto;
+
+  /* En pantallas pequeñas, el menú se oculta inicialmente */
+  @media (max-width: 768px) {
+    display: ${({ isMenuOpen }) => (isMenuOpen ? "flex" : "none")};
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(30, 30, 40, 0.9); /* Fondo oscuro */
+    padding: 50px 20px 20px 20px; /* Añadir más espacio arriba para no tapar la barra de estado */
+    z-index: 1000; /* Asegurarnos de que el menú se superponga sobre otros elementos */
+  }
 `;
 
-// Subcategoría en formato de lista
-const SubCategoryList = styled.div`
-  // display: flex;
-  // margin-left: 20px;
-  // padding-left: 10px;
-  // border-left: 1px solid #fff;
-  // display: block;
-  // border: 1px solid yellow;
+const CategoryButton = styled.button`
+  width: 100%;
+  padding: 10px 15px;
+  text-align: center;
+  background: rgba(50, 50, 70, 0.8);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+
+  /* Centrar el texto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: rgba(70, 70, 100, 0.9);
+  }
+`;
+
+const SubMenuContainer = styled.div`
+  display: ${({ open }) => (open ? "block" : "none")};
+  background: rgba(20, 20, 30, 0.9);
+  border-radius: var(--border-radius);
+  margin-top: 8px;
+  padding: 5px;
+
+  & > div {
+    margin-bottom: 5px;
+  }
+
+  button {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    text-align: left;
+    background: rgba(40, 40, 50, 0.8);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+
+    /* Centrar el texto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: rgba(60, 60, 80, 0.9);
+    }
+  }
+
+  h4 {
+    color: #bbb;
+    text-align: center;
+    margin: 12px 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+`;
+
+const HamburgerButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  margin-left: 10px;
+
+  /* Mostrar el botón de hamburguesa solo en pantallas pequeñas */
+  @media (max-width: 768px) {
+    display: block;
+  }
 `;
 
 const NavItem = ({ menuData, setCardData }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
-  const [activeSubCategory, setActiveSubCategory] = useState(null);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleCategory = (index) => {
-    setActiveCategory(activeCategory === index ? null : index);
+    setActiveCategory((prevIndex) => (prevIndex === index ? null : index));
   };
 
-  const toggleSubCategory = (subIndex) => {
-    setActiveSubCategory(activeSubCategory === subIndex ? null : subIndex);
+  const toggleMenu = () => {
+    setIsMenuOpen((prevState) => !prevState);
   };
 
-  const handleItemClick = (item) => {
-    setCardData(item);  // Pasamos los datos del artículo al Card
+  // Cerrar el menú al seleccionar una opción
+  const handleSelectOption = (item) => {
+    setCardData(item);
+    setIsMenuOpen(false); // Cierra el menú después de la selección
   };
 
   return (
-    <MenuContainer>
-      <MenuButton onClick={toggleMenu}>Menú de Categorías</MenuButton>
+    <>
+      {/* Botón hamburguesa */}
+      <HamburgerButton onClick={toggleMenu}>
+        <FaBars />
+      </HamburgerButton>
 
-      <SubMenuContainer open={menuOpen}>
+      <MenuContainer isMenuOpen={isMenuOpen}>
         {menuData.map((category, index) => (
-          
-          
-          <MenuContainer key={index}>
+          <div key={index}>
             <CategoryButton onClick={() => toggleCategory(index)}>
               {category.name}
             </CategoryButton>
-
-            {activeCategory === index && (
-              <SubCategoryList>
-                {category.items.map((subCategory, subIndex) => (
-                  <MenuContainer key={subIndex}>
-                    <CategoryButton onClick={() => toggleSubCategory(subIndex)}>
-                      {subCategory.name}
-                    </CategoryButton>
-
-                    {activeSubCategory === subIndex && (
-                      <SubCategoryList>
-                        {subCategory.items.map((item, itemIndex) => (
-                          <CategoryButton key={itemIndex} onClick={() => handleItemClick(item)}>
-                            {item.nombre}  {/* Usamos el nombre del artículo */}
-                          </CategoryButton>
-                        ))}
-                      </SubCategoryList>
-                    )}
-                  </MenuContainer>
-                ))}
-              </SubCategoryList>
-            )}
-          </MenuContainer>
+            <SubMenuContainer open={activeCategory === index}>
+              {category.items.map((subCategory, subIndex) => (
+                <div key={subIndex}>
+                  <h4>{subCategory.name}</h4>
+                  {subCategory.items.map((item, itemIndex) => (
+                    <button key={itemIndex} onClick={() => handleSelectOption(item)}>
+                      {item.nombre}
+                    </button>
+                  ))}
+                </div>
+              ))}
+            </SubMenuContainer>
+          </div>
         ))}
-      </SubMenuContainer>
-    </MenuContainer>
+      </MenuContainer>
+    </>
   );
 };
 

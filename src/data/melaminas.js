@@ -308,9 +308,8 @@ const menuData = [
     name: "todas",
     items: [
       {
-        name: "Todas",
+        // articulos.almendra,
         items: [
-          // articulos.almendra,
           articulos.aluminio,
           articulos.amaranto,
           articulos.amatista,

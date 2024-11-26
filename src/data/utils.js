@@ -8,7 +8,7 @@ export const crearProducto = (
   alto = 1830,
   ancho = 2750,
   profundidad = 0,
-  espesor_material = 5.5
+  espesor_material = 5.5,
 ) => {
   if (
     typeof precio !== "number" ||

@@ -42,7 +42,8 @@ const Message = styled.div`
   align-items: center;
   font-size: 4.5rem;
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.8); /* Texto en gris oscuro */
+  color: rgba(255, 255, 255, 0.8); /* Texto en gris oscuro */
+  
   margin-right: 2rem;
 `;
 

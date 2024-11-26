@@ -1,82 +1,79 @@
-import novedades  from "../assets/Images/novedades.jpg";
-import disenios   from "../assets/Images/disenios.jpg";
-import muebles    from "../assets/Images/muebles.jpeg";
-import melaminas  from "../assets/Images/melaminas.jpg";
-import herrajes   from "../assets/Images/herrajes.png";
-import contactos  from "../assets/Images/contactos.jpg";
-import envios from "../assets/Images/envios.jpg";
-import logo       from "../assets/logoB.png";
-import background from "../assets/Images/background.jpg";
-
-
+import {imagenesCardHome, backgroundPage, imagenlogo } from "./palcas/imagenes"; 
 
 const data = {
-  background: background,
+  background: backgroundPage.Home,
   secciones: {
-    
-    disenios: {
-      id: 1,
-      nombre: "Diseños",
-      titulo: "Mas de +100 diseños exclusvos",
-      descripcion: "Adaptamos tu diseño favorito a las dimensiones de tu hogar",
-      imagen: disenios,
-      pagina: 'disenios',
-    },
     novedades: {
-      id: 2,
+      id: 1,
       nombre: "Novedades",
       descripcion: "Últimas novedades en Mega Madera",
-      imagen: novedades,
+      cardHome: imagenesCardHome.novedades,
+      // backgroundPagina: backgroundNovedades,
       pagina: 'novedades',  // Aquí se guarda la ruta relativa
+    
+    },
+    Simulador: {
+      id: 2,
+      nombre: "Simulador",
+      titulo: "Mas de +100 diseños exclusvos",
+      descripcion: "Adaptamos tu diseño favorito a las dimensiones de tu hogar",
+      cardHome: imagenesCardHome.muebles,
+      backgroundPagina: backgroundPage.simulador,
+      pagina: 'simulador',
     },
     herrajes: {
       id: 3,
       nombre: "Herrajes",
       descripcion: "Herrajes de alta calidad",
-      imagen: herrajes,
+      cardHome: imagenesCardHome.herrajes,
+      // backgroundPagina: backgroundHerrajes,
       pagina: 'herrajes',
     },
     melaminas: {
       id: 4,
       nombre: "Melaminas",
       descripcion: "Placas de melamina de alta calidad",
-      imagen: melaminas,
+      cardHome: imagenesCardHome.melaminas,
+      // backgroundPagina: backgroundMelamina,
       pagina: 'melaminas',
     },
     envios: {
       id: 5,
       nombre: "Envíos",
       descripcion: "Envíos a todo el país",
-      imagen: envios,
+      cardHome: imagenesCardHome.envios,
+      // backgroundPagina: backgroundEnvios,
       pagina: 'envios',
     },
     contactos: {
       id: 6,
-      nombre: "Contactos",
+      nombre: "contactos",
       descripcion: "Información de contacto",
-      imagen: contactos,
+      cardHome: imagenesCardHome.contactos,
+      // backgroundPagina: backgroundContactos,
       pagina: 'contactos',
       nombreEmpresa: "Mega Madera",
-      direccion: "Avenida Moreno 123",
+      direccion: "Av. Moreno 1455",
       localidad: "San Rafael",
       provincia: "Mendoza",
       pais: "Argentina",
-      telefono: "260433172",
+      telefono: "2604422505",
       email: "contacto@megamadera.com",
-      horario: "Lunes a viernes 9:00 a 18:00",
-      logo: logo,
+      horario: "Lunes a Sabados ( 9:00hs - 17:30hs )",
+      logo: imagenlogo.logo,
       redes:{
         facebook: "https://facebook.com/megamadera",
-        instagram: "https://facebook.com/megamadera",
+        instagram: "instagram.com/mega.madera",
         whatsApp: "https://wa.me/+549260433172",
-        gmail: "mailto:contacto@megamadera.com",
+        gmail: "ventas.megamadera@gmail.com",
       }
     },
     muebles: {
       id: 7,
       nombre: "Muebles",
       descripcion: "Muebles para cada ambiente",
-      imagen: muebles,
+      cardHome: imagenesCardHome.muebles,
+      // backgroundPagina: backgroundMuebles,
       pagina: 'muebles',
     }
   },

@@ -4,64 +4,105 @@ import styled from 'styled-components';
 
 // Contenedor principal de la página de privacidad
 const Container = styled.div`
-  padding: 20px;                // Espaciado interno para mayor legibilidad
-  max-width: 800px;             // Limita el ancho para un diseño más enfocado
-  margin: 0 auto;               // Centra el contenedor horizontalmente
-  font-family: 'Poppins', sans-serif; // Fuente personalizada
+  padding: 30px;
+  max-width: 900px;
+  margin: 40px auto;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  backdrop-filter: blur(10px);
 `;
 
-// Estilo del título de la página
+// Título de la página
 const Title = styled.h1`
-  font-size: 2rem;              // Tamaño grande para resaltar el título
-  margin-bottom: 20px;          // Espaciado inferior
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--text-color);
+  text-align: center;
+  text-shadow: var(--shadow);
 `;
 
 // Estilo para las secciones de contenido
 const Section = styled.section`
-  margin-bottom: 40px;          // Espaciado entre secciones
-`;
+  margin-bottom: 40px;
 
-// Botón para regresar a la página principal
-const BackButton = styled(Link)`
-  display: inline-block;        // Se comporta como un botón
-  padding: 10px 20px;           // Espaciado interno del botón
-  margin-top: 20px;             // Espaciado superior
-  background-color: #000;       // Fondo negro para contraste
-  color: #fff;                  // Texto blanco
-  text-decoration: none;        // Sin subrayado en el texto
-  border-radius: 5px;           // Bordes redondeados
-  transition: background-color 0.3s ease; // Transición suave en hover
+  h2 {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    margin-bottom: 10px;
+  }
 
-  &:hover {
-    background-color: #333;     // Cambio de color en hover
+  p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 15px;
   }
 `;
 
-// Componente principal de la política de privacidad
+// Botón de regreso a la página principal
+const BackButton = styled(Link)`
+  display: inline-block;
+  padding: 12px 24px;
+  margin-top: 30px;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background-color: #fff;
+    color: #000;
+    transform: scale(1.05);
+  }
+`;
+
+// Enlaces adicionales a otras políticas
+const NavLinks = styled.nav`
+  margin-top: 30px;
+  text-align: center;
+
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--hover-text-color);
+    }
+  }
+`;
+
+// Componente de Política de Privacidad
 const Privacidad = () => (
   <Container>
     <Title>Política de Privacidad</Title>
     
-    {/* Sección de recopilación de información */}
     <Section>
       <h2>1. Información que Recopilamos</h2>
       <p>
         Recopilamos información personal que usted nos proporciona al usar nuestro sitio web, como nombre y correo electrónico.
       </p>
 
-      {/* Uso de la información */}
       <h2>2. Cómo Usamos su Información</h2>
       <p>
         Usamos su información para mejorar nuestros servicios y comunicarnos sobre actualizaciones.
       </p>
 
-      {/* Medidas de seguridad */}
       <h2>3. Seguridad</h2>
       <p>
         Implementamos medidas de seguridad para proteger su información, aunque no podemos garantizar seguridad absoluta.
       </p>
 
-      {/* Modificaciones a la política */}
       <h2>4. Modificaciones</h2>
       <p>
         Podemos actualizar esta política en cualquier momento. Los cambios se publicarán en esta página.
@@ -69,14 +110,12 @@ const Privacidad = () => (
       <p>Última actualización: [Fecha]</p>
     </Section>
 
-    {/* Botón para volver a la página principal */}
     <BackButton to="/">Volver a la página principal</BackButton>
 
-    {/* Enlaces a otras políticas */}
-    <nav>
+    <NavLinks>
       <Link to="/terminos">Términos y Condiciones</Link> | 
       <Link to="/cookies">Política de Cookies</Link>
-    </nav>
+    </NavLinks>
   </Container>
 );
 

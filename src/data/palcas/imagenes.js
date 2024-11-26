@@ -1,3 +1,17 @@
+// importacion de logo
+import logo from "../../assets/logoB.png"
+
+// importaciones de Card Home
+import cardHomeNovedades from "../../assets/cardHome/novedades.png";
+import cardHomeDisenios  from "../../assets/cardHome/disenios.jpg";
+import cardHomeMuebles   from "../../assets/cardHome/muebles.jpeg";
+import cardHomeMelaminas from "../../assets/cardHome/melaminas.jpg";
+import cardHomeHerrajes  from "../../assets/cardHome/herrajes.png";
+import cardHomeContactos from "../../assets/cardHome/contactos.jpg";
+import cardHomeEnvios    from "../../assets/cardHome/envios.png";
+
+// importacion de background Page
+import backgroundPageHome from "../../assets/BackgroundPage/Home.jpg";
 
 // import almendraChica                 from "../../assets/melaminas/chicas/almendra.jpg";
 import aluminioChica                     from "../../assets/melaminas/chicas/aluminio.jpg";
@@ -69,9 +83,6 @@ import tuaregChica                       from "../../assets/melaminas/chicas/tua
 import veneziaChica                      from "../../assets/melaminas/chicas/venezia.jpg";
 import vienaChica                        from "../../assets/melaminas/chicas/viena.jpg";
 
-
-
-
 // import almendraGrande                 from "../../assets/melaminas/grandes/almendra.jpg";
 import aluminioGrande                    from "../../assets/melaminas/grandes/aluminio.jpg";
 import amarantoGrande                    from "../../assets/melaminas/grandes/amaranto.jpg";
@@ -79,7 +90,7 @@ import amatistaGrande                    from "../../assets/melaminas/grandes/am
 import amberesGrande                     from "../../assets/melaminas/grandes/ambere.jpg";
 import azulLagoGrande                    from "../../assets/melaminas/grandes/azulLago.jpg";
 import balticoGrande                     from "../../assets/melaminas/grandes/baltico.jpg";
-import blancoGrande                      from "../../assets/melaminas/grandes/blanco.jpg";
+// import blancoGrande                      from "../../assets/melaminas/grandes/blanco.jpg";
 import blancoNatureGrande                from "../../assets/melaminas/grandes/blancoNature.jpg";
 import blancoTundraGrande                from "../../assets/melaminas/grandes/blancoTundra.jpg";
 // import cajuGrande                    from "../../assets/melaminas/grandes/caju.jpg";
@@ -142,6 +153,126 @@ import tuaregGrande                     from "../../assets/melaminas/grandes/tua
 import veneziaGrande                    from "../../assets/melaminas/grandes/venezia.jpg";
 import vienaGrande                      from "../../assets/melaminas/grandes/viena.jpg";
 
+// muebles
+import mueble1 from "../../assets/muebles/mueble1.jpg";
+import mueble2 from "../../assets/muebles/mueble2.jpg";
+import mueble3 from "../../assets/muebles/mueble3.jpg";
+import mueble4 from "../../assets/muebles/mueble4.jpg";
+import mueble5 from "../../assets/muebles/mueble5.jpg";
+import mueble6 from "../../assets/muebles/mueble6.jpg";
+import mueble7 from "../../assets/muebles/mueble7.jpg";
+
+
+// import Background Page
+import simulador from "../../assets/BackgroundPage/simulador.png";
+
+
+// import imagenes herrajes
+import herraje1 from "../../assets/herrajes/herraje1.jpg"
+import herraje2 from "../../assets/herrajes/herraje2.jpg"
+import herraje3 from "../../assets/herrajes/herraje13.jpg"
+import herraje4 from "../../assets/herrajes/herraje4.jpg"
+import herraje5 from "../../assets/herrajes/herraje5.jpg"
+import herraje6 from "../../assets/herrajes/herraje6.jpg"
+import herraje7 from "../../assets/herrajes/herraje7.jpg"
+import herraje8 from "../../assets/herrajes/herraje8.jpg"
+import herraje9 from "../../assets/herrajes/herraje9.jpg"
+import herraje10 from "../../assets/herrajes/herraje10.jpg"
+import herraje11 from "../../assets/herrajes/herraje11.jpg"
+import herraje12 from "../../assets/herrajes/herraje12.jpg"
+import herraje13 from "../../assets/herrajes/herraje13.jpg"
+import herraje14 from "../../assets/herrajes/herraje14.jpg"
+import herraje15 from "../../assets/herrajes/herraje15.jpg"
+import herraje16 from "../../assets/herrajes/herraje16.jpg"
+import herraje17 from "../../assets/herrajes/herraje17.jpg"
+import herraje18 from "../../assets/herrajes/herraje18.jpg"
+import herraje19 from "../../assets/herrajes/herraje19.jpg"
+import herraje20 from "../../assets/herrajes/herraje20.jpg"
+import herraje21 from "../../assets/herrajes/herraje21.jpg"
+import herraje22 from "../../assets/herrajes/herraje22.jpg"
+import herraje23 from "../../assets/herrajes/herraje23.jpg"
+import herraje24 from "../../assets/herrajes/herraje24.jpg"
+import herraje25 from "../../assets/herrajes/herraje25.jpg"
+import herraje26 from "../../assets/herrajes/herraje26.jpg"
+import herraje27 from "../../assets/herrajes/herraje27.jpg"
+import herraje28 from "../../assets/herrajes/herraje28.jpg"
+import herraje29 from "../../assets/herrajes/herraje29.jpg"
+import herraje30 from "../../assets/herrajes/herraje30.jpg"
+import herraje31 from "../../assets/herrajes/herraje31.jpg"
+import herraje32 from "../../assets/herrajes/herraje32.jpg"
+import herraje33 from "../../assets/herrajes/herraje33.jpg"
+import herraje34 from "../../assets/herrajes/herraje34.jpg"
+import herraje35 from "../../assets/herrajes/herraje35.jpg"
+import herraje36 from "../../assets/herrajes/herraje36.jpg"
+import herraje37 from "../../assets/herrajes/herraje37.jpg"
+import herraje38 from "../../assets/herrajes/herraje38.jpg"
+import herraje39 from "../../assets/herrajes/herraje39.jpg"
+
+
+export const herrajes = {
+  herraje1: herraje1,
+  herraje2: herraje2,
+  herraje3: herraje3,
+  herraje4: herraje4,
+  herraje5: herraje5,
+  herraje6: herraje6,
+  herraje7: herraje7,
+  herraje8: herraje8,
+  herraje9: herraje9,
+  herraje10: herraje10,
+  herraje11: herraje11,
+  herraje12: herraje12,
+  herraje13: herraje13,
+  herraje14: herraje14,
+  herraje15: herraje15,
+  herraje16: herraje16,
+  herraje17: herraje17,
+  herraje18: herraje18,
+  herraje19: herraje19,
+  herraje20: herraje20,
+  herraje21: herraje21,
+  herraje22: herraje22,
+  herraje23: herraje23,
+  herraje24: herraje24,
+  herraje25: herraje25,
+  herraje26: herraje26,
+  herraje27: herraje27,
+  herraje28: herraje28,
+  herraje29: herraje29,
+  herraje30: herraje30,
+  herraje31: herraje31,
+  herraje32: herraje32,
+  herraje33: herraje33,
+  herraje34: herraje34,
+  herraje35: herraje35,
+  herraje36: herraje36,
+  herraje37: herraje37,
+  herraje38: herraje38,
+  herraje39: herraje39,
+};
+
+
+
+
+
+export const imagenlogo = {
+  logo: logo,
+};
+
+export const backgroundPage = {
+  Home: backgroundPageHome,
+  simulador:simulador,
+};
+
+export const imagenesCardHome = {
+  novedades : cardHomeNovedades,
+  disenios: cardHomeDisenios,
+  muebles: cardHomeMuebles,
+  melaminas: cardHomeMelaminas,
+  herrajes: cardHomeHerrajes,
+  contactos: cardHomeContactos,
+  envios: cardHomeEnvios,
+};
 
 // Exportación de todas las imágenes chicas en un solo objeto
 export const imagenesChicas = {
@@ -214,8 +345,7 @@ export const imagenesChicas = {
     tuareg: tuaregChica,
     venezia: veneziaChica,
     viena: vienaChica
-  };
-  
+};
   
 // Exportación de todas las imágenes grandes en un solo objeto
 export const imagenesGrandes = {
@@ -287,7 +417,16 @@ export const imagenesGrandes = {
     tuareg: tuaregGrande,
     venezia: veneziaGrande,
     viena: vienaGrande
-  };
+};
   
 
+export const imagenesMuebles = {
+  mueble1: mueble1,
+  mueble2: mueble2,
+  mueble3: mueble3,
+  mueble4: mueble4,
+  mueble5: mueble5,
+  mueble6: mueble6,
+  mueble7: mueble7,
+};
 

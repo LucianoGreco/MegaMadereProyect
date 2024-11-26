@@ -1,16 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "./navbar/Navbar";
+import { Link } from "react-router-dom"; // Importa Link para redireccionar
 import data from "../../data/data"; // Asegúrate de que la ruta a data.js sea correcta
 import GlobalStyles from "../../styles/globalStyles";
 
+// Importa la imagen directamente si la ruta dinámica no funciona
+// import logoImage from "../../assets/images/logo.png";
+
 const Header = () => {
-  const logo = data.secciones.contactos.logo; // Accede al logo de data.js
+  // Verifica que la ruta dinámica funcione correctamente
+  const logo = data?.secciones?.contactos?.logo; // Usa encadenamiento opcional para evitar errores
+
+  // Agrega un log para verificar si la ruta del logo es correcta
+  console.log("Ruta del logo:", logo);
 
   return (
     <HeaderContainer>
-      <GlobalStyles /> 
-      <Logo src={logo} alt="Logo de Mega Madera" />
+      <GlobalStyles />
+      <Link to="/"> {/* Enlace al Home */}
+        {/* Usa logo dinámico o ruta estática */}
+        <Logo src={logo || "/assets/images/logo.png"} alt="Logo de Mega Madera" />
+      </Link>
       <Navbar />
     </HeaderContainer>
   );
@@ -18,21 +29,20 @@ const Header = () => {
 
 // Estilos usando styled-components
 const HeaderContainer = styled.header`
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  // background-color: rgba(255, 255, 255, 0.1); // Fondo transparente para que se vea sobre la imagen
-  height: 20vh;  // Asegúrate de que el header tenga el tamaño adecuado
+  display: flex;
+  justify-content: space-around;
+  height: 13vh; /* Ajusta el tamaño del header */
   padding: 0 10px;
-  position: relative;  // Asegúrate de que el header quede estático y no se mueva
-  z-index: 10;  // Coloca el header por encima de otros componentes
-//  width: 100vw;
-  `;
+  position: relative;
+  width: 100vw;
+  z-index: 10; /* Coloca el header por encima de otros componentes */
+`;
+
 
 const Logo = styled.img`
-  height: 40%; // Ajusta el tamaño del logo en relación con la altura del header
-  object-fit: contain;
-
+  height: 50px; /* Ajusta el tamaño del logo en relación con la altura del header */
+  width: 100px; /* Ajusta el tamaño del
 `;
 
 export default Header;

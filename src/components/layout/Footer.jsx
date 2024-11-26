@@ -1,7 +1,6 @@
-// Footer.jsx
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'; // Importar Link de react-router-dom
+import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 
 const FooterContainer = styled.footer`
@@ -10,7 +9,7 @@ const FooterContainer = styled.footer`
   color: white;
   text-align: center;
   backdrop-filter: blur(10px);
-  white: 100vw;
+  width: 100vw;
 `;
 
 const LinksList = styled.ul`
@@ -19,6 +18,30 @@ const LinksList = styled.ul`
   display: flex;
   justify-content: center;
   gap: 1rem;
+
+  li {
+    display: inline-block;
+    backdrop-filter: blur(10px);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: var(--background-color);
+      background-color: var(--text-color);
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const SocialIcons = styled.div`
@@ -30,9 +53,10 @@ const SocialIcons = styled.div`
   svg {
     color: white;
     font-size: 1.5rem;
+    transition: all 0.3s ease;
 
     &:hover {
-      color: #f0a500;
+      color: var(--hover-background-color);
     }
   }
 `;
