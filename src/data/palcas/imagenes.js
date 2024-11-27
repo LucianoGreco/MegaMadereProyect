@@ -2,7 +2,7 @@
 import logo from "../../assets/logoB.png"
 
 // importaciones de Card Home
-import novedades from "../../assets/cardHome/novedades.png";
+// import novedades from "../../assets/cardHome/novedades.png";
 
 import disenios  from "@/assets/cardHome/disenios.jpg";
 import muebles   from "@/assets/cardHome/muebles.jpeg";

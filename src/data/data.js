@@ -3,14 +3,14 @@ import { imagenesCardHome, backgroundPage, imagenlogo } from "./palcas/imagenes"
 const data = {
   background: backgroundPage.Home,
   secciones: {
-    novedades: {
-      id: 1,
-      nombre: "Novedades",
-      descripcion: "Últimas novedades en Mega Madera",
-      cardHome: imagenesCardHome.novedades,
-      // backgroundPagina: backgroundNovedades,
-      pagina: 'novedades',  // Aquí se guarda la ruta relativa
-    },
+    // novedades: {
+    //   id: 1,
+    //   nombre: "Novedades",
+    //   descripcion: "Últimas novedades en Mega Madera",
+    //   cardHome: imagenesCardHome.novedades,
+    //   // backgroundPagina: backgroundNovedades,
+    //   pagina: 'novedades',  // Aquí se guarda la ruta relativa
+    // },
     Simulador: {
       id: 2,
       nombre: "Simulador",
