@@ -10,6 +10,7 @@ const fondoAmaranto = {
   nombre: "Amaranto",
 };
 
+// Contenedor principal de la página
 const PageContainer = styled.div`
   display: flex;
   width: 100%;
@@ -17,7 +18,19 @@ const PageContainer = styled.div`
 
   /* Media Query para dispositivos móviles */
   @media (max-width: 768px) {
-    flex-direction: column; /* Cambia la dirección a columna en móviles */
+    flex-direction: column; /* Cambia a columna en móviles */
+    height: auto; /* Ajusta altura automáticamente */
+  }
+`;
+
+// Contenedor del simulador
+const SimuladorContainer = styled.div`
+  flex-grow: 1; /* Ocupa el espacio restante en escritorio */
+  height: 100%; /* En escritorio ocupa toda la altura */
+
+  /* Media Query para dispositivos móviles */
+  @media (max-width: 768px) {
+    height: 60vh; /* Ocupa el 60% de la altura de la pantalla */
   }
 `;
 
@@ -26,23 +39,19 @@ const SimuladorPage = () => {
 
   return (
     <PageContainer>
-      {/* Muestra el NavItem como menú hamburguesa */}
+      {/* Menú de navegación */}
       <NavItem
         menuData={menuData}
         setCardData={setFondoSeleccionado}
         style={{ width: "100%" }}
       />
-      {/* El simulador ocupa el 100% de la pantalla en móvil */}
-      <Simulador
-        background={data.secciones.Simulador.backgroundPagina}
-        fondoSeleccionado={fondoSeleccionado}
-        style={{
-          width: "100%",
-          height: "100%",
-          flexGrow: 1,
-          display: "block", // Aseguramos que el simulador ocupe toda la pantalla
-        }}
-      />
+      {/* Contenedor del simulador */}
+      <SimuladorContainer>
+        <Simulador
+          background={data.secciones.Simulador.backgroundPagina}
+          fondoSeleccionado={fondoSeleccionado}
+        />
+      </SimuladorContainer>
     </PageContainer>
   );
 };
