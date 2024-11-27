@@ -10,8 +10,6 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
 
-  /* Definir 2 columnas por defecto */
-  grid-template-columns: 1fr 1fr; 
 
   /* Media query para pantallas pequeñas (dispositivos móviles y tabletas) */
   @media (max-width: 768px) {
