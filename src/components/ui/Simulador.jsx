@@ -15,6 +15,11 @@ const EmuladorContainer = styled.div`
   height: 100%;
   
   border: 5px solid red;
+
+    @media (max-width: 1024px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 // Contenedor de las imágenes
@@ -27,7 +32,9 @@ const ImagenContainer = styled.div`
   height: 100%;
   overflow: hidden; /* Oculta cualquier contenido fuera de los bordes del contenedor */
   
-`;
+  
+
+  `;
 
 // Imagen de fondo seleccionada
 const ImagenFondo = styled.img`
@@ -38,7 +45,7 @@ const ImagenFondo = styled.img`
   z-index: 0;
 
   /* Estilo inicial para escritorio */
-  top: 40px;
+  top: 30px;
   left: 100px;
 
   /* Estilo responsivo para móviles y tabletas */
