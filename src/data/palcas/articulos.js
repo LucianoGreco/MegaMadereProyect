@@ -61,7 +61,7 @@ blancoTundra: crearProducto(
   "Acabado blanco puro, perfecto para iluminar ambientes."
 ),
 camellia: crearProducto(
-  "A009",
+  "B999",
   "Camellia",
   imagenesChicas.camellia,
   imagenesGrandes.camellia,

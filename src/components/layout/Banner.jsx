@@ -1,3 +1,4 @@
+// src/components/layout/Banner.jsx
 import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -5,35 +6,27 @@ import data from '../../data/data';
 
 const Banner = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMovingLeftToRight, setIsMovingLeftToRight] = useState(true);
-
   const sections = useMemo(() => Object.values(data.secciones), [data.secciones]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setIsMovingLeftToRight((prev) => !prev);
-      if (isMovingLeftToRight) {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % sections.length);
-      }
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % sections.length);
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, [isMovingLeftToRight, sections.length]);
+  }, [sections.length]);
 
   const currentSection = sections[currentIndex];
 
   return (
     <BannerContainer>
-      <ImageWrapper isMovingLeftToRight={isMovingLeftToRight}>
+      <ImageWrapper>
         <BannerImage src={currentSection.cardHome} alt={currentSection.nombre} />
       </ImageWrapper>
-      <StyledButton to={`/${currentSection.pagina}`}>
-        {currentSection.nombre}
-      </StyledButton>
+      <StyledButton to={`/${currentSection.pagina}`}>{currentSection.nombre}</StyledButton>
     </BannerContainer>
   );
 };
-
 const BannerContainer = styled.div`
   width: 100vw;
   height: 80vh;

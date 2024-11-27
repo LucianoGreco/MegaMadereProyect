@@ -251,10 +251,6 @@ export const herrajes = {
   herraje39: herraje39,
 };
 
-
-
-
-
 export const imagenlogo = {
   logo: logo,
 };
@@ -265,7 +261,7 @@ export const backgroundPage = {
 };
 
 export const imagenesCardHome = {
-  novedades : cardHomeNovedades,
+  novedades: cardHomeNovedades,
   disenios: cardHomeDisenios,
   muebles: cardHomeMuebles,
   melaminas: cardHomeMelaminas,
@@ -418,7 +414,6 @@ export const imagenesGrandes = {
     venezia: veneziaGrande,
     viena: vienaGrande
 };
-  
 
 export const imagenesMuebles = {
   mueble1: mueble1,

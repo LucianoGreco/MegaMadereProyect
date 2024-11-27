@@ -1,4 +1,4 @@
-import {imagenesCardHome, backgroundPage, imagenlogo } from "./palcas/imagenes"; 
+import { imagenesCardHome, backgroundPage, imagenlogo } from "./palcas/imagenes"; 
 
 const data = {
   background: backgroundPage.Home,
@@ -79,8 +79,6 @@ const data = {
 };
 
 export default data;
-
-// testiando
 
 
 
