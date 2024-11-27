@@ -3,7 +3,7 @@ import styled from "styled-components";
 import NavItem from "../components/layout/navbar/NavItem.jsx";
 import Simulador from "../components/ui/Simulador.jsx";
 import menuData from "../data/melaminas.js";
-import data from "../data/data.js";
+import data from "@/data/data.js";
 
 const fondoAmaranto = {
   imagenGrande: "ruta/a/la/imagen/amaranto.png",

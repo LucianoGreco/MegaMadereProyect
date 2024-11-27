@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import data from "../../data/data";
+import data from "@/data/data";
 
 const Container = styled.div`
   display: grid;

@@ -1,8 +1,8 @@
 // src/components/Slider.js
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import articulos from "../../data/palcas/articulos"; // Asegúrate de que la ruta sea correcta
-import GlobalStyle from "../../styles/globalStyles";
+import articulos from "@/data/articulos"; // Asegúrate de que la ruta sea correcta
+import GlobalStyle from "@/styles/globalStyles";
 
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

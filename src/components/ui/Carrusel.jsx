@@ -1,7 +1,7 @@
 // Carrusel.jsx
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import data from '../../data/data'; // Importa el archivo data.js
+import data from '@/data/data'; // Importa el archivo data.js
 
 // Keyframes para la animación de desplazamiento continuo de izquierda a derecha
 const scroll = keyframes`

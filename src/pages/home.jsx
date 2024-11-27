@@ -1,9 +1,9 @@
 // \src\pages\home.jsx
 import React, { useState, useEffect } from "react";
-import CardHome from "../components/cards/CardHome.jsx";
-import Carrusel from "../components/ui/Carrusel.jsx";
-import Banner from "../components/layout/Banner.jsx";
-import Slider from "../components/ui/Slider.jsx";
+import CardHome from "@/components/cards/CardHome.jsx";
+import Carrusel from "@/components/ui/Carrusel.jsx";
+import Banner from "@/components/layout/Banner.jsx";
+import Slider from "@/components/ui/Slider.jsx";
 import styled from "styled-components";
 
 // Contenedor principal de la página Home

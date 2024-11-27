@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import data from "../data/data";
+import data from "@/data/data";
 
 const Envios = () => {
   const enviosData = data.secciones.envios;

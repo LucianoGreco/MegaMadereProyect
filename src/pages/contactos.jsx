@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import data from '../data/data.js';
+import data from '@/data/data.js';
 
 const Contacto = () => {
   const contactos = data.secciones.contactos;

@@ -1,7 +1,7 @@
 // \src\styles\GlobalStyles.js
 import { createGlobalStyle } from "styled-components";
 import "normalize.css"; // Normaliza los estilos predeterminados del navegador para garantizar consistencia.
-import { backgroundPage } from "../data/palcas/imagenes.js";
+import { backgroundPage } from "../data/imagenes.js";
 
 // Importa las fuentes necesarias desde Google Fonts.
 import "@fontsource/playfair-display"; // Fuente para títulos

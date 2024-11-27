@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import data from '../../data/data';
+import data from '@/data/data';
 
 const Banner = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

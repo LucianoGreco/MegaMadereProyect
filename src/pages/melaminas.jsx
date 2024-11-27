@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import NavItem from "../components/layout/navbar/NavItem";
-import Card from "../components/cards/Card";
-import menuData from "../data/melaminas";
+import NavItem from "@/components/layout/navbar/NavItem";
+import Card from "@/components/cards/Card";
+import menuData from "@/data/melaminas";
 
 // Contenedor principal para el layout
 const PageContainer = styled.div`

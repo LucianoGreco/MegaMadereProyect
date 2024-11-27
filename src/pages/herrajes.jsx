@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { herrajes } from "../data/palcas/imagenes";
+import { herrajesImage } from "@/data/imagenes";
 
-const productos = Object.keys(herrajes).map((key, index) => ({
+const productos = Object.keys(herrajesImage).map((key, index) => ({
   id: key,
-  imagen: herrajes[key],
+  imagen: herrajesImage[key],
   nombre: `Herraje ${index + 1}`,
-  descripcion: `Este es el herraje número ${index + 1}, ideal para tus proyectos.`,
+  descripcion: `Este es el herraje número ${
+    index + 1
+  }, ideal para tus proyectos.`,
   precio: `$${(index + 1) * 100}.00`,
 }));
 
@@ -53,7 +55,9 @@ const Herrajes = () => {
             />
             <h3>{producto.nombre}</h3>
             <p>{producto.descripcion}</p>
-            <p style={{ fontWeight: "bold", color: "#333" }}>{producto.precio}</p>
+            <p style={{ fontWeight: "bold", color: "#333" }}>
+              {producto.precio}
+            </p>
             <a
               href="https://wa.me/2604331727"
               target="_blank"
@@ -92,7 +96,9 @@ const Herrajes = () => {
         >
           Anterior
         </button>
-        <span>Página {paginaActual} de {totalPaginas}</span>
+        <span>
+          Página {paginaActual} de {totalPaginas}
+        </span>
         <button
           onClick={() => cambiarPagina("next")}
           disabled={paginaActual === totalPaginas}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import simulador from "../../assets/simulador/simulador1.png";
-import simulador2 from "../../assets/simulador/simulador2.png";
+import simulador from "@/assets/simulador/simulador1.png";
+import simulador2 from "@/assets/simulador/simulador2.png";
 
 const EmuladorContainer = styled.div`
   display: flex;

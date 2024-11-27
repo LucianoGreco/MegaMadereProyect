@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import data from "../../../data/data";
+import data from "@/data/data";
 import { FaBars } from "react-icons/fa"; // Importamos el ícono de hamburguesa
 
 const NavList = styled.ul`

@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Navbar from "./navbar/Navbar";
 import { Link } from "react-router-dom"; // Importa Link para redireccionar
-import data from "../../data/data"; // Asegúrate de que la ruta a data.js sea correcta
-import GlobalStyles from "../../styles/globalStyles";
+import data from "@/data/data"; // Asegúrate de que la ruta a data.js sea correcta
+import GlobalStyles from "@/styles/globalStyles";
 
 // Importa la imagen directamente si la ruta dinámica no funciona
 // import logoImage from "../../assets/images/logo.png";

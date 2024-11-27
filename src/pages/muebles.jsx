@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { imagenesMuebles } from "../data/palcas/imagenes";
+import { imagenesMuebles } from "@/data/imagenes";
 
 const MuebleContainer = styled.div`
   display: flex;

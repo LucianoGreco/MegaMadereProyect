@@ -1,4 +1,4 @@
-import articulos from "./palcas/articulos";
+import articulos from "./articulos";
 
 const menuData = [
   // melaminas
