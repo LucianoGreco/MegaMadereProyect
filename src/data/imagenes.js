@@ -416,3 +416,4 @@ export const imagenesMuebles = {
   mueble7: mueble7,
 };
 
+// provando
