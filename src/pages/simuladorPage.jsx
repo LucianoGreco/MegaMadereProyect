@@ -12,9 +12,10 @@ const fondoAmaranto = {
 
 // Contenedor principal de la página
 const PageContainer = styled.div`
+
   display: flex;
-  width: 100%;
-  height: 100vh;
+  width: auto;
+  height: 80vh;
 
   /* Media Query para dispositivos móviles */
   @media (max-width: 768px) {

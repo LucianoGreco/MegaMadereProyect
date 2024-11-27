@@ -13,6 +13,8 @@ const EmuladorContainer = styled.div`
   background-position: center;
   width: 100%;
   height: 100%;
+  
+  border: 5px solid red;
 `;
 
 // Contenedor de las imágenes
@@ -24,19 +26,20 @@ const ImagenContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden; /* Oculta cualquier contenido fuera de los bordes del contenedor */
+  
 `;
 
 // Imagen de fondo seleccionada
 const ImagenFondo = styled.img`
   position: absolute;
-  width: 60%;
-  height: 80%;
+  width: 70%;
+  height: 85%;
   object-fit: cover;
-  z-index: 2;
+  z-index: 0;
 
   /* Estilo inicial para escritorio */
-  top: 55px;
-  left: 155px;
+  top: 40px;
+  left: 100px;
 
   /* Estilo responsivo para móviles y tabletas */
   @media (max-width: 1024px) {
@@ -50,6 +53,7 @@ const ImagenFondo = styled.img`
 
 // Imagen del simulador
 const ImagenSimulador = styled.img`
+
   position: absolute;
   top: 0;
   left: 0;
@@ -57,6 +61,7 @@ const ImagenSimulador = styled.img`
   height: 100%;
   object-fit: contain; /* Mantiene las proporciones de la imagen del simulador */
   z-index: 1;
+  border-radius: 50px;
 `;
 
 // Botones de cambio de simulador
