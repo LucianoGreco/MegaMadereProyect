@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { herrajesImage } from "@/data/imagenes";
 
+// Crear los productos de ejemplo
 const productos = Object.keys(herrajesImage).map((key, index) => ({
   id: key,
   imagen: herrajesImage[key],
   nombre: `Herraje ${index + 1}`,
-  descripcion: `Este es el herraje número ${
-    index + 1
-  }, ideal para tus proyectos.`,
+  descripcion: `Este es el herraje número ${index + 1}, ideal para tus proyectos.`,
   precio: `$${(index + 1) * 100}.00`,
 }));
 
@@ -32,49 +31,56 @@ const Herrajes = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+          gap: "20px", // Espacio entre tarjetas
+        }}
+      >
         {productosPaginados.map((producto) => (
           <div
             key={producto.id}
             style={{
               border: "1px solid #ddd",
               borderRadius: "8px",
-              padding: "10px",
-              textAlign: "center",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
+            {/* Imagen que ocupa 50vh en dispositivos móviles */}
             <img
               src={producto.imagen}
               alt={producto.nombre}
               style={{
                 width: "100%",
-                height: "150px",
+                height: "50vh", // 50vh en móvil
                 objectFit: "cover",
-                borderRadius: "8px",
               }}
             />
-            <h3>{producto.nombre}</h3>
-            <p>{producto.descripcion}</p>
-            <p style={{ fontWeight: "bold", color: "#333" }}>
-              {producto.precio}
-            </p>
-            <a
-              href="https://wa.me/2604331727"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-block",
-                marginTop: "10px",
-                padding: "8px 12px",
-                backgroundColor: "#25d366",
-                color: "#fff",
-                borderRadius: "5px",
-                textDecoration: "none",
-                fontWeight: "bold",
-              }}
-            >
-              Consultar
-            </a>
+            <div style={{ padding: "10px", flex: 1 }}>
+              <h3>{producto.nombre}</h3>
+              <p>{producto.descripcion}</p>
+              <p style={{ fontWeight: "bold", color: "#333" }}>{producto.precio}</p>
+              <a
+                href="https://wa.me/2604331727"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-block",
+                  marginTop: "10px",
+                  padding: "8px 12px",
+                  backgroundColor: "#25d366",
+                  color: "#fff",
+                  borderRadius: "5px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Consultar
+              </a>
+            </div>
           </div>
         ))}
       </div>
