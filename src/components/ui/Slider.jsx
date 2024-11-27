@@ -95,7 +95,7 @@ const SliderContainer = styled.div`
   justify-content: center;
   position: relative;
   width: 90vw; /* Ajusta el tamaño del slider */
-  height: 80vh; /* Aumenta el tamaño en pantallas pequeñas */
+  height: 50vh; /* Aumenta el tamaño en pantallas pequeñas */
   margin: auto;
   overflow: hidden;
 

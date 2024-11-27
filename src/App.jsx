@@ -20,7 +20,7 @@ const App = () => {
   return (
     <div className="App">
       <GlobalStyles />
-      {/* <Cursor /> */}
+      <Cursor />
       <Router>
         <Header />
         <Routes>

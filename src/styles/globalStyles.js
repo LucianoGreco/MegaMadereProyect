@@ -1,94 +1,115 @@
+// \src\styles\GlobalStyles.js
 import { createGlobalStyle } from "styled-components";
 import "normalize.css"; // Normaliza los estilos predeterminados del navegador para garantizar consistencia.
-// import backgroundImage from "../assets/Images/background.jpg"; // Importa la imagen de fondo que se usará globalmente.
 import { backgroundPage } from "../data/palcas/imagenes.js";
 
 // Importa las fuentes necesarias desde Google Fonts.
 import "@fontsource/playfair-display"; // Fuente para títulos
 import "@fontsource/montserrat"; // Fuente para textos secundarios
 
-
-
-
 const GlobalStyles = createGlobalStyle`
-                                                                  /* Variables globales */
-:root {
-    --text-color:               rgba(255, 255, 255, 0.8);         /* Define el color del texto con opacidad. */
-    --hover-background-color:   rgba(255, 255, 255, 0.8);         /* Fondo claro para estados hover. */
-    --hover-text-color:         rgba(0, 0, 0, 0.9);               /* Color del texto cuando el usuario pasa el mouse por encima. */
-    --background-color:         rgba(0, 0, 0, 0.8);               /* Fondo oscuro semitransparente. */
-    --shadow: 1px 1px 3px       rgba(0, 0, 0, 0.5);               /* Define una sombra sutil para dar profundidad. */
-    --border-radius: 5px;                                         /* Esquinas redondeadas para elementos como botones. */
+  /* Variables globales */
+  :root {
+    --text-color: rgba(255, 255, 255, 0.8);
+    --hover-background-color: rgba(255, 255, 255, 0.8);
+    --hover-text-color: rgba(0, 0, 0, 0.9);
+    --background-color: rgba(0, 0, 0, 0.8);
+    --shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    --border-radius: 5px;
   }
 
-                                                                  /* Reset básico */
+  /* Reset básico */
   * {
-    margin: 0;                                                    /* Elimina los márgenes predeterminados de todos los elementos. */
-    padding: 0;                                                   /* Elimina el relleno predeterminado de todos los elementos. */
-    box-sizing: border-box;                                       /* Hace que el tamaño de los elementos incluya bordes y relleno. */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-                                                                 /* Configuración base */
+  /* Configuración base */
   html, body {
-    background: url(${backgroundPage.Home}) center/cover fixed no-repeat; /* Imagen de fondo centrada, que ocupa todo el espacio y no se repite. */
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));          /* Capa opaca para dar efecto de transparencia. */
-    background-attachment: fixed;                                     /* Mantiene el fondo fijo mientras se desplaza. */
-    color: var(--text-color);                                         /* Aplica el color de texto definido en las variables globales. */
-    font-family: 'Montserrat', sans-serif;                            /* Define la tipografía base para el cuerpo del texto. */
-    font-size: 11px;                                                  /* Define el tamaño base del texto. */
-    height: 100%;                                                     /* Hace que el cuerpo ocupe el 100% de la altura de la ventana. */
-    //  overflow-x: hidden;                  /* Oculta el desplazamiento horizontal.  <- Este no funciona  ❌ */
-    text-shadow: var(--shadow);                                       /* Aplica una sombra al texto global. */
-    touch-action: manipulation;                                       /* Optimiza interacciones táctiles. */
-    width: 100%;   
-    text-shadow: var(--shadow);              /* Hace que el cuerpo ocupe el 100% del ancho de la ventana. */  
-  font-family: 'Playfair Display', serif; /* Para títulos */
-font-family: 'Montserrat', sans-serif; /* Para texto base */
-    }
+    background: url(${backgroundPage.Home}) center/cover fixed no-repeat;
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    height: 100%;
+    text-shadow: var(--shadow);
+    width: 100%;
+  }
 
   /* Estilo para títulos */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;   /* Aplica la fuente para títulos. */
+    font-family: 'Playfair Display', serif;
     color: var(--text-color);
     text-shadow: var(--shadow);
   }
 
   /* Estilo de enlaces y botones */
-  button, li, Link {
-  backdrop-filter: blur(10px);                    // Aplica un desenfoque al fondo del botón para un efecto visual.
-  background-color: var(--background-color);  /* Fondo oscuro semitransparente. */
-  border-radius: var(--border-radius);        /* Aplica bordes redondeados. */
-  color: var(--text-color);                   /* Color del texto. */
-  font-weight: bold;                          /* Hace que el texto sea negrita. */
-  text-decoration: none;                      /* Elimina subrayados en enlaces. */
-  padding: 5px 10px;                         /* Añade relleno interno. */
-  text-shadow: var(--shadow);                 /* Aplica una sombra sutil al texto. */
-  list-style-type: none;
-  text-decoration: none; 
-  cursor: pointer;                                // Cambia el cursor a un puntero para indicar que es clickeable.
-border: none;   
+  button, li, a {
+    backdrop-filter: blur(10px);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 5px 10px;
+    text-shadow: var(--shadow);
+    cursor: pointer;
+    border: none;
+  }
+
+  /* Estilo de hover para enlaces, botones, y enlaces de navegación */
+  button:hover, li:hover, a:hover {
+    color: var(--background-color);
+    background-color: var(--text-color);
+  }
+
+  .custom-cursor {
+  position: fixed;
+  width: 50px; /* Ajusta el tamaño */
+  height: 50px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Estilo de hover para enlaces, botones, y enlaces de navegación */
- button:hover,  li:hover,  {
-  color: var(--background-color);            /* Invierte el color del texto al pasar el mouse. */
-  background-color: var(--text-color);       /* Invierte el fondo al pasar el mouse. */
+.custom-cursor img {
+  width: 100%;
+  height: auto;
+}
+
+.custom-cursor.rotating {
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
   /* Imágenes responsivas */
-  img {
-    max-width: 100%;                                            /* Asegura que las imágenes no excedan el ancho de su contenedor. */
-    height: auto;                                               /* Mantiene las proporciones originales de la imagen. */
-    display: block;                                             /* Elimina el espacio inferior causado por el comportamiento inline de las imágenes. */
-  }
+  // img {
+  //   max-width: 100%;
+  //   height: auto;
+  //   display: block;
+  // }
 
   /* Configuración general de la aplicación */
   .App {
-    display: flex;                                              /* Usa un modelo de caja flexible para los hijos. */
-    flex-direction: column;                                     /* Ordena los hijos en una columna. */
-    min-height: 100vh;                                          /* Asegura que la aplicación ocupe al menos toda la altura de la ventana. */
-    width: 100%;                                                /* Asegura que la aplicación ocupe todo el ancho de la ventana. */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
   }
 `;
 
-export default GlobalStyles;                                   // Exporta los estilos globales para usarlos en toda la aplicación.
+export default GlobalStyles;

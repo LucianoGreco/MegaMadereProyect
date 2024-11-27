@@ -11,31 +11,35 @@ const NavList = styled.ul`
   padding: 0;
 
   @media (max-width: 768px) {
-    display: ${(props) => (props.isMenuOpen ? "block" : "none")}; /* Mostrar o esconder el menú */
+    display: ${(props) => (props.isMenuOpen ? "block" : "none")};
     position: absolute;
-    top: 60px; /* Ajustamos la posición del menú */
+    top: 60px;
     left: 0;
     width: 100%;
-    background-color: var(--background-color); /* Ajustar el fondo */
+    background-color: var(--background-color);
     padding: 10px 0;
     z-index: 100;
+    
   }
 `;
 
 const NavItem = styled.li`
   margin: 0 4px;
   text-align: center;
+
+
+
   @media (max-width: 768px) {
-    width: 100%; /* Las opciones ocupan todo el ancho */
+    width: 100%;
     padding: 10px 0;
   }
 `;
 
 const StyledLink = styled(Link)`
-  color: var(--text-color);
   text-decoration: none;
   display: block;
   padding: 5px 5px;
+
   @media (max-width: 768px) {
     padding: 10px;
     text-align: center;
@@ -46,29 +50,29 @@ const MenuIcon = styled(FaBars)`
   display: none;
   font-size: 2em;
   cursor: pointer;
+
   @media (max-width: 768px) {
-    display: block; /* Mostrar el icono hamburguesa en pantallas pequeñas */
+    display: block;
   }
 `;
 
 const Navbar = () => {
   const sections = useMemo(() => Object.values(data.secciones), [data.secciones]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para abrir/cerrar el menú
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev); // Cambiar el estado del menú (abierto/cerrado)
+    setIsMenuOpen((prev) => !prev);
   };
 
   return (
     <nav>
-      <MenuIcon onClick={toggleMenu} /> {/* Icono de hamburguesa */}
+      <MenuIcon onClick={toggleMenu} />
       <NavList isMenuOpen={isMenuOpen}>
         {sections.map((section, index) => (
           <NavItem key={section.id}>
             <StyledLink
               to={`/${section.pagina}`}
-              isSelected={selectedIndex === index}
               onClick={() => {
                 setSelectedIndex(index);
                 setIsMenuOpen(false); // Cerrar el menú al seleccionar una opción

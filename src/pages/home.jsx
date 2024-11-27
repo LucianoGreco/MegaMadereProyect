@@ -1,3 +1,4 @@
+// \src\pages\home.jsx
 import React, { useState, useEffect } from "react";
 import CardHome from "../components/cards/CardHome.jsx";
 import Carrusel from "../components/ui/Carrusel.jsx";
@@ -10,9 +11,8 @@ const ContainerHome = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  width: 100%;
+  justify-content: flex-start; // Cambié a 'flex-start' para evitar que se centren los elementos si es innecesario
+
 `;
 
 const Home = () => {
@@ -35,17 +35,17 @@ const Home = () => {
       <ContainerHome>
         {/* El componente Banner solo se renderiza si no es un dispositivo móvil */}
         {!isMobile && <Banner />}
+
+        {/* El Carrusel siempre se renderiza */}
+        <Carrusel />
+
+        {/* El Slider solo se renderiza si no es un dispositivo móvil */}
+        {!isMobile && <Slider />}
+
+        {/* Los demás componentes siempre se renderizan */}
+        <CardHome />
+        <Carrusel />
       </ContainerHome>
-
-      {/* El Carrusel siempre se renderiza */}
-      <Carrusel />
-
-      {/* El Slider solo se renderiza si no es un dispositivo móvil */}
-      {!isMobile && <Slider />}
-
-      {/* Los demás componentes siempre se renderizan */}
-      <CardHome />
-      <Carrusel />
     </>
   );
 };
