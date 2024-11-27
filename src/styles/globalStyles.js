@@ -32,7 +32,7 @@ const GlobalStyles = createGlobalStyle`
     background-attachment: fixed;
     color: var(--text-color);
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     height: 100%;
     text-shadow: var(--shadow);
     width: 100%;
@@ -46,21 +46,21 @@ const GlobalStyles = createGlobalStyle`
   }
 
   /* Estilo de enlaces y botones */
-  button, li, a {
+    a {
     backdrop-filter: blur(10px);
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     color: var(--text-color);
     font-weight: bold;
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 10px 10px;
     text-shadow: var(--shadow);
     cursor: pointer;
     border: none;
   }
 
   /* Estilo de hover para enlaces, botones, y enlaces de navegación */
-  button:hover, li:hover, a:hover {
+   a:hover, {
     color: var(--background-color);
     background-color: var(--text-color);
   }

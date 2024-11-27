@@ -19,29 +19,7 @@ const LinksList = styled.ul`
   justify-content: center;
   gap: 1rem;
 
-  li {
-    display: inline-block;
-    backdrop-filter: blur(10px);
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    color: var(--text-color);
-    font-weight: bold;
-    padding: 10px 20px;
-    text-decoration: none;
-    text-shadow: var(--shadow);
-    cursor: pointer;
-    transition: all 0.3s ease;
 
-    &:hover {
-      color: var(--background-color);
-      background-color: var(--text-color);
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
 `;
 
 const SocialIcons = styled.div`
@@ -55,9 +33,6 @@ const SocialIcons = styled.div`
     font-size: 1.5rem;
     transition: all 0.3s ease;
 
-    &:hover {
-      color: var(--hover-background-color);
-    }
   }
 `;
 
