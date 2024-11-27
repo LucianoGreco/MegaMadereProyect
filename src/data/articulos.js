@@ -1,5 +1,5 @@
 import { crearProducto } from "@/data/utils.js";
-import { imagenesChicas, imagenesGrandes } from "./imagenes.js";
+import { imagenesChicas, imagenesGrandes } from "./imagenes";
 
 const articulos = {
   // almendraChica.
