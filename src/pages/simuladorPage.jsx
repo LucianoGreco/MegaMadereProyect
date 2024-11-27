@@ -16,7 +16,14 @@ const PageContainer = styled.div`
   display: flex;
   width: auto;
   height: 80vh;
-
+  ////////////////////////////////////////////////////////////////
+  border: 5px solid red;
+  
+  
+  
+  
+  
+  ////////////////////////////////////////////////////////////////
   /* Media Query para dispositivos móviles */
   @media (max-width: 768px) {
     flex-direction: column; /* Cambia a columna en móviles */

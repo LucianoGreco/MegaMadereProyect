@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
 
 const MenuContainer = styled.div`
-
   width: 40%;
   height: 100%;
   display: flex;
@@ -13,6 +12,14 @@ const MenuContainer = styled.div`
   background: rgba(30, 30, 40, 0.9);
   // height: 100%;
   overflow-y: auto;
+  ////////////////////////////////////////////////////////////////
+  border: 5px solid yellow;
+  
+  
+  
+  
+  
+  ////////////////////////////////////////////////////////////////
 
   /* En pantallas pequeñas, el menú se oculta inicialmente */
   @media (max-width: 768px) {
