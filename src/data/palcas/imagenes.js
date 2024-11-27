@@ -2,13 +2,14 @@
 import logo from "../../assets/logoB.png"
 
 // importaciones de Card Home
-import cardHomeNovedades from "../../assets/cardHome/novedades.png";
-import cardHomeDisenios  from "../../assets/cardHome/disenios.jpg";
-import cardHomeMuebles   from "../../assets/cardHome/muebles.jpeg";
-import cardHomeMelaminas from "../../assets/cardHome/melaminas.jpg";
-import cardHomeHerrajes  from "../../assets/cardHome/herrajes.png";
-import cardHomeContactos from "../../assets/cardHome/contactos.jpg";
-import cardHomeEnvios    from "../../assets/cardHome/envios.png";
+import novedades from "@/assets/cardHome/novedades.png";
+
+import disenios  from "@/assets/cardHome/disenios.jpg";
+import muebles   from "@/assets/cardHome/muebles.jpeg";
+import melaminas from "@/assets/cardHome/melaminas.jpg";
+import herrajesC from "@/assets/cardHome/herrajes.png";
+import contactos from "@/assets/cardHome/contactos.jpg";
+import envios    from "@/assets/cardHome/envios.png";
 
 // importacion de background Page
 import backgroundPageHome from "../../assets/BackgroundPage/Home.jpg";
@@ -261,13 +262,13 @@ export const backgroundPage = {
 };
 
 export const imagenesCardHome = {
-  novedades: cardHomeNovedades,
-  disenios: cardHomeDisenios,
-  muebles: cardHomeMuebles,
-  melaminas: cardHomeMelaminas,
-  herrajes: cardHomeHerrajes,
-  contactos: cardHomeContactos,
-  envios: cardHomeEnvios,
+  novedades: novedades,
+  disenios: disenios,
+  muebles: muebles,
+  melaminas: melaminas,
+  herrajes: herrajesC,
+  contactos: contactos,
+  envios: envios,
 };
 
 // Exportación de todas las imágenes chicas en un solo objeto
