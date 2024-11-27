@@ -30,12 +30,12 @@ const ImagenContainer = styled.div`
 const ImagenFondo = styled.img`
   position: absolute;
   width: 60%;
-  height: 60%;
+  height: 80%;
   object-fit: cover;
   z-index: 0;
 
   /* Estilo inicial para escritorio */
-  top: 115px;
+  top: 70px;
   left: 155px;
 
   /* Estilo responsivo para móviles y tabletas */
