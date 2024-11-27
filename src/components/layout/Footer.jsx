@@ -9,7 +9,8 @@ const FooterContainer = styled.footer`
   color: white;
   text-align: center;
   backdrop-filter: blur(10px);
-  width: 100vw;
+  width: 100%;
+  box-sizing: border-box;  /* Asegura que el padding no haga que el contenido se desborde */
 `;
 
 const LinksList = styled.ul`
@@ -18,8 +19,24 @@ const LinksList = styled.ul`
   display: flex;
   justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap; /* Permite que los enlaces se apilen en pantallas pequeñas */
+  margin-bottom: 15px; /* Espacio entre los enlaces y los iconos de redes sociales */
 
+  li {
+    flex: 1 1 auto; /* Deja que los elementos se ajusten al espacio disponible */
+    min-width: 120px; /* Evita que los enlaces se apilen demasiado en pantallas pequeñas */
+  }
 
+  a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
 `;
 
 const SocialIcons = styled.div`
@@ -33,7 +50,16 @@ const SocialIcons = styled.div`
     font-size: 1.5rem;
     transition: all 0.3s ease;
 
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
   }
+`;
+
+const FooterText = styled.p`
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: white;
 `;
 
 const Footer = () => (
@@ -49,7 +75,7 @@ const Footer = () => (
       <a href="https://wa.me/+549260433172" aria-label="WhatsApp"><FaWhatsapp /></a>
       <a href="mailto:contacto@megamadera.com" aria-label="Correo electrónico"><FaEnvelope /></a>
     </SocialIcons>
-    <p>&copy; {new Date().getFullYear()} Mega Madera. Todos los derechos reservados.</p>
+    <FooterText>&copy; {new Date().getFullYear()} Mega Madera. Todos los derechos reservados.</FooterText>
   </FooterContainer>
 );
 
