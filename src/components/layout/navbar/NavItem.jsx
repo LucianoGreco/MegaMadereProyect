@@ -1,7 +1,10 @@
+// \src\components\layout\navbar\NavItem.jsx
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa"; // Importar el ícono de cierre (X)
 
+// Componente MenuContainer estilizado sin pasarle props al DOM
 const MenuContainer = styled.div`
   width: 40%;
   height: 100%;
@@ -10,29 +13,23 @@ const MenuContainer = styled.div`
   gap: 10px;
   padding: 20px;
   background: rgba(30, 30, 40, 0.9);
-  // height: 100%;
   overflow-y: auto;
-  ////////////////////////////////////////////////////////////////
-  border: 5px solid yellow;
-  
-  
-  
-  
-  
-  ////////////////////////////////////////////////////////////////
 
-  /* En pantallas pequeñas, el menú se oculta inicialmente */
+  /////////////////////////////////// Celulares y Tablet //////////////////////
   @media (max-width: 768px) {
-    display: ${({ isMenuOpen }) => (isMenuOpen ? "flex" : "none")};
+    width: 100%;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(30, 30, 40, 0.9); /* Fondo oscuro */
-    padding: 50px 20px 20px 20px; /* Añadir más espacio arriba para no tapar la barra de estado */
-    z-index: 1000; /* Asegurarnos de que el menú se superponga sobre otros elementos */
+    background-color: rgba(30, 30, 40, 0.9);
+    padding: 20px;
+    z-index: 1000;
+    display: ${({ isMenuOpen }) => (isMenuOpen ? "flex" : "none")};  /* Controla la visibilidad del menú */
   }
+  /////////////////////////////////// Celulares y Tablet //////////////////////
 `;
 
 const CategoryButton = styled.button`
@@ -46,8 +43,6 @@ const CategoryButton = styled.button`
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-
-  /* Centrar el texto */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,11 +74,6 @@ const SubMenuContainer = styled.div`
     border-radius: var(--border-radius);
     cursor: pointer;
 
-    /* Centrar el texto */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     &:hover {
       background: rgba(60, 60, 80, 0.9);
     }
@@ -107,7 +97,23 @@ const HamburgerButton = styled.button`
   cursor: pointer;
   margin-left: 10px;
 
-  /* Mostrar el botón de hamburguesa solo en pantallas pequeñas */
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const CloseButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  /* Mostrar el botón de cierre solo en pantallas pequeñas */
   @media (max-width: 768px) {
     display: block;
   }
@@ -125,20 +131,26 @@ const NavItem = ({ menuData, setCardData }) => {
     setIsMenuOpen((prevState) => !prevState);
   };
 
-  // Cerrar el menú al seleccionar una opción
+  const closeMenu = () => {
+    setIsMenuOpen(false); // Cerrar el menú
+  };
+
   const handleSelectOption = (item) => {
     setCardData(item);
-    setIsMenuOpen(false); // Cierra el menú después de la selección
+    setIsMenuOpen(false); // Cerrar el menú después de seleccionar
   };
 
   return (
     <>
-      {/* Botón hamburguesa */}
       <HamburgerButton onClick={toggleMenu}>
         <FaBars />
       </HamburgerButton>
 
       <MenuContainer isMenuOpen={isMenuOpen}>
+        <CloseButton onClick={closeMenu}>
+          <FaTimes />
+        </CloseButton>
+
         {menuData.map((category, index) => (
           <div key={index}>
             <CategoryButton onClick={() => toggleCategory(index)}>
