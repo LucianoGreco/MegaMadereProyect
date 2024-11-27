@@ -32,7 +32,7 @@ const GlobalStyles = createGlobalStyle`
     background-attachment: fixed;
     color: var(--text-color);
     font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     height: 100%;
     text-shadow: var(--shadow);
     width: 100%;
@@ -52,6 +52,7 @@ const GlobalStyles = createGlobalStyle`
     border-radius: var(--border-radius);
     color: var(--text-color);
     font-weight: bold;
+    // font-size: 18px;
     text-decoration: none;
     padding: 10px 10px;
     text-shadow: var(--shadow);
