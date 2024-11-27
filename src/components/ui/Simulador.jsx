@@ -32,10 +32,10 @@ const ImagenFondo = styled.img`
   width: 60%;
   height: 80%;
   object-fit: cover;
-  z-index: 0;
+  z-index: 2;
 
   /* Estilo inicial para escritorio */
-  top: 70px;
+  top: 55px;
   left: 155px;
 
   /* Estilo responsivo para móviles y tabletas */
