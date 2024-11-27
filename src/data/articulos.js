@@ -2,7 +2,7 @@ import { crearProducto } from "@/data/utils.js";
 import { imagenesChicas, imagenesGrandes } from "./imagenes.js";
 
 const articulos = {
-  // almendraChica
+  // almendraChica.
   aluminio: crearProducto(
     "A001",
     "Aluminio",
