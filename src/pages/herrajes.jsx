@@ -30,15 +30,7 @@ const Herrajes = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)", // Por defecto 4 columnas
-          gap: "20px",
-          // Responsive: En pantallas pequeñas apilar las tarjetas una debajo de otra
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-        }}
-      >
+      <div>
         {productosPaginados.map((producto) => (
           <div
             key={producto.id}
