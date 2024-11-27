@@ -1,8 +1,8 @@
 import logo 				                    from "@/assets/logoB.png"
 //-------------------------------------------------------------------------------------
 import novedades 			                  from "@/assets/cardHome/novedades.png";
-import disenios  			                  from "@/assets/cardHome/disenios.jpg";
-import muebles   			                  from "@/assets/cardHome/muebles.jpeg";
+import simulador  			             from "@/assets/cardHome/simulador.jpeg";
+import muebles   			                  from "@/assets/cardHome/muebles.jpg";
 import melaminas 			                  from "@/assets/cardHome/melaminas.jpg";
 import herrajes 			                  from "@/assets/cardHome/herrajes.png";
 import contactos 			                  from "@/assets/cardHome/contactos.jpg";
@@ -255,7 +255,7 @@ export const backgroundPage = {
 
 export const imagenesCardHome = {
   novedades: novedades,
-  disenios: disenios,
+  simulador: simulador,
   muebles: muebles,
   melaminas: melaminas,
   herrajes: herrajes,

@@ -16,7 +16,7 @@ const data = {
       nombre: "Simulador",
       titulo: "Mas de +100 diseños exclusvos",
       descripcion: "Adaptamos tu diseño favorito a las dimensiones de tu hogar",
-      cardHome: imagenesCardHome.muebles,
+      cardHome: imagenesCardHome.simulador,
       backgroundPage: backgroundPage.Simulador,
       pagina: 'simulador',
     },
