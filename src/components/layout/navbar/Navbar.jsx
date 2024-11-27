@@ -28,7 +28,6 @@ const NavItem = styled.li`
   text-align: center;
 
 
-
   @media (max-width: 768px) {
     width: 100%;
     padding: 10px 0;
@@ -38,7 +37,6 @@ const NavItem = styled.li`
 const StyledLink = styled(Link)`
   text-decoration: none;
   display: block;
-  padding: 5px 5px;
 
   @media (max-width: 768px) {
     padding: 10px;

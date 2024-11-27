@@ -1,3 +1,4 @@
+// \src\components\cards\CardHome.jsx:
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -5,20 +6,33 @@ import data from "@/data/data";
 
 const Container = styled.div`
   display: grid;
-  grid-gap: 5px;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  grid-template-rows: auto auto auto; /* Tres filas */
+  grid-template-areas: 
+    "novedades simulador"
+    "herrajes simulador"
+    "melaminas melaminas"
+    "muebles contactos"
+    "muebles envios";
+  gap: 5px;
   padding: 5px;
   width: 100%;
   margin: 0 auto;
 
-
-  /* Media query para pantallas pequeñas (dispositivos móviles y tabletas) */
   @media (max-width: 768px) {
     grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+    grid-template-areas: 
+      "novedades"
+      "simulador"
+      "herrajes"
+      "melaminas"
+      "muebles"
+      "contactos"
+      "envios";
   }
 `;
 
 const Card = styled.div`
-  height: 350px;
   background-image: url(${(props) => props.background});
   background-size: cover;
   background-position: center;
@@ -28,9 +42,11 @@ const Card = styled.div`
   border-radius: var(--border-radius);
   padding: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  /* Asignar el área para este elemento en el grid */
   grid-area: ${(props) => props.area};
+
+  /* Altura de las tarjetas según su área */
+  height: ${(props) =>
+    props.area === "simulador" || props.area === "muebles" ? "410px" : "200px"};
 
   &:hover {
     transform: scale(1.05);
@@ -38,18 +54,31 @@ const Card = styled.div`
   }
 `;
 
-const CardHome = () => (
-  <Container>
-    {Object.values(data.secciones).map((section) => (
-      <Card
-        background={section.cardHome}
-        key={section.id}
-        large={section.nombre === "Simulador"}
-      >
-        <Link to={`/${section.pagina}`}>{section.nombre}</Link>
-      </Card>
-    ))}
-  </Container>
-);
+const CardHome = () => {
+  // Definir las áreas del grid para cada sección
+  const areas = {
+    novedades: "novedades",
+    simulador: "simulador",
+    herrajes: "herrajes",
+    melaminas: "melaminas",
+    muebles: "muebles",
+    contactos: "contactos",
+    envios: "envios",
+  };
+
+  return (
+    <Container>
+      {Object.values(data.secciones).map((section) => (
+        <Card
+          background={section.cardHome}
+          key={section.id}
+          area={areas[section.nombre.toLowerCase()]}
+        >
+          <Link to={`/${section.pagina}`}>{section.nombre}</Link>
+        </Card>
+      ))}
+    </Container>
+  );
+};
 
 export default CardHome;
