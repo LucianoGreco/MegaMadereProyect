@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import data from "@/data/data";
+import data from "@/data/data";  // Importa los datos
 
 const Container = styled.div`
   display: grid;
@@ -70,11 +70,11 @@ const CardHome = () => {
     <Container>
       {Object.values(data.secciones).map((section) => (
         <Card
-          background={section.cardHome}
+          background={section.cardHome}  // Asignación dinámica de la imagen de fondo
           key={section.id}
-          area={areas[section.nombre.toLowerCase()]}
+          area={areas[section.nombre.toLowerCase()]}  // Asignación dinámica del área en el grid
         >
-          <Link to={`/${section.pagina}`}>{section.nombre}</Link>
+          <Link to={`/${section.pagina}`}>{section.nombre}</Link>  {/* Ruta a la página */}
         </Card>
       ))}
     </Container>

@@ -9,6 +9,7 @@ import contactos 			                  from "@/assets/cardHome/contactos.jpg";
 import envios    			                  from "@/assets/cardHome/envios.png";
 //-------------------------------------------------------------------------------------
 import backgroundPageHome 		          from "@/assets/BackgroundPage/Home.jpg";
+import backgroundPageHerraje            from "@/assets/BackgroundPage/herrajes.png";
 // import backgroundPageSimulador 		  from "@/assets/BackgroundPage/simulador.png";
 //-------------------------------------------------------------------------------------
 import almendraChica                 	  from "@/assets/melaminas/chicas/almendra.jpg";
@@ -249,6 +250,7 @@ export const imagenlogo = {
 export const backgroundPage = {
   Home: backgroundPageHome,
   // simulador: simuladorPageHome,
+  Herraje: backgroundPageHerraje,
 };
 
 export const imagenesCardHome = {

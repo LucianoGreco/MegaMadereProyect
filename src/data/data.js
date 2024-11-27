@@ -1,14 +1,14 @@
 import { imagenesCardHome, backgroundPage, imagenlogo } from "./imagenes"; 
 
 const data = {
-  background: backgroundPage.Home,
+  backgroundPage: backgroundPage.Home,
   secciones: {
     novedades: {
       id: 1,
       nombre: "Novedades",
       descripcion: "Últimas novedades en Mega Madera",
       cardHome: imagenesCardHome.novedades,
-      // backgroundPagina: backgroundNovedades,
+      backgroundPage: backgroundPage.Novedades,
       pagina: 'novedades',  // Aquí se guarda la ruta relativa
     },
     Simulador: {
@@ -17,7 +17,7 @@ const data = {
       titulo: "Mas de +100 diseños exclusvos",
       descripcion: "Adaptamos tu diseño favorito a las dimensiones de tu hogar",
       cardHome: imagenesCardHome.muebles,
-      backgroundPagina: backgroundPage.simulador,
+      backgroundPage: backgroundPage.Simulador,
       pagina: 'simulador',
     },
     herrajes: {
@@ -25,7 +25,7 @@ const data = {
       nombre: "Herrajes",
       descripcion: "Herrajes de alta calidad",
       cardHome: imagenesCardHome.herrajes,
-      // backgroundPagina: backgroundHerrajes,
+      backgroundPage: backgroundPage.Herraje,
       pagina: 'herrajes',
     },
     melaminas: {
@@ -33,7 +33,7 @@ const data = {
       nombre: "Melaminas",
       descripcion: "Placas de melamina de alta calidad",
       cardHome: imagenesCardHome.melaminas,
-      // backgroundPagina: backgroundMelamina,
+      backgroundPage: backgroundPage.Melaminas,
       pagina: 'melaminas',
     },
     envios: {
@@ -41,7 +41,7 @@ const data = {
       nombre: "Envíos",
       descripcion: "Envíos a todo el país",
       cardHome: imagenesCardHome.envios,
-      // backgroundPagina: backgroundEnvios,
+      backgroundPage: backgroundPage.Envios,
       pagina: 'envios',
     },
     contactos: {
@@ -49,7 +49,7 @@ const data = {
       nombre: "contactos",
       descripcion: "Información de contacto",
       cardHome: imagenesCardHome.contactos,
-      // backgroundPagina: backgroundContactos,
+      backgroundPage: backgroundPage.Contactos,
       pagina: 'contactos',
       nombreEmpresa: "Mega Madera",
       direccion: "Av. Moreno 1455",
@@ -72,7 +72,7 @@ const data = {
       nombre: "Muebles",
       descripcion: "Muebles para cada ambiente",
       cardHome: imagenesCardHome.muebles,
-      // backgroundPagina: backgroundMuebles,
+      backgroundPage: backgroundPage.Muebles,
       pagina: 'muebles',
     }
   },

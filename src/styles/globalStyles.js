@@ -13,7 +13,7 @@ const GlobalStyles = createGlobalStyle`
     --text-color: rgba(255, 255, 255, 0.8);
     --hover-background-color: rgba(255, 255, 255, 0.8);
     --hover-text-color: rgba(0, 0, 0, 0.9);
-    --background-color: rgba(0, 0, 0, 0.8);
+    --background-color: rgba(0, 0, 0, 0.4);
     --shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     --border-radius: 5px;
   }
