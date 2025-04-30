@@ -1,10 +1,7 @@
-// \src\components\layout\navbar\NavItem.jsx
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaBars } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa"; // Importar el ícono de cierre (X)
+import { FaBars, FaTimes } from "react-icons/fa"; // Importar íconos
 
-// Componente MenuContainer estilizado sin pasarle props al DOM
 const MenuContainer = styled.div`
   width: 40%;
   height: 100%;
@@ -15,7 +12,6 @@ const MenuContainer = styled.div`
   background: rgba(30, 30, 40, 0.9);
   overflow-y: auto;
 
-  /////////////////////////////////// Celulares y Tablet //////////////////////
   @media (max-width: 768px) {
     width: 100%;
     height: 100%;
@@ -27,9 +23,8 @@ const MenuContainer = styled.div`
     background-color: rgba(30, 30, 40, 0.9);
     padding: 20px;
     z-index: 1000;
-    display: ${({ isMenuOpen }) => (isMenuOpen ? "flex" : "none")};  /* Controla la visibilidad del menú */
+    display: ${({ isMenuOpen }) => (isMenuOpen ? "flex" : "none")};
   }
-  /////////////////////////////////// Celulares y Tablet //////////////////////
 `;
 
 const CategoryButton = styled.button`
@@ -39,13 +34,10 @@ const CategoryButton = styled.button`
   background: rgba(50, 50, 70, 0.8);
   color: white;
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   &:hover {
     background: rgba(70, 70, 100, 0.9);
@@ -55,7 +47,7 @@ const CategoryButton = styled.button`
 const SubMenuContainer = styled.div`
   display: ${({ open }) => (open ? "block" : "none")};
   background: rgba(20, 20, 30, 0.9);
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   margin-top: 8px;
   padding: 5px;
 
@@ -71,7 +63,7 @@ const SubMenuContainer = styled.div`
     background: rgba(40, 40, 50, 0.8);
     color: white;
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: 10px;
     cursor: pointer;
 
     &:hover {
@@ -95,7 +87,6 @@ const HamburgerButton = styled.button`
   color: white;
   font-size: 30px;
   cursor: pointer;
-  margin-left: 10px;
 
   @media (max-width: 768px) {
     display: block;
@@ -113,7 +104,6 @@ const CloseButton = styled.button`
   top: 20px;
   right: 20px;
 
-  /* Mostrar el botón de cierre solo en pantallas pequeñas */
   @media (max-width: 768px) {
     display: block;
   }
@@ -132,12 +122,12 @@ const NavItem = ({ menuData, setCardData }) => {
   };
 
   const closeMenu = () => {
-    setIsMenuOpen(false); // Cerrar el menú
+    setIsMenuOpen(false);
   };
 
   const handleSelectOption = (item) => {
     setCardData(item);
-    setIsMenuOpen(false); // Cerrar el menú después de seleccionar
+    closeMenu(); // Cerrar el menú después de seleccionar
   };
 
   return (
@@ -151,22 +141,15 @@ const NavItem = ({ menuData, setCardData }) => {
           <FaTimes />
         </CloseButton>
 
-        {menuData.map((category, index) => (
-          <div key={index}>
+        {menuData.map((item, index) => (
+          <div key={item.codigo || index}>
             <CategoryButton onClick={() => toggleCategory(index)}>
-              {category.name}
+              {item.nombre}
             </CategoryButton>
             <SubMenuContainer open={activeCategory === index}>
-              {category.items.map((subCategory, subIndex) => (
-                <div key={subIndex}>
-                  <h4>{subCategory.name}</h4>
-                  {subCategory.items.map((item, itemIndex) => (
-                    <button key={itemIndex} onClick={() => handleSelectOption(item)}>
-                      {item.nombre}
-                    </button>
-                  ))}
-                </div>
-              ))}
+              <button onClick={() => handleSelectOption(item)}>
+                {item.nombre}
+              </button>
             </SubMenuContainer>
           </div>
         ))}

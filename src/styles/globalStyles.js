@@ -1,110 +1,113 @@
-// \src\styles\GlobalStyles.js
+// \src\styles\GlobalStyles.js:
 import { createGlobalStyle } from "styled-components";
 import "normalize.css"; // Normaliza los estilos predeterminados del navegador para garantizar consistencia.
-import { backgroundPage } from "../data/imagenes.js";
-
+import { backgroundPage } from "@/data/image/gestorImage.js";
 // Importa las fuentes necesarias desde Google Fonts.
 import "@fontsource/playfair-display"; // Fuente para títulos
 import "@fontsource/montserrat"; // Fuente para textos secundarios
 
 const GlobalStyles = createGlobalStyle`
-  /* Variables globales */
-  :root {
-    --text-color: rgba(255, 255, 255, 0.8);
-    --hover-background-color: rgba(255, 255, 255, 0.8);
-    --hover-text-color: rgba(0, 0, 0, 0.9);
-    --background-color: rgba(0, 0, 0, 0.4);
-    --shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    --border-radius: 5px;
+
+   :root {
+    --text-color:             rgba(255, 255, 255, 1);
+    --background-color:       rgba(0, 0, 0, 0.5);
+
+    --hover-text-color:       rgba(0, 0, 0, 0.0);
+    --hover-background-color: rgba(255, 255, 255, 255);
+    
+    // --shadow: 1px 1px 3px     rgba(0, 0, 0, 0.9);
+
   }
 
-  /* Reset básico */
+/* --------------> Reset básico <-------------- */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor: none;
+
   }
 
-  /* Configuración base */
+
+ /* --------------> Configuración base <-------------- */
   html, body {
-    background: url(${backgroundPage.Home}) center/cover fixed no-repeat;
+    height: 100vh;
+    width: 100vw;
+    background: url(${backgroundPage.home}) center/cover fixed no-repeat;
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
-    background-attachment: fixed;
+    background-attachment:  fixed;
     color: var(--text-color);
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    height: 100%;
+    font-size: 8px;
     text-shadow: var(--shadow);
-    width: 100%;
   }
 
-  /* Estilo para títulos */
+
+/* --------------> Estilo para títulos <-------------- */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
-    color: var(--text-color);
-    text-shadow: var(--shadow);
-  }
+  };
 
-  /* Estilo de enlaces y botones */
-    a {
-    backdrop-filter: blur(10px);
+
+/* --------------> Estilo de enlaces y botones <-------------- */
+  a {  
     background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    color: var(--text-color);
-    font-weight: bold;
-    // font-size: 18px;
-    text-decoration: none;
-    padding: 10px 10px;
-    text-shadow: var(--shadow);
-    cursor: pointer;
-    border: none;
-  }
-
-  /* Estilo de hover para enlaces, botones, y enlaces de navegación */
-   a:hover, {
-    color: var(--background-color);
+    color:            var(--text-color);
+    border-radius:    15px;
+    font-weight:      bold;
+    // border:           1px solid var(--text-color);
+    text-decoration:  none;
+    padding:          6px 10px;
+    cursor: none;
+    transition:       background-color 0.3s ease, transform 0.3s ease;
+    backdrop-filter:  blur(5px); /* Añadir desenfoque en el fondo si se desea */
+ };
+ a:hover, {
+    color:            var(--background-color);
     background-color: var(--text-color);
-  }
+    transform:        scale(1.1);
+  };
 
+
+/* --------------- Cursor Personalizado <-------------- */
   .custom-cursor {
-  position: fixed;
-  width: 50px; /* Ajusta el tamaño */
-  height: 50px;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s linear;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.custom-cursor img {
-  width: 100%;
-  height: auto;
-}
-
-.custom-cursor.rotating {
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
+    position: fixed;
+    width: 20px; /* Ajusta el tamaño */
+    height: 30px;
+    pointer-events: none;
+    cursor-pointer: none;
+    z-index: 9999;
+    transition: transform 0.1s linear;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  to {
-    transform: rotate(360deg);
+  .custom-cursor img {
+    width: 100%;
+    height: auto;
   }
-}
+  .custom-cursor.rotating {
+    animation: rotation 1s linear infinite;
+  }
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  };
 
-  /* Imágenes responsivas */
-  // img {
-  //   max-width: 100%;
-  //   height: auto;
-  //   display: block;
-  // }
 
-  /* Configuración general de la aplicación */
+/* --------------- Imágenes responsivas <-------------- */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+
+/* --------------- Configuración general de la aplicación <-------------- */
   .App {
     display: flex;
     flex-direction: column;

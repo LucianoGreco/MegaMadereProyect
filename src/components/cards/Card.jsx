@@ -5,6 +5,8 @@ const CardContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
+  
 `;
 
 const Image = styled.img`
@@ -26,6 +28,7 @@ const ContentOverlay = styled.div`
 `;
 
 const ZoomContainer = styled.div`
+
   position: fixed;
   top: 50%;
   left: 50%;

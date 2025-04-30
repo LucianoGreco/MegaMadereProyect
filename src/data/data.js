@@ -1,86 +1,74 @@
-import { imagenesCardHome, backgroundPage, imagenlogo } from "./imagenes"; 
+import { CardHomeImage, backgroundPage } from "@/data/image/gestorImage.js";
+// import { info } from "@/data/image/gestorImage";
 
 const data = {
-  backgroundPage: backgroundPage.Home,
+  backgroundPage: backgroundPage.home,
+
   secciones: {
-    novedades: {
-      id: 1,
-      nombre: "Novedades",
-      descripcion: "Últimas novedades en Mega Madera",
-      cardHome: imagenesCardHome.novedades,
-      backgroundPage: backgroundPage.Novedades,
-      pagina: 'novedades',  // Aquí se guarda la ruta relativa
-    },
-    Simulador: {
-      id: 2,
-      nombre: "Simulador",
-      titulo: "Mas de +100 diseños exclusvos",
-      descripcion: "Adaptamos tu diseño favorito a las dimensiones de tu hogar",
-      cardHome: imagenesCardHome.simulador,
-      backgroundPage: backgroundPage.Simulador,
-      pagina: 'simulador',
-    },
     herrajes: {
-      id: 3,
-      nombre: "Herrajes",
-      descripcion: "Herrajes de alta calidad",
-      cardHome: imagenesCardHome.herrajes,
-      backgroundPage: backgroundPage.Herraje,
-      pagina: 'herrajes',
+      id: 1,
+      name: "Herrajes",
+      description: "",
+      image: CardHomeImage.herrajes,
+      backgroundPage: backgroundPage.herrajes,
+      page: "/herrajes",
+      // info: info.herrajes,
     },
     melaminas: {
-      id: 4,
-      nombre: "Melaminas",
-      descripcion: "Placas de melamina de alta calidad",
-      cardHome: imagenesCardHome.melaminas,
-      backgroundPage: backgroundPage.Melaminas,
-      pagina: 'melaminas',
-    },
-    envios: {
-      id: 5,
-      nombre: "Envíos",
-      descripcion: "Envíos a todo el país",
-      cardHome: imagenesCardHome.envios,
-      backgroundPage: backgroundPage.Envios,
-      pagina: 'envios',
-    },
-    contactos: {
-      id: 6,
-      nombre: "contactos",
-      descripcion: "Información de contacto",
-      cardHome: imagenesCardHome.contactos,
-      backgroundPage: backgroundPage.Contactos,
-      pagina: 'contactos',
-      nombreEmpresa: "Mega Madera",
-      direccion: "Av. Moreno 1455",
-      localidad: "San Rafael",
-      provincia: "Mendoza",
-      pais: "Argentina",
-      telefono: "2604422505",
-      email: "contacto@megamadera.com",
-      horario: "Lunes a Sabados ( 9:00hs - 17:30hs )",
-      logo: imagenlogo.logo,
-      redes:{
-        facebook: "https://facebook.com/megamadera",
-        instagram: "instagram.com/mega.madera",
-        whatsApp: "https://wa.me/+549260433172",
-        gmail: "ventas.megamadera@gmail.com",
-      }
+      id: 2,
+      name: "Melaminas",
+      description: "",
+      image: CardHomeImage.melaminas,
+      backgroundPage: backgroundPage.melaminas,
+      page: "/melaminas",
+      // info: info.melaminas,
     },
     muebles: {
-      id: 7,
-      nombre: "Muebles",
-      descripcion: "Muebles para cada ambiente",
-      cardHome: imagenesCardHome.muebles,
-      backgroundPage: backgroundPage.Muebles,
-      pagina: 'muebles',
-    }
+      id: 3,
+      name: "Muebles",
+      description: "",
+      image: CardHomeImage.muebles,
+      backgroundPage: backgroundPage.muebles,
+      page: "/muebles",
+      // info: info.muebles,
+    },
+    revestimiento: {
+      id: 4,
+      name: "Revestimientos",
+      description: "",
+      image: CardHomeImage.pisos,
+      backgroundPage: backgroundPage.pisos,
+      page: "/revestimientoPiso",
+      // info: info.revestimientoPiso,
+    },
+    simulador: {
+      id: 6,
+      name: "Simulador",
+      description: "",
+      image: CardHomeImage.simulador,
+      backgroundPage: backgroundPage.simulador,
+      page: "/simulado",
+      // info: info.simulador,
+    },
+    viniloParaVidrios: {
+      id: 8,
+      name: "Vinilo para Vidrios",
+      description: "",
+      image: CardHomeImage.vinilovidrios,
+      backgroundPage: backgroundPage.vinilovidiros,
+      page: "/viniloParaVidrios",
+      // info: info.viniloParaVidrios,
+    },
+    contacto: {
+      id: 9,
+      name: "Contactos",
+      description: "",
+      image: CardHomeImage.contactos,
+      backgroundPage: backgroundPage.contactos,
+      page: "/contactos",
+      // info: info.contactos,
+    },
   },
 };
 
 export default data;
-
-
-
-
-

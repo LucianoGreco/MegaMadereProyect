@@ -1,52 +1,45 @@
-// \src\pages\home.jsx
-import React, { useState, useEffect } from "react";
-import CardHome from "@/components/cards/CardHome.jsx";
-import Carrusel from "@/components/ui/Carrusel.jsx";
-import Banner from "@/components/layout/Banner.jsx";
-import Slider from "@/components/ui/Slider.jsx";
-import styled from "styled-components";
+// \src\pages\Home.jsx
+import React    from "react";
+import styled   from "styled-components";
+import data     from "@/data/data";
 
-// Contenedor principal de la página Home
-const ContainerHome = styled.div`
+import CardHome from "@/components/cards/CardHome";
+import Carrusel from "@/components/ui/Carrusel";
+// import Slider   from "@/components/ui/Slider";
+import Banner   from "@/components/ui/Banner";
+
+
+const HomeContainer = styled.div`
+  width: 100vw;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start; // Cambié a 'flex-start' para evitar que se centren los elementos si es innecesario
-
+  gap: 20px;
+  margin: 0 auto;
 `;
 
 const Home = () => {
-  const [isMobile, setIsMobile] = useState(false); // Estado para detectar si es móvil
-
-  useEffect(() => {
-    const handleResize = () => {
-      // Actualiza el estado basado en el ancho de la ventana
-      setIsMobile(window.innerWidth <= 768); // Se considera móvil si el ancho es <= 768px
-    };
-
-    handleResize(); // Ejecutar la función al montar el componente
-    window.addEventListener("resize", handleResize); // Agregar listener al redimensionar la ventana
-
-    return () => window.removeEventListener("resize", handleResize); // Limpiar el evento al desmontar
-  }, []);
+  const { secciones } = data;
 
   return (
-    <>
-      <ContainerHome>
-        {/* El componente Banner solo se renderiza si no es un dispositivo móvil */}
-        {!isMobile && <Banner />}
+    <HomeContainer>
+      <Banner/>
+      {/* <Carrusel />
+      <Slider /> */}
 
-        {/* El Carrusel siempre se renderiza */}
-        <Carrusel />
-
-        {/* El Slider solo se renderiza si no es un dispositivo móvil */}
-        {!isMobile && <Slider />}
-
-        {/* Los demás componentes siempre se renderizan */}
-        <CardHome />
-        <Carrusel />
-      </ContainerHome>
-    </>
+      {Object.values(secciones).map((seccion) => (
+        <CardHome
+          key={seccion.id}
+          name={seccion.name}
+          description={seccion.description}
+          image={seccion.image}
+          page={seccion.page}
+        />
+      ))}
+      <Carrusel />
+    </HomeContainer>
   );
 };
 

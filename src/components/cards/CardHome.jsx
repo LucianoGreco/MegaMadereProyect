@@ -1,83 +1,58 @@
-// \src\components\cards\CardHome.jsx:
+// src/components/cards/CardHome.jsx
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
-import data from "@/data/data";  // Importa los datos
+import styled from "styled-components";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-  grid-template-rows: auto auto auto; /* Tres filas */
-  grid-template-areas: 
-    "novedades simulador"
-    "herrajes simulador"
-    "melaminas melaminas"
-    "muebles contactos"
-    "muebles envios";
-  gap: 5px;
-  padding: 5px;
-  width: 100%;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
-    grid-template-areas: 
-      "novedades"
-      "simulador"
-      "herrajes"
-      "melaminas"
-      "muebles"
-      "contactos"
-      "envios";
-  }
-`;
-
-const Card = styled.div`
-  background-image: url(${(props) => props.background});
-  background-size: cover;
-  background-position: center;
+const CardLink = styled(Link)`
+  width: 20%;
+  height: 250px;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  border-radius: var(--border-radius);
-  padding: 10px;
+  flex-direction: column;
+  border-radius: 15px;
+  overflow: hidden;
+  text-decoration: none;
+  padding: 5px;
+  color: inherit;
+  backdrop-filter: blur(3px);
+  background-color: var(--background-color);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  grid-area: ${(props) => props.area};
-
-  /* Altura de las tarjetas según su área */
-  height: ${(props) =>
-    props.area === "simulador" || props.area === "muebles" ? "410px" : "200px"};
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-`;
-
-const CardHome = () => {
-  // Definir las áreas del grid para cada sección
-  const areas = {
-    novedades: "novedades",
-    simulador: "simulador",
-    herrajes: "herrajes",
-    melaminas: "melaminas",
-    muebles: "muebles",
-    contactos: "contactos",
-    envios: "envios",
+  position: relative;
+  
+  ::hover{
+    background-color: var(--background-color);
+ 
   };
 
+`;
+
+const CardImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+`;
+
+const CardTitleOverlay = styled.div`
+  height: 40px;
+  position: absolute;
+  top: 75%;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */  color: #fff;
+
+ 
+`;
+
+const CardHome = ({ name, image, page }) => {
   return (
-    <Container>
-      {Object.values(data.secciones).map((section) => (
-        <Card
-          background={section.cardHome}  // Asignación dinámica de la imagen de fondo
-          key={section.id}
-          area={areas[section.nombre.toLowerCase()]}  // Asignación dinámica del área en el grid
-        >
-          <Link to={`/${section.pagina}`}>{section.nombre}</Link>  {/* Ruta a la página */}
-        </Card>
-      ))}
-    </Container>
+    <CardLink to={page}>
+      <CardImage src={image} alt={name} />
+      <CardTitleOverlay>{name}</CardTitleOverlay>
+    </CardLink>
   );
 };
 

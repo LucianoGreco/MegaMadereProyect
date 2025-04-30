@@ -1,81 +1,79 @@
 // Carrusel.jsx
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import data from '@/data/data'; // Importa el archivo data.js
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import data from "@/data/pages/dataContactos";
+import GlobalStyle from "@/styles/globalStyles";
 
-// Keyframes para la animación de desplazamiento continuo de izquierda a derecha
+// Animación de desplazamiento infinito
 const scroll = keyframes`
-  0% {
-    transform: translateX(100%);
+  from {
+    transform: translateX(0);
   }
-  100% {
-    transform: translateX(-100%);
+  to {
+    transform: translateX(-50%);
   }
 `;
 
-// Contenedor principal del carrusel
 const CarouselContainer = styled.div`
-  overflow: hidden;
-  position: relative;
+  display: inline-block;
+  align-content: center;
   width: 100vw;
   height: 100px;
-  white-space: nowrap;
-//  background-color: rgba(0, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
   background-color: rgba(255, 255, 255, 0.1);
-  margin: 0;
-  backdrop-filter: blur(10px); /* Añadir desenfoque en el fondo si se desea */
+  backdrop-filter: blur(10px);
 `;
 
-// Contenedor de los elementos del carrusel
 const CarouselInner = styled.div`
   display: flex;
   align-items: center;
   white-space: nowrap;
   width: max-content;
-  height: 100%;
-  animation: ${scroll} 15s linear infinite; /* Velocidad y dirección del carrusel */
+  animation: ${scroll} 10s linear infinite; /* Ajusta la velocidad según sea necesario */
 `;
 
-// Estilo de cada mensaje
 const Message = styled.div`
   display: flex;
   align-items: center;
+
   font-size: 4.5rem;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.8); /* Texto en gris oscuro */
-  
-  margin-right: 2rem;
+  color: var(--text-color);
+  padding-right: 3rem; /* Espacio justo para que las letras no se peguen */
+  font-weight: bold;
 `;
 
-// Estilo para la imagen del logo dentro del mensaje
 const LogoImage = styled.img`
-  height: 80px;
+  height: 70px;
   margin: 0 5px;
   vertical-align: middle;
 `;
 
 const Carrusel = () => {
-  // Extrae el nombre de la empresa y el logo desde data.js
-  const nombreEmpresa = data.secciones.contactos.nombreEmpresa;
-  const logoImage = data.secciones.contactos.logo;
+  const nombreEmpresa = data.nombreEmpresa;
+  const logoImage = data.logo;
 
-  // Función para reemplazar las "M" con la imagen del logo
   const renderNombreEmpresa = () => {
-    return nombreEmpresa.split('').map((char, index) => (
-      char === 'M' ? (
-        <LogoImage key={index} src={logoImage} alt="Logo" />
-      ) : (
-        <span key={index}>{char}</span>
-      )
-    ));
+    return nombreEmpresa
+      .split("")
+      .map((char, index) =>
+        char === "M" ? (
+          <LogoImage key={index} src={logoImage} alt="Logo" />
+        ) : (
+          <span key={index}>{char}</span>
+        )
+      );
   };
 
   return (
     <CarouselContainer>
+      <GlobalStyle />
       <CarouselInner>
-        {/* Duplicamos el contenido para el efecto infinito */}
-        <Message>{renderNombreEmpresa()}</Message>
-        <Message>{renderNombreEmpresa()}</Message>
+        {/* Repetimos el contenido suficiente para evitar cortes visibles */}
+        {[...Array(4)].map((_, i) => (
+          <Message key={i}>{renderNombreEmpresa()}</Message>
+        ))}
       </CarouselInner>
     </CarouselContainer>
   );
