@@ -1,28 +1,42 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 import Navbar from "@/components/layout/navbar/Navbar.jsx";
 import data from "@/data/pages/dataContactos";
 
 const Header = () => {
-  const [isVisible, setIsVisible] = useState(true); // Empezamos con el header visible
+  const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(window.scrollY);
+  const [hideTimeout, setHideTimeout] = useState(null);
 
   useEffect(() => {
+    const showHeader = () => {
+      clearTimeout(hideTimeout);
+      setIsVisible(true);
+
+      // Ocultar después de 3 segundos de inactividad
+      const timeout = setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
+      setHideTimeout(timeout);
+    };
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+
+      // Mostrar si se hace scroll hacia arriba o llega arriba del todo
       if (currentScrollY < lastScrollY || currentScrollY === 0) {
-        setIsVisible(true); // Mostrar si se hace scroll hacia arriba o está en la parte superior
+        showHeader();
       } else {
-        setIsVisible(false); // Ocultar si se hace scroll hacia abajo
+        setIsVisible(false);
       }
+
       setLastScrollY(currentScrollY);
     };
 
     const handleMouseMove = (event) => {
       if (event.clientY < 50) {
-        setIsVisible(true); // Mostrar si el mouse está en la parte superior de la página
+        showHeader();
       }
     };
 
@@ -32,8 +46,9 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(hideTimeout);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, hideTimeout]);
 
   return (
     <HeaderContainer isVisible={isVisible}>
@@ -61,27 +76,29 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   background: var(--blackground-color);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
   transform: ${({ isVisible }) =>
     isVisible ? "translateY(0)" : "translateY(-100%)"};
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  pointer-events: ${({ isVisible }) => (isVisible ? "auto" : "none")};
 `;
+
 
 const ContainerLogo = styled.div`
   border-radius: 100%;
   backdrop-filter: blur(0px);
 
-  a{
-    text-shadow: none !important; /* Sobrescribe el sombreado del globalStyle */
-    background: var(--blackground-color); 
+  a {
+    text-shadow: none !important;
+    background: var(--blackground-color);
     border: 0;
   }
+
   :hover {
-    transform: scale(1.05); /* Aumenta un poquito */
-    background: var(--blackground-color); 
+    transform: scale(1.05);
+    background: var(--blackground-color);
   }
 `;
-
-
 
 const Logo = styled.img`
   width: 80px;
@@ -90,15 +107,13 @@ const Logo = styled.img`
   transition: transform 0.2s ease;
 
   &:hover {
-    transform: scale(1.05); /* Aumenta un poquito */
-    background: var(--blackground-color); 
+    transform: scale(1.05);
+    background: var(--blackground-color);
   }
 
   &:active {
-    transform: scale(0.95); /* Disminuye un poco menos del estado inicial */
+    transform: scale(0.95);
   }
 `;
-
-
 
 export default Header;
