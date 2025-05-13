@@ -37,7 +37,7 @@ const data = {
       name: "Revestimientos",
       description: "",
       image: CardHomeImage.pisos,
-      backgroundPage: backgroundPage.pisos,
+      backgroundPage: backgroundPage.revestimientos,
       page: "/revestimientoPiso",
       // info: info.revestimientoPiso,
     },

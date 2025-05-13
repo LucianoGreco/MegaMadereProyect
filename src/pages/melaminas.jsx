@@ -1,28 +1,65 @@
-
-import React, { useState }  from 'react';
+// src/pages/melaminas.jsx
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import dataMelamina from '@/data/pages/dataMelamina';
-import MenuBar              from '@/components/layout/navbar/MenuBar';
-import Grilla               from '@/components/ui/Grilla';
+import Grilla from '@/components/ui/Grilla';
+import Card from '@/components/cards/Card';
+import { breakpoints } from "@/styles/breakpoints";
 
-//src\data\pages\dataMelamina.js
+const Container = styled.div`
+  width: 100vw;
+  display: flex;
+  gap: 0.1rem;
+  padding: 1rem;
+  justify-content: center;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+  }
+`;
+
+const CardWrapper = styled.div`
+  flex: 0 0 25%;
+  padding: 20px 0 0 0;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex: 1;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+`;
+
+const GrillaWrapper = styled.div`
+  flex: 0 0 70%;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex: 1;
+    width: 100%;
+  }
+`;
 
 const Melaminas = () => {
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  const items = Object.values(dataMelamina);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(items[0]);
 
   return (
-    <div style={{ display: 'flex' }}>
-      <MenuBar
-  productos={Object.values(dataMelamina)}
-  onSeleccionarProducto={setProductoSeleccionado}
-/>
-      <div style={{ flex: 1 }}>
-        {productoSeleccionado ? (
-          <Grilla items={[productoSeleccionado]} />
-        ) : (
-          <p style={{ padding: '20px' }}>Selecciona un producto del menú.</p>
-        )}
-      </div>
-    </div>
+    <Container>
+      <CardWrapper>
+        <Card producto={productoSeleccionado} />
+      </CardWrapper>
+      <GrillaWrapper>
+        <Grilla
+          items={items}
+          paginaActual={paginaActual}
+          setPaginaActual={setPaginaActual}
+          onItemClick={setProductoSeleccionado}
+        />
+      </GrillaWrapper>
+    </Container>
   );
 };
 

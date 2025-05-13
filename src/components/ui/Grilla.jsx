@@ -1,58 +1,124 @@
-// Grilla.jsx
 import React from 'react';
 import styled from 'styled-components';
 
-// Estilo para el contenedor de la grilla
+// Estilos
 const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 20px;
-  padding: 20px;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  max-height: 98vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
-// Estilo para cada tarjeta
+const Grid = styled.div`
+  width: 100%;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr); /* Solo 2 filas */
+  gap: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+`;
+
 const Card = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 0 16px ;
   overflow: hidden;
   text-align: center;
-  transition: transform 0.2s;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: translateY(-4px);
+    transform: scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   }
 `;
 
-// Estilo para la imagen
-const CardImage = styled.img`
+
+const Image = styled.img`
   width: 100%;
-  height: 150px;
+  height: 70%;
   object-fit: cover;
 `;
 
-// Estilo para el nombre
-const CardTitle = styled.h3`
-  margin: 10px 0;
-  font-size: 1.1rem;
+const Name = styled.p`
+  padding: 10px;
+  font-weight: 600;
+  color: #444;
 `;
 
-const Grilla = ({ items }) => {
-  console.log(items); 
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 0;
+`;
+
+const Button = styled.button`
+  padding: 8px 16px;
+  background: #eaeaea;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #ccc;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+`;
+
+// Componente principal
+const Grilla = ({ items, paginaActual, setPaginaActual, onItemClick }) => {
+  const itemsPorPagina = 8; // 4 columnas x 2 filas
+  const totalPaginas = Math.ceil(items.length / itemsPorPagina);
+  const inicio = (paginaActual - 1) * itemsPorPagina;
+  const itemsPagina = items.slice(inicio, inicio + itemsPorPagina);
+
+  const handleAnterior = () => {
+    if (paginaActual > 1) setPaginaActual(paginaActual - 1);
+  };
+
+  const handleSiguiente = () => {
+    if (paginaActual < totalPaginas) setPaginaActual(paginaActual + 1);
+  };
+
   return (
     <GridContainer>
-      {items.map((item, index) => (
-        <Card key={index}>
-          <CardImage src={item.imagenChica} alt={item.nombre} />
-          <CardTitle>{item.nombre}</CardTitle>
-        </Card>
-      ))}
+      <Grid>
+        {itemsPagina.map((item, index) => (
+          <Card
+            key={index}
+            onClick={() => onItemClick?.(item)}
+            title="Click para ver detalles"
+          >
+            <Image
+              src={item.imagenChica}
+              alt={item.nombre}
+              onError={(e) => (e.target.src = '/images/placeholder.jpg')}
+            />
+            <Name>{item.nombre}</Name>
+          </Card>
+        ))}
+      </Grid>
+
+      <Pagination>
+        <Button onClick={handleAnterior} disabled={paginaActual === 1}>
+          {'<'}
+        </Button>
+        <span>Página {paginaActual} de {totalPaginas}</span>
+        <Button onClick={handleSiguiente} disabled={paginaActual === totalPaginas}>
+          {'>'}
+        </Button>
+      </Pagination>
     </GridContainer>
   );
 };

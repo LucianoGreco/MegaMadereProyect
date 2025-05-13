@@ -28,7 +28,7 @@ const Home = () => {
       <Banner/>
       {/* <Carrusel />
       <Slider /> */}
-
+<Carrusel />
       {Object.values(secciones).map((seccion) => (
         <CardHome
           key={seccion.id}
