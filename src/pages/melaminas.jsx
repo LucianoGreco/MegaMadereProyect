@@ -1,10 +1,10 @@
 // src/pages/melaminas.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import dataMelamina from '@/data/pages/dataMelamina';
+import dataMelamina from '@/data/pages/melaminas';
 import Grilla from '@/components/ui/Grilla';
 import Card from '@/components/cards/Card';
-import { breakpoints } from "@/styles/breakpoints";
+import { breakpoints } from '@/styles/breakpoints';
 
 const Container = styled.div`
   width: 100vw;
@@ -42,7 +42,7 @@ const GrillaWrapper = styled.div`
 `;
 
 const Melaminas = () => {
-  const items = Object.values(dataMelamina);
+  const items = Object.values(dataMelamina["Tableros Melaminas"]).flat();
   const [paginaActual, setPaginaActual] = useState(1);
   const [productoSeleccionado, setProductoSeleccionado] = useState(items[0]);
 

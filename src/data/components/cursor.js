@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import contactos from "@/data/pages/dataContactos"; // Ajusta la ruta según tu estructura de archivos.
+import { useEffect } from "react";
+import contactos     from "@/data/pages/contactos"; // Ajusta la ruta según tu estructura de archivos.
 
 const Cursor = () => {
   useEffect(() => {

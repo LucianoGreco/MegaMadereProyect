@@ -1,66 +1,9 @@
+// src/components/layout/Header.jsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/layout/navbar/Navbar.jsx";
-import data from "@/data/pages/dataContactos";
-
-const Header = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(window.scrollY);
-  const [hideTimeout, setHideTimeout] = useState(null);
-
-  useEffect(() => {
-    const showHeader = () => {
-      clearTimeout(hideTimeout);
-      setIsVisible(true);
-
-      // Ocultar después de 3 segundos de inactividad
-      const timeout = setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
-      setHideTimeout(timeout);
-    };
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Mostrar si se hace scroll hacia arriba o llega arriba del todo
-      if (currentScrollY < lastScrollY || currentScrollY === 0) {
-        showHeader();
-      } else {
-        setIsVisible(false);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    const handleMouseMove = (event) => {
-      if (event.clientY < 50) {
-        showHeader();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("mousemove", handleMouseMove);
-      clearTimeout(hideTimeout);
-    };
-  }, [lastScrollY, hideTimeout]);
-
-  return (
-    <HeaderContainer isVisible={isVisible}>
-      <ContainerLogo>
-        <Link to="/">
-          <Logo src={data.logo} alt="Logo de Mega Madera" />
-        </Link>
-      </ContainerLogo>
-      <Navbar />
-    </HeaderContainer>
-  );
-};
+import data from "@/data/pages/contactos";
 
 const HeaderContainer = styled.header`
   width: 95vw;
@@ -77,12 +20,11 @@ const HeaderContainer = styled.header`
   left: 0;
   background: var(--blackground-color);
   transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-  transform: ${({ isVisible }) =>
-    isVisible ? "translateY(0)" : "translateY(-100%)"};
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  pointer-events: ${({ isVisible }) => (isVisible ? "auto" : "none")};
+  transform: ${({ $isVisible }) =>
+    $isVisible ? "translateY(0)" : "translateY(-100%)"};
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  pointer-events: ${({ $isVisible }) => ($isVisible ? "auto" : "none")};
 `;
-
 
 const ContainerLogo = styled.div`
   border-radius: 100%;
@@ -115,5 +57,58 @@ const Logo = styled.img`
     transform: scale(0.95);
   }
 `;
+
+const Header = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(window.scrollY);
+  const [hideTimeout, setHideTimeout] = useState(null);
+
+  useEffect(() => {
+    const showHeader = () => {
+      clearTimeout(hideTimeout);
+      setIsVisible(true);
+      const timeout = setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
+      setHideTimeout(timeout);
+    };
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < lastScrollY || currentScrollY === 0) {
+        showHeader();
+      } else {
+        setIsVisible(false);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    const handleMouseMove = (event) => {
+      if (event.clientY < 50) {
+        showHeader();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(hideTimeout);
+    };
+  }, [lastScrollY, hideTimeout]);
+
+  return (
+    <HeaderContainer $isVisible={isVisible}>
+      <ContainerLogo>
+        <Link to="/">
+          <Logo src={data.logo} alt="Logo de Mega Madera" />
+        </Link>
+      </ContainerLogo>
+      <Navbar />
+    </HeaderContainer>
+  );
+};
 
 export default Header;

@@ -1,54 +1,61 @@
-import React from 'react';
 import styled from 'styled-components';
 import { FaWhatsapp } from 'react-icons/fa';
 import { breakpoints } from "@/styles/breakpoints";
 
 const CardContainer = styled.div`
+  position: relative;
+  width: 100%;
   height: 82vh;
-  background-color: rgba(255, 255, 255, 0.83);
-  border-radius: 0 16px ;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  background-color: #000;
+  border-radius: 0 16px;
+  overflow: hidden;
   text-align: center;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
   @media (max-width: ${breakpoints.mobile}) {
     height: auto;
-    padding-bottom: 1rem;
   }
 `;
 
 const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 60%;
-  border-radius: 0 16px 0 0 ;
-  margin-bottom: 1rem;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+`;
 
-  @media (max-width: ${breakpoints.mobile}) {
-    height: auto;
-  }
+const Overlay = styled.div`
+// border: 1px solid red;
+  position: relative;
+  z-index: 1;
+  // background: rgba(255, 255, 255, 0.85);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 `;
 
 const Title = styled.h2`
-  font-size: 1.75rem;
-  margin: 0 1rem;
+  font-size: 2rem;
 
   @media (max-width: ${breakpoints.mobile}) {
     font-size: 1.3rem;
   }
 `;
 const Code = styled.p`
-  font-weight: 500;
-  color: #666;
-  margin-bottom: 0.5rem;
+ font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
 `;
 
 const Description = styled.p`
-  padding: 0 1rem;
-  font-size: 1rem;
+  font-size: 1.5rem;
 
   @media (max-width: ${breakpoints.mobile}) {
     font-size: 0.9rem;
@@ -56,16 +63,9 @@ const Description = styled.p`
 `;
 
 const ButtonWrapper = styled.div`
-  position: relative;
   display: flex;
   justify-content: center;
-  margin-top: auto;
-  margin-bottom: 2rem;
-
-  &:hover span {
-    opacity: 1;
-    transform: translateY(-8px);
-  }
+  margin-top: 1rem;
 `;
 
 const Tooltip = styled.span`
@@ -88,17 +88,17 @@ const Button = styled.a`
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 12px 24px;
+  padding: 8px 22px;
   background-color: #25D366;
   color: white;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.5rem;
   border-radius: 9999px;
   text-decoration: none;
   transition: background-color 0.3s ease;
 
   svg {
-    font-size: 1.25rem;
+    font-size: 2.8rem;
   }
 
   &:hover {
@@ -121,16 +121,18 @@ const Card = ({ producto }) => {
         alt={producto.nombre}
         onError={(e) => (e.target.src = '/images/placeholder.jpg')}
       />
-      <Title>{producto.nombre || 'Sin nombre'}</Title>
-      <Code>{producto.codigo ? `Código: ${producto.codigo}` : 'Código no disponible'}</Code>
-      <Description>{producto.descripcion || 'Sin descripción'}</Description>
-      <ButtonWrapper>
-        <Tooltip>Consultar por WhatsApp</Tooltip>
-        <Button href={urlWhatsApp} target="_blank" rel="noopener noreferrer">
-          <FaWhatsapp />
-          Consultar
-        </Button>
-      </ButtonWrapper>
+      <Overlay>
+        <Title>{producto.nombre || 'Sin nombre'}</Title>
+        <Code>{producto.codigo ? `Código: ${producto.codigo}` : 'Código no disponible'}</Code>
+        <Description>{producto.descripcion || 'Sin descripción'}</Description>
+        <ButtonWrapper>
+          <Tooltip>Consultar por WhatsApp</Tooltip>
+          <Button href={urlWhatsApp} target="_blank" rel="noopener noreferrer">
+            <FaWhatsapp />
+            Consultar
+          </Button>
+        </ButtonWrapper>
+      </Overlay>
     </CardContainer>
   );
 };

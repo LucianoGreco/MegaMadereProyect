@@ -1,9 +1,9 @@
 // src/components/layout/Banner.jsx
 import React, { useState, useEffect, useMemo } from "react";
-import styled from "styled-components";
+import styled   from "styled-components";
 import { Link } from "react-router-dom";
-import data from "@/data/data";
-import Navbar from "@/components/layout/navbar/Navbar";
+import data     from "@/data/pages/home";
+import Navbar   from "@/components/layout/navbar/Navbar";
 
 const Banner = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

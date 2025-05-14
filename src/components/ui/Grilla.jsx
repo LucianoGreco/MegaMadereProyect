@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styled from 'styled-components';
 
 // Estilos
@@ -13,8 +13,8 @@ const Grid = styled.div`
   width: 100%;
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr); /* Solo 2 filas */
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas */
+  grid-template-rows: repeat(3, 1fr);    /* 3 filas */
   gap: 24px;
   padding: 24px;
   box-sizing: border-box;
@@ -39,7 +39,7 @@ const Card = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 70%;
+  height: 55%;
   object-fit: cover;
 `;
 
@@ -78,7 +78,7 @@ const Button = styled.button`
 
 // Componente principal
 const Grilla = ({ items, paginaActual, setPaginaActual, onItemClick }) => {
-  const itemsPorPagina = 8; // 4 columnas x 2 filas
+  const itemsPorPagina = 15; // 4 columnas x 2 filas
   const totalPaginas = Math.ceil(items.length / itemsPorPagina);
   const inicio = (paginaActual - 1) * itemsPorPagina;
   const itemsPagina = items.slice(inicio, inicio + itemsPorPagina);

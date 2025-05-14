@@ -1,7 +1,7 @@
 // \src\pages\Home.jsx
-import React    from "react";
 import styled   from "styled-components";
-import data     from "@/data/data";
+
+import data     from "@/data/pages/home";
 
 import CardHome from "@/components/cards/CardHome";
 import Carrusel from "@/components/ui/Carrusel";

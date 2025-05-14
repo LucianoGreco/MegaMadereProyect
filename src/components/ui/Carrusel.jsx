@@ -1,7 +1,7 @@
 // Carrusel.jsx
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import data from "@/data/pages/dataContactos";
+import data from "@/data/pages/contactos";
 import GlobalStyle from "@/styles/globalStyles";
 
 // Animación de desplazamiento infinito
