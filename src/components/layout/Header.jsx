@@ -1,4 +1,3 @@
-// src/components/layout/Header.jsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -8,7 +7,7 @@ import data from "@/data/pages/contactos";
 const HeaderContainer = styled.header`
   width: 95vw;
   height: 25vh;
-  border: 2px solid var(--text-color);
+  border: 0.2px solid white;
   border-radius: 50px;
   display: flex;
   justify-content: space-around;
@@ -61,52 +60,54 @@ const Logo = styled.img`
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(window.scrollY);
+  const [navVisible, setNavVisible] = useState(true);
   const [hideTimeout, setHideTimeout] = useState(null);
 
   useEffect(() => {
-    const showHeader = () => {
-      clearTimeout(hideTimeout);
-      setIsVisible(true);
-      const timeout = setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
-      setHideTimeout(timeout);
-    };
+    const timeout = setTimeout(() => {
+      setNavVisible(false);
+    }, 2000);
 
+    setHideTimeout(timeout);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       if (currentScrollY < lastScrollY || currentScrollY === 0) {
-        showHeader();
+        setIsVisible(true);
       } else {
         setIsVisible(false);
       }
       setLastScrollY(currentScrollY);
     };
 
-    const handleMouseMove = (event) => {
-      if (event.clientY < 50) {
-        showHeader();
-      }
-    };
-
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("mousemove", handleMouseMove);
-      clearTimeout(hideTimeout);
     };
-  }, [lastScrollY, hideTimeout]);
+  }, [lastScrollY]);
+
+  const handleLogoClick = () => {
+    setNavVisible(true);
+    if (hideTimeout) clearTimeout(hideTimeout);
+    const timeout = setTimeout(() => {
+      setNavVisible(false);
+    }, 2000);
+    setHideTimeout(timeout);
+  };
 
   return (
     <HeaderContainer $isVisible={isVisible}>
       <ContainerLogo>
-        <Link to="/">
+        <Link to="/" onClick={handleLogoClick}>
           <Logo src={data.logo} alt="Logo de Mega Madera" />
         </Link>
       </ContainerLogo>
-      <Navbar />
+      <Navbar isVisible={navVisible} />
     </HeaderContainer>
   );
 };

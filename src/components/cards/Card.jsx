@@ -1,138 +1,81 @@
+// src/components/cards/Card.jsx
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FaWhatsapp } from 'react-icons/fa';
-import { breakpoints } from "@/styles/breakpoints";
 
 const CardContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 82vh;
-  background-color: #000;
-  border-radius: 0 16px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    height: auto;
-  }
+  gap: 1rem;
 `;
 
-const Image = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
+const ImagenPrincipal = styled.img`
   width: 100%;
-  height: 100%;
+  height: auto;
+  border-radius: 8px;
   object-fit: cover;
-  z-index: 0;
 `;
 
-const Overlay = styled.div`
-// border: 1px solid red;
-  position: relative;
-  z-index: 1;
-  // background: rgba(255, 255, 255, 0.85);
-  padding: 1rem;
+const GaleriaContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 3rem;
-`;
-
-const Title = styled.h2`
-  font-size: 2rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    font-size: 1.3rem;
-  }
-`;
-const Code = styled.p`
- font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-`;
-
-const Description = styled.p`
-  font-size: 1.5rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    font-size: 0.9rem;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: center;
-  margin-top: 1rem;
 `;
 
-const Tooltip = styled.span`
-  position: absolute;
-  bottom: 110%;
-  background: #000;
-  color: #fff;
-  padding: 6px 12px;
-  font-size: 0.75rem;
-  border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: none;
-`;
-
-const Button = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 8px 22px;
-  background-color: #25D366;
-  color: white;
-  font-weight: 600;
-  font-size: 1.5rem;
-  border-radius: 9999px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-
-  svg {
-    font-size: 2.8rem;
-  }
+const ImagenSecundaria = styled.img`
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s ease-in-out;
 
   &:hover {
-    background-color: #1ebe5d;
+    border-color: #888;
   }
+`;
+
+const Nombre = styled.h3`
+  font-size: 1.1rem;
+  font-weight: bold;
+`;
+
+const Descripcion = styled.p`
+  font-size: 0.95rem;
+  color: #555;
 `;
 
 const Card = ({ producto }) => {
-  if (!producto) return <p>No hay producto seleccionado.</p>;
+  const { nombre, descripcion, imagenChica, galeria = [] } = producto;
 
-  const mensaje = encodeURIComponent(
-    `Hola MegaMadera. Estoy interesado en este producto: ${producto.codigo}: ${producto.nombre}`
-  );
-  const urlWhatsApp = `https://wa.me/5492604331727?text=${mensaje}`;
+  const [imagenActual, setImagenActual] = useState(imagenChica);
+
+  useEffect(() => {
+    setImagenActual(imagenChica); // cuando cambia el producto
+  }, [imagenChica]);
 
   return (
     <CardContainer>
-      <Image
-        src={producto.imagenGrande}
-        alt={producto.nombre}
-        onError={(e) => (e.target.src = '/images/placeholder.jpg')}
-      />
-      <Overlay>
-        <Title>{producto.nombre || 'Sin nombre'}</Title>
-        <Code>{producto.codigo ? `Código: ${producto.codigo}` : 'Código no disponible'}</Code>
-        <Description>{producto.descripcion || 'Sin descripción'}</Description>
-        <ButtonWrapper>
-          <Tooltip>Consultar por WhatsApp</Tooltip>
-          <Button href={urlWhatsApp} target="_blank" rel="noopener noreferrer">
-            <FaWhatsapp />
-            Consultar
-          </Button>
-        </ButtonWrapper>
-      </Overlay>
+      {imagenActual && <ImagenPrincipal src={imagenActual} alt={nombre} />}
+      <Nombre>{nombre}</Nombre>
+      <Descripcion>{descripcion}</Descripcion>
+
+      {galeria.length > 0 && (
+        <GaleriaContainer>
+          {[imagenChica, ...galeria].map((img, index) => (
+            <ImagenSecundaria
+              key={index}
+              src={img}
+              alt={`${nombre} miniatura ${index}`}
+              onClick={() => setImagenActual(img)}
+              style={{
+                borderColor: imagenActual === img ? '#333' : 'transparent'
+              }}
+            />
+          ))}
+        </GaleriaContainer>
+      )}
     </CardContainer>
   );
 };

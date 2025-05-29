@@ -1,8 +1,8 @@
-
 import styled from 'styled-components';
 
 // Estilos
 const GridContainer = styled.div`
+  border: 1px solid red;
   max-height: 98vh;
   display: flex;
   flex-direction: column;
@@ -15,38 +15,40 @@ const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 columnas */
   grid-template-rows: repeat(3, 1fr);    /* 3 filas */
-  gap: 24px;
-  padding: 24px;
+  gap: 0; /* Sin espacio entre columnas ni filas */
+  padding: 0; /* Sin padding */
   box-sizing: border-box;
   overflow-y: auto;
 `;
 
 const Card = styled.div`
+  width: 100%;
+  height: 100%;
   background: white;
-  border-radius: 0 16px ;
   overflow: hidden;
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: scale(1.03);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05); /* Zoom */
+    z-index: 1;
   }
 `;
 
-
 const Image = styled.img`
   width: 100%;
-  height: 55%;
+  height: 80%;
   object-fit: cover;
 `;
 
 const Name = styled.p`
-  padding: 10px;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #444;
+  padding: 4px 6px;
+  margin: 0;
+  color: #333;
+  background-color: #f8f8f8;
 `;
 
 const Pagination = styled.div`
@@ -78,7 +80,7 @@ const Button = styled.button`
 
 // Componente principal
 const Grilla = ({ items, paginaActual, setPaginaActual, onItemClick }) => {
-  const itemsPorPagina = 15; // 4 columnas x 2 filas
+  const itemsPorPagina = 15; // 5 columnas x 3 filas
   const totalPaginas = Math.ceil(items.length / itemsPorPagina);
   const inicio = (paginaActual - 1) * itemsPorPagina;
   const itemsPagina = items.slice(inicio, inicio + itemsPorPagina);
