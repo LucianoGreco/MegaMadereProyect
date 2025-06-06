@@ -38,7 +38,7 @@ const data = {
       description: "",
       image: CardHomeImage.pisos,
       backgroundPage: backgroundPage.revestimientos,
-      page: "/revestimientoPiso",
+      page: "/revestimientos",
       // info: info.revestimientoPiso,
     },
     simulador: {
@@ -50,9 +50,9 @@ const data = {
       page: "/simulado",
       // info: info.simulador,
     },
-    viniloParaVidrios: {
+    vinilos: {
       id: 8,
-      name: "Vinilo para Vidrios",
+      name: "Vinilos",
       description: "",
       image: CardHomeImage.vinilovidrios,
       backgroundPage: backgroundPage.vinilovidiros,

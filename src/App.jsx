@@ -7,7 +7,7 @@ import GlobalStyles   from "@/styles/globalStyles";
 import Home           from "@/pages/home.jsx";
 import Melaminas      from "@/pages/melaminas.jsx";
 import Muebles        from "@/pages/muebles.jsx";
-import Revestimientos from "@/pages/revestimientos.jsx";
+import Revestimientos from "@/pages/revestimientos.jsx"; // ❌ ERROR ❌
 import Vinilos        from "@/pages/vinilos.jsx";
 import Herrajes       from "@/pages/herrajes.jsx";
 import Simulador      from "@/pages/simulador.jsx";
@@ -29,7 +29,7 @@ const App = () => {
       <GlobalStyles />
       <Cursor />
       <Router>
-        <Header />
+        <Header /> 
         <Routes>
           <Route path="/"                   element={<Home />} />
           <Route path="/melaminas"          element={<Melaminas />} />

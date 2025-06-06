@@ -33,7 +33,9 @@ const GlobalStyles = createGlobalStyle`
   html, body {
     height: 100vh;
     width: 100vw;
-    background: url(${backgroundPage.home}) center/cover fixed no-repeat;
+    // background: url(${backgroundPage.home}) center/cover fixed no-repeat;
+    background: rgb(215, 187, 157);
+
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     background-attachment:  fixed;
     color: var(--text-color);
