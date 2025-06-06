@@ -108,26 +108,48 @@ const Revestimientos = () => {
         </Grid>
       </Contenido>
 
-      {productoActivo && (
-        <Modal onClick={() => setProductoActivo(null)}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            {productoActivo.imagenes?.[1] ? (
-              <ModalImagen src={productoActivo.imagenes[1]} alt={productoActivo.nombre} />
-            ) : (
-              <FallbackImagen>Imagen ampliada no disponible</FallbackImagen>
-            )}
-            <ModalTexto>
-              <h2>{productoActivo.nombre}</h2>
-              <p>{productoActivo.descripcion}</p>
-              <Precio>${(productoActivo.precioactual ?? 0).toLocaleString("es-AR")}</Precio>
-              <Estado $disponible={productoActivo.estado === "disponible"}>
-                {productoActivo.estado}
-              </Estado>
-              <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
-            </ModalTexto>
-          </ModalContent>
-        </Modal>
+{productoActivo && (
+  <Modal onClick={() => setProductoActivo(null)}>
+    <ModalContent onClick={(e) => e.stopPropagation()}>
+      {productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0] ? (
+        <ModalImagenWrapper>
+          <ModalImagen
+            src={
+              productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0]
+            }
+            alt={productoActivo.nombre}
+          />
+          <FullscreenButton
+            onClick={() =>
+              window.open(
+                productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0],
+                "_blank"
+              )
+            }
+          >
+            Ver en pantalla completa
+          </FullscreenButton>
+        </ModalImagenWrapper>
+      ) : (
+        <FallbackImagen>Imagen ampliada no disponible</FallbackImagen>
       )}
+
+      <ModalTexto>
+        <h2>{productoActivo.nombre}</h2>
+        <p>{productoActivo.descripcion}</p>
+        <Precio>
+          ${productoActivo.precioactual?.toLocaleString("es-AR") ?? "0"}
+        </Precio>
+        <Estado $disponible={productoActivo.estado === "disponible"}>
+          {productoActivo.estado}
+        </Estado>
+        <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
+      </ModalTexto>
+    </ModalContent>
+  </Modal>
+)}
+
+
     </MainContainer>
   );
 };
@@ -345,14 +367,22 @@ const ModalContent = styled.div`
   }
 `;
 
+const ModalImagenWrapper = styled.div`
+  position: relative;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ModalImagen = styled.img`
   width: 100%;
   height: auto;
   object-fit: contain;
+  max-height: 70vh;
 
   @media (max-width: ${breakpoints.mobile}) {
-    max-height: 40vh;
-    object-fit: cover;
+    max-height: 50vh;
   }
 `;
 
@@ -385,4 +415,21 @@ const Cerrar = styled.button`
   font-weight: bold;
   cursor: pointer;
   margin-top: 1rem;
+`;
+
+const FullscreenButton = styled.button`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333;
+
+  &:hover {
+    background: #f0f0f0;
+  }
 `;
