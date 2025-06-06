@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import revestimientos from "@/data/revestimientos";
+import { breakpoints } from "@/styles/breakpoints";
 
 const recolectarCategorias = (obj, prefix = []) => {
   const resultado = [];
@@ -24,6 +25,9 @@ const categorias = recolectarCategorias(revestimientos.pared);
 const Revestimientos = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categorias[0].path);
   const [busqueda, setBusqueda] = useState("");
+  const [productoActivo, setProductoActivo] = useState(null);
+
+  const gridRef = useRef();
 
   const productosFiltrados = () => {
     const categoria = categorias.find((c) => c.path === categoriaSeleccionada);
@@ -33,15 +37,33 @@ const Revestimientos = () => {
     );
   };
 
+  const scrollGrid = (dir) => {
+    const contenedor = gridRef.current;
+    if (!contenedor) return;
+    const cantidad = 220;
+    contenedor.scrollBy({
+      left: dir === "left" ? -cantidad : cantidad,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <Container>
+    <MainContainer>
       <Menu>
+        <Busqueda
+          placeholder="Buscar..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+        />
         <TituloMenu>Categorías</TituloMenu>
         {categorias.map((cat) => (
           <BotonMenu
             key={cat.path}
             $activo={cat.path === categoriaSeleccionada}
-            onClick={() => setCategoriaSeleccionada(cat.path)}
+            onClick={() => {
+              setCategoriaSeleccionada(cat.path);
+              setProductoActivo(null);
+            }}
           >
             {cat.label}
           </BotonMenu>
@@ -49,27 +71,33 @@ const Revestimientos = () => {
       </Menu>
 
       <Contenido>
-        <Busqueda
-          placeholder="Buscar producto..."
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-        />
-
         <Titulo>
           {categorias.find((c) => c.path === categoriaSeleccionada)?.label}
         </Titulo>
 
-        <Grid>
+        <ScrollControls>
+          <ScrollBtn onClick={() => scrollGrid("left")}>←</ScrollBtn>
+          <ScrollBtn onClick={() => scrollGrid("right")}>→</ScrollBtn>
+        </ScrollControls>
+
+        <Grid ref={gridRef}>
           {productosFiltrados().map((producto) => (
-            <Card key={producto.id}>
-              <ImagenContainer>
-                {producto.imagenes?.[0] && (
-                  <Imagen src={producto.imagenes[0]} alt={producto.nombre} />
-                )}
-              </ImagenContainer>
+            <Card
+              key={`${producto.nombre}-${producto.descripcion}`}
+              onClick={() => {
+                setProductoActivo(null);
+                setTimeout(() => setProductoActivo(producto), 0);
+              }}
+            >
+              {producto.imagenes?.[0] ? (
+                <Imagen src={producto.imagenes[0]} alt={producto.nombre} />
+              ) : (
+                <FallbackImagen>Imagen no disponible</FallbackImagen>
+              )}
+
+              {/* Solo visible en desktop */}
               <CardContenido>
                 <Nombre>{producto.nombre}</Nombre>
-                <Descripcion>{producto.descripcion}</Descripcion>
                 <Precio>${(producto.precioactual ?? 0).toLocaleString("es-AR")}</Precio>
                 <Estado $disponible={producto.estado === "disponible"}>
                   {producto.estado}
@@ -79,77 +107,130 @@ const Revestimientos = () => {
           ))}
         </Grid>
       </Contenido>
-    </Container>
+
+      {productoActivo && (
+        <Modal onClick={() => setProductoActivo(null)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            {productoActivo.imagenes?.[1] ? (
+              <ModalImagen src={productoActivo.imagenes[1]} alt={productoActivo.nombre} />
+            ) : (
+              <FallbackImagen>Imagen ampliada no disponible</FallbackImagen>
+            )}
+            <ModalTexto>
+              <h2>{productoActivo.nombre}</h2>
+              <p>{productoActivo.descripcion}</p>
+              <Precio>${(productoActivo.precioactual ?? 0).toLocaleString("es-AR")}</Precio>
+              <Estado $disponible={productoActivo.estado === "disponible"}>
+                {productoActivo.estado}
+              </Estado>
+              <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
+            </ModalTexto>
+          </ModalContent>
+        </Modal>
+      )}
+    </MainContainer>
   );
 };
 
 export default Revestimientos;
 
-// ------------------ ESTILOS ------------------
-
-const Container = styled.div`
+const MainContainer = styled.div`
   display: flex;
-  padding: 2rem;
-  gap: 3rem;
-  background-color: #fafafa;
+  width: 100%;
   min-height: 100vh;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+  }
 `;
 
 const Menu = styled.aside`
-  min-width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  width: 250px;
+  background: #f9f9f9;
+  padding: 1rem;
+  overflow-y: auto;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #ddd;
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const TituloMenu = styled.h2`
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #444;
+  font-size: 1rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
+  color: #444;
 `;
 
 const BotonMenu = styled.button`
-  padding: 0.6rem 1rem;
-  font-size: 0.95rem;
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  background-color: ${(p) => (p.$activo ? "#2f855a" : "#fff")};
+  color: ${(p) => (p.$activo ? "#fff" : "#333")};
   border: none;
-  border-radius: 8px;
-  background-color: ${(props) => (props.$activo ? "#2f855a" : "#f0f0f0")};
-  color: ${(props) => (props.$activo ? "#fff" : "#333")};
-  cursor: pointer;
+  border-radius: 6px;
   text-align: left;
-  transition: all 0.3s ease;
+  cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => (props.$activo ? "#276749" : "#e2e2e2")};
+    background-color: ${(p) => (p.$activo ? "#276749" : "#e0e0e0")};
   }
+`;
+
+const Busqueda = styled.input`
+  padding: 0.6rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
 `;
 
 const Contenido = styled.main`
   flex: 1;
-  display: flex;
-  flex-direction: column;
-`;
+  padding: 2rem;
 
-const Busqueda = styled.input`
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1rem;
+  }
 `;
 
 const Titulo = styled.h1`
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 600;
+  margin-bottom: 1rem;
   color: #222;
-  margin-bottom: 1.2rem;
+`;
+
+const ScrollControls = styled.div`
+  display: none;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+`;
+
+const ScrollBtn = styled.button`
+  background: #eee;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:hover {
+    background: #ddd;
+  }
 `;
 
 const Grid = styled.div`
@@ -157,84 +238,151 @@ const Grid = styled.div`
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
-
-  @media (max-width: 480px) {
+  @media (max-width: ${breakpoints.mobile}) {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
 
     & > * {
-      flex: 0 0 80%;
-      max-width: 80%;
-      scroll-snap-align: start;
+      flex: 0 0 auto;
+      min-width: 120px;
+      max-width: 140px;
+      scroll-snap-align: center;
     }
   }
 `;
 
 const Card = styled.div`
   background: white;
-  border-radius: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-5px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
-`;
-
-const ImagenContainer = styled.div`
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  background: #f2f2f2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Imagen = styled.img`
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  background: #f5f5f5;
+`;
+
+const FallbackImagen = styled.div`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.9rem;
 `;
 
 const CardContenido = styled.div`
-  padding: 1rem;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    display: none;
+  }
 `;
 
 const Nombre = styled.h2`
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #222;
 `;
 
-const Descripcion = styled.p`
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.4;
-`;
-
 const Precio = styled.p`
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: #2f855a;
+  color: #2e7d32;
 `;
 
 const Estado = styled.span`
-  align-self: flex-start;
-  padding: 0.4rem 0.75rem;
   font-size: 0.75rem;
-  border-radius: 999px;
   font-weight: 500;
-  color: ${(props) => (props.$disponible ? "#2e7d32" : "#c62828")};
-  background-color: ${(props) => (props.$disponible ? "#e8f5e9" : "#ffebee")};
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  background: ${(p) => (p.$disponible ? "#e8f5e9" : "#ffebee")};
+  color: ${(p) => (p.$disponible ? "#2e7d32" : "#c62828")};
+`;
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  border-radius: 12px;
+  width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+`;
+
+const ModalImagen = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    max-height: 40vh;
+    object-fit: cover;
+  }
+`;
+
+const ModalTexto = styled.div`
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+`;
+
+const Cerrar = styled.button`
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #219653;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
 `;
