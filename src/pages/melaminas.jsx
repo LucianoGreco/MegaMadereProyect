@@ -9,8 +9,8 @@ const recolectarProductos = () => {
 
 const Melaminas = () => {
   const productos = recolectarProductos();
-  const [productoActivo, setProductoActivo] = useState(null);
   const [busqueda, setBusqueda] = useState("");
+  const [productoActivo, setProductoActivo] = useState(null);
 
   const productosFiltrados = productos.filter((item) =>
     item.nombre.toLowerCase().includes(busqueda.toLowerCase())
@@ -28,7 +28,6 @@ const Melaminas = () => {
         {productosFiltrados.map((producto) => (
           <BotonMenu
             key={producto.codigo}
-            $activo={productoActivo?.codigo === producto.codigo}
             onClick={() => setProductoActivo(producto)}
           >
             {producto.nombre}
@@ -37,45 +36,52 @@ const Melaminas = () => {
       </Menu>
 
       <Contenido>
-        {productoActivo ? (
-          <Detalle>
-            <ImagenGrande src={productoActivo.imagenGrande} alt={productoActivo.nombre} />
-            <Info>
+        <Grid>
+          {productosFiltrados.map((producto) => (
+            <Card key={producto.codigo}>
+              {producto.imagenChica ? (
+                <Imagen src={producto.imagenChica} alt={producto.nombre} />
+              ) : (
+                <FallbackImagen>Imagen no disponible</FallbackImagen>
+              )}
+              <Nombre>{producto.nombre}</Nombre>
+              <Precio>${Number(producto.precio).toLocaleString("es-AR")}</Precio>
+              <Estado $disponible={producto.estado === "disponible"}>
+                {producto.estado}
+              </Estado>
+            </Card>
+          ))}
+        </Grid>
+      </Contenido>
+
+      {productoActivo && (
+        <Modal onClick={() => setProductoActivo(null)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            {productoActivo.imagenGrande ? (
+              <ModalImagen src={productoActivo.imagenGrande} alt={productoActivo.nombre} />
+            ) : (
+              <FallbackImagen>Imagen grande no disponible</FallbackImagen>
+            )}
+            <ModalTexto>
               <h2>{productoActivo.nombre}</h2>
               <p>{productoActivo.descripcion}</p>
               <p><strong>Medidas:</strong> {productoActivo.medidas}</p>
               <p><strong>Espesor:</strong> {productoActivo.espesor}</p>
               <p><strong>Peso:</strong> {productoActivo.peso}</p>
-              <Precio>
-                ${Number(productoActivo.precio).toLocaleString("es-AR")}
-              </Precio>
+              <Precio>${Number(productoActivo.precio).toLocaleString("es-AR")}</Precio>
               <Estado $disponible={productoActivo.estado === "disponible"}>
                 {productoActivo.estado}
               </Estado>
-              <Volver onClick={() => setProductoActivo(null)}>← Volver al listado</Volver>
-            </Info>
-          </Detalle>
-        ) : (
-          <Grid>
-            {productosFiltrados.map((producto) => (
-              <Card key={producto.codigo} onClick={() => setProductoActivo(producto)}>
-                <Imagen src={producto.imagenChica} alt={producto.nombre} />
-                <Nombre>{producto.nombre}</Nombre>
-                <Precio>${Number(producto.precio).toLocaleString("es-AR")}</Precio>
-                <Estado $disponible={producto.estado === "disponible"}>
-                  {producto.estado}
-                </Estado>
-              </Card>
-            ))}
-          </Grid>
-        )}
-      </Contenido>
+              <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
+            </ModalTexto>
+          </ModalContent>
+        </Modal>
+      )}
     </MainContainer>
   );
 };
 
 export default Melaminas;
-
 
 const MainContainer = styled.div`
   display: flex;
@@ -96,8 +102,6 @@ const Menu = styled.aside`
 
   @media (max-width: ${breakpoints.mobile}) {
     width: 100%;
-    display: flex;
-    flex-direction: column;
     position: sticky;
     top: 0;
     background: #f9f9f9;
@@ -120,8 +124,8 @@ const BotonMenu = styled.button`
   padding: 0.5rem;
   margin-bottom: 0.25rem;
   font-size: 0.9rem;
-  background-color: ${(p) => (p.$activo ? "#2f855a" : "#fff")};
-  color: ${(p) => (p.$activo ? "#fff" : "#333")};
+  background-color: white;
+  color: #333;
   border: none;
   border-radius: 6px;
   text-align: left;
@@ -129,7 +133,7 @@ const BotonMenu = styled.button`
   transition: 0.2s;
 
   &:hover {
-    background-color: ${(p) => (p.$activo ? "#276749" : "#e0e0e0")};
+    background-color: #e0e0e0;
   }
 `;
 
@@ -139,14 +143,12 @@ const Busqueda = styled.input`
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
 `;
 
 const Contenido = styled.main`
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
-  background: #fff;
 
   @media (max-width: ${breakpoints.mobile}) {
     padding: 1rem;
@@ -159,7 +161,15 @@ const Grid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 
   @media (max-width: ${breakpoints.mobile}) {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+
+    & > * {
+      flex: 0 0 80%;
+      scroll-snap-align: start;
+    }
   }
 `;
 
@@ -169,12 +179,7 @@ const Card = styled.div`
   border-radius: 8px;
   padding: 0.75rem;
   text-align: center;
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  }
+  min-width: 200px;
 `;
 
 const Imagen = styled.img`
@@ -182,6 +187,17 @@ const Imagen = styled.img`
   aspect-ratio: 1 / 1;
   object-fit: contain;
   margin-bottom: 0.5rem;
+`;
+
+const FallbackImagen = styled.div`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.9rem;
 `;
 
 const Nombre = styled.h3`
@@ -205,55 +221,16 @@ const Estado = styled.span`
   color: ${(p) => (p.$disponible ? "#2e7d32" : "#c62828")};
 `;
 
-const Detalle = styled.div`
+const Modal = styled.div`
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const ImagenGrande = styled.img`
-  flex: 1;
-  max-width: 400px;
-  width: 100%;
-  object-fit: contain;
-  border: 1px solid #eee;
-  border-radius: 8px;
-`;
-
-const Info = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-
-  h2 {
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-  }
-
-  p {
-    font-size: 0.95rem;
-    color: #555;
-  }
-`;
-
-const Volver = styled.button`
-  margin-top: 1rem;
-  align-self: flex-start;
-  font-size: 0.85rem;
-  background: none;
-  border: none;
-  color: #219653;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
 `;
 
 const ModalContent = styled.div`
@@ -313,8 +290,4 @@ const Cerrar = styled.button`
   font-weight: bold;
   cursor: pointer;
   margin-top: 1rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    font-size: 1.2rem;
-  }
 `;
