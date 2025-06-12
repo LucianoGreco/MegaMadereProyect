@@ -47,7 +47,7 @@ const data = {
       description: "",
       image: CardHomeImage.simulador,
       backgroundPage: backgroundPage.simulador,
-      page: "/simulado",
+      page: "/simulador",
       // info: info.simulador,
     },
     vinilos: {

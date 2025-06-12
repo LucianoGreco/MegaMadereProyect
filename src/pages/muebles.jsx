@@ -1,275 +1,234 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import dataMelaminas from '@/data/pages/melaminas';
-import Muebles from '@/data/pages/muebles';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { mueblesData } from "@/data/muebles"; // Asegúrate que esta ruta esté bien
 
-const Container = styled.div`
+const Muebles = () => {
+  const [filtro, setFiltro] = useState("");
+  const [imagenModal, setImagenModal] = useState(null);
+  const [indexModal, setIndexModal] = useState(0);
 
-  display: flex;
-  flex-direction: row;
-  padding: 2rem;
-  gap: 1rem;
-  height: 150vh;
-  box-sizing: border-box;
-  background-color:#F4F4F3; /* beige */
-  color: black;
+  const mueblesFiltrados = mueblesData.filter((mueble) =>
+    mueble.nombre.toLowerCase().includes(filtro.toLowerCase())
+  );
 
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    height: auto;
-  }
-`;
-
-
-const ContenedorIzquierda = styled.div`
-border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 60vw; 
-`;
-
-const ContenedorSuperiorIzq = styled.div`
-
-
-border; 1px solid red;
-  height: 75%;
-  // width: 100%; // Antes estaba en 80%
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-`;
-const SimuladorWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9); /* Sombra suave */
-  border-radius: 15px;
-`;
-
-
-const ImagenGrande = styled.img`
-  width: 100%;
-  height: 100%;
-  // object-fit: contain;
-  position: relative;
-  z-index: 2;
-`;
-
-const FondoDinamico = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-`;
-
-const MenuMelaminas = styled.div`
-  width: 30%;
-  height: 100%;
-  overflow-y: auto;
-  background-color: #F4F4F3;
-  padding: 5px;
-  box-sizing: border-box;
-  display: ${props => (props.visible ? 'block' : 'none')};
-  border-left: 1px solid #ddd;
-  z-index: 3;
-`;
-
-const ImagenMelamina = styled.img`
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-  margin-bottom: 5px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-
-  &:hover {
-    border: 2px solid #0070f3;
-  }
-`;
-
-const ContenedorInferiorIzq = styled.div`
-  height: 35%;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-  overflow-x: auto;
-  
-`;
-
-const ImagenMiniatura = styled.img`
-  height: 100px;
-  width: 100px;
-  object-fit: cover;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: border 0.2s ease-in-out;
-  border-radius: 15px;
-
-  &:hover {
-    border: 2px solid #0070f3;
-  }
-`;
-
-const ContenedorDerecha = styled.div`
-border: 1px solid red;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 30vw;
-`;
-
-const ContenedorSuperiorDer = styled.div`
-  height: 20%;
-  width: 100%;
-  font-size: 3rem;
-  font-weight: bold;
-  padding-top: 30px;
-  box-sizing: border-box;
-`;
-
-const ContenedorMedioDer = styled.div`
-border: 1px solid blue;
-  height-max: 40%;
-  width: 100%;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  padding: 10px;
-  box-sizing: border-box;
-`;
-
-const ContenedorInferiorDer = styled.div`
-  height: 25%;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-`;
-
-const BotonContacto = styled.button`
-  padding: 1rem 2rem;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-
-  &:hover {
-    background-color: #005bb5;
-  }
-`;
-
-const MueblesPage = () => {
-  const navigate = useNavigate();
-
-  const producto = {
-    nombre: Muebles.tiulo,
-    descripcion: Muebles.descripcion,
-    imagenChica: Muebles.imagenes.imagenPrimaria,
-    galeria: [
-      Muebles.imagenes.imagenPrimaria,
-      Muebles.imagenes.imageneSecundaria,
-      Muebles.imagenes.imagenSumulador
-    ]
+  const handleOpenModal = (imagenes, index) => {
+    setImagenModal(imagenes);
+    setIndexModal(index);
   };
 
-  const [imagenPrincipal, setImagenPrincipal] = useState(producto.imagenChica);
-  const [mostrarMenuMelaminas, setMostrarMenuMelaminas] = useState(false);
-  const [fondoSimulador, setFondoSimulador] = useState(null);
-
-  const handleClickMiniatura = (img) => {
-    setImagenPrincipal(img);
-    if (img === Muebles.imagenes.imagenSumulador) {
-      setMostrarMenuMelaminas(true);
-    } else {
-      setMostrarMenuMelaminas(false);
-      setFondoSimulador(null);
-    }
+  const handleNext = (e) => {
+    e.stopPropagation();
+    setIndexModal((prev) => (prev + 1) % imagenModal.length);
   };
 
-  const handleClickMelamina = (img) => {
-    setFondoSimulador(img);
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    setIndexModal((prev) =>
+      prev === 0 ? imagenModal.length - 1 : prev - 1
+    );
   };
 
-  const irAContacto = () => {
-    navigate("/contactos");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const handleClose = () => {
+    setImagenModal(null);
   };
-
-  const imagenesMelaminas = [];
-  Object.values(dataMelaminas).forEach(categoria => {
-    Object.values(categoria).forEach(subcategoria => {
-      subcategoria.forEach(item => {
-        if (item.imagenChica) {
-          imagenesMelaminas.push(item.imagenChica);
-        }
-      });
-    });
-  });
 
   return (
     <Container>
-      <ContenedorIzquierda>
+      <FilterInput
+        type="text"
+        placeholder="Buscar mueble por nombre..."
+        value={filtro}
+        onChange={(e) => setFiltro(e.target.value)}
+      />
 
-        <ContenedorSuperiorIzq>
-
-          <SimuladorWrapper>
-            {fondoSimulador && <FondoDinamico src={fondoSimulador} alt="Fondo dinámico" />}
-            <ImagenGrande src={imagenPrincipal} alt="Imagen principal" />
-          </SimuladorWrapper>
-
-          <MenuMelaminas visible={mostrarMenuMelaminas}>
-            {imagenesMelaminas.map((img, index) => (
-              <ImagenMelamina
-                key={index}
-                src={img}
-                alt={`melamina-${index}`}
-                onClick={() => handleClickMelamina(img)}
-              />
-            ))}
-          </MenuMelaminas>
-
-        </ContenedorSuperiorIzq>
-
-        <ContenedorInferiorIzq>
-          {producto.galeria.map((img, index) => (
-            <ImagenMiniatura
-              key={index}
-              src={img}
-              alt={`miniatura-${index}`}
-              onClick={() => handleClickMiniatura(img)}
+      <Grid>
+        {mueblesFiltrados.map((mueble) => (
+          <Card key={mueble.id}>
+            <CardImage
+              src={mueble.imagenes[0]}
+              alt={mueble.nombre}
+              onClick={() => handleOpenModal(mueble.imagenes, 0)}
             />
-          ))}
-        </ContenedorInferiorIzq>
+            <CardContent>
+              <Title>{mueble.nombre}</Title>
+              <Description>{mueble.descripcion}</Description>
+              <Medidas>Medidas: {mueble.medidas}</Medidas>
+              <Gallery>
+                {mueble.imagenes.slice(1, 4).map((img, idx) => {
+                  const realIndex = idx + 1;
+                  return (
+                    <Thumb
+                      key={idx}
+                      src={img}
+                      alt={`${mueble.nombre} ${realIndex + 1}`}
+                      onClick={() =>
+                        handleOpenModal(mueble.imagenes, realIndex)
+                      }
+                    />
+                  );
+                })}
+              </Gallery>
+            </CardContent>
+          </Card>
+        ))}
+      </Grid>
 
-      </ContenedorIzquierda>
-
-      <ContenedorDerecha>
-        <ContenedorSuperiorDer>{producto.nombre}</ContenedorSuperiorDer>
-        <ContenedorMedioDer>{producto.descripcion}</ContenedorMedioDer>
-        <ContenedorInferiorDer>
-          <BotonContacto onClick={irAContacto}>Contactar</BotonContacto>
-        </ContenedorInferiorDer>
-      </ContenedorDerecha>
+      {imagenModal && (
+        <ModalOverlay onClick={handleClose}>
+          <Modal onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={handleClose}>✕</CloseButton>
+            <ModalImage
+              src={imagenModal[indexModal]}
+              alt={`Imagen ${indexModal + 1}`}
+            />
+            <ImageCounter>
+              {indexModal + 1} / {imagenModal.length}
+            </ImageCounter>
+            <NavButton left onClick={handlePrev}>‹</NavButton>
+            <NavButton onClick={handleNext}>›</NavButton>
+          </Modal>
+        </ModalOverlay>
+      )}
     </Container>
   );
 };
 
-export default MueblesPage;
+export default Muebles;
+
+// =======================
+// styled-components
+// =======================
+
+const Container = styled.div`
+  padding: 2rem;
+`;
+
+const FilterInput = styled.input`
+  padding: 0.5rem 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+`;
+
+const Card = styled.div`
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+`;
+
+const CardImage = styled.img`
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  cursor: pointer;
+`;
+
+const CardContent = styled.div`
+  color: #555;
+  padding: 1rem;
+`;
+
+const Title = styled.h2`
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+`;
+
+const Description = styled.p`
+  font-size: 0.9rem;
+`;
+
+const Medidas = styled.p`
+  font-weight: bold;
+  margin-top: 0.5rem;
+`;
+
+const Gallery = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+`;
+
+const Thumb = styled.img`
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+
+  &:hover {
+    border-color: #0070f3;
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const Modal = styled.div`
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ModalImage = styled.img`
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+`;
+
+const ImageCounter = styled.div`
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+`;
+
+const NavButton = styled.button`
+  position: absolute;
+  top: 50%;
+  ${(props) => (props.left ? "left: -2rem;" : "right: -2rem;")}
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  font-size: 2rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: white;
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;

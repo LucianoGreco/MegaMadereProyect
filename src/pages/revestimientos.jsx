@@ -1,19 +1,19 @@
-import { useRef, useState } from "react";
+// src\pages\revestimientos.jsx:
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import revestimientos from "@/data/revestimientos";
 import { breakpoints } from "@/styles/breakpoints";
 
 const recolectarCategorias = (obj, prefix = []) => {
   const resultado = [];
-  for (const clave in obj) {
+  for (const clave of Object.keys(obj)) {
     const valor = obj[clave];
+    const path = [...prefix, clave].join("→");
+    const label = [...prefix, clave].join(" → ");
+
     if (Array.isArray(valor)) {
-      resultado.push({
-        path: [...prefix, clave].join("/"),
-        label: [...prefix, clave].join(" → "),
-        productos: valor
-      });
-    } else if (typeof valor === "object") {
+      resultado.push({ path, label, productos: valor });
+    } else if (typeof valor === "object" && valor !== null) {
       resultado.push(...recolectarCategorias(valor, [...prefix, clave]));
     }
   }
@@ -21,28 +21,34 @@ const recolectarCategorias = (obj, prefix = []) => {
 };
 
 const categorias = recolectarCategorias(revestimientos.pared);
+console.log("Categorías recolectadas:", categorias.map((c) => c.label));
 
 const Revestimientos = () => {
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categorias[0].path);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
   const [busqueda, setBusqueda] = useState("");
   const [productoActivo, setProductoActivo] = useState(null);
-
   const gridRef = useRef();
+
+  useEffect(() => {
+    // Ejecutar solo una vez al montar para setear categoría inicial
+    if (!categoriaSeleccionada && categorias.length > 0) {
+      setCategoriaSeleccionada(categorias[0].path);
+    }
+  }, []); // <-- aquí la corrección, deps vacías
 
   const productosFiltrados = () => {
     const categoria = categorias.find((c) => c.path === categoriaSeleccionada);
     if (!categoria) return [];
     return categoria.productos.filter((p) =>
-      p.nombre.toLowerCase().includes(busqueda.toLowerCase())
+      (p?.nombre ?? "").toLowerCase().includes(busqueda.toLowerCase())
     );
   };
 
   const scrollGrid = (dir) => {
     const contenedor = gridRef.current;
     if (!contenedor) return;
-    const cantidad = 220;
     contenedor.scrollBy({
-      left: dir === "left" ? -cantidad : cantidad,
+      left: dir === "left" ? -220 : 220,
       behavior: "smooth",
     });
   };
@@ -94,8 +100,6 @@ const Revestimientos = () => {
               ) : (
                 <FallbackImagen>Imagen no disponible</FallbackImagen>
               )}
-
-              {/* Solo visible en desktop */}
               <CardContenido>
                 <Nombre>{producto.nombre}</Nombre>
                 <Precio>${(producto.precioactual ?? 0).toLocaleString("es-AR")}</Precio>
@@ -108,53 +112,51 @@ const Revestimientos = () => {
         </Grid>
       </Contenido>
 
-{productoActivo && (
-  <Modal onClick={() => setProductoActivo(null)}>
-    <ModalContent onClick={(e) => e.stopPropagation()}>
-      {productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0] ? (
-        <ModalImagenWrapper>
-          <ModalImagen
-            src={
-              productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0]
-            }
-            alt={productoActivo.nombre}
-          />
-          <FullscreenButton
-            onClick={() =>
-              window.open(
-                productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0],
-                "_blank"
-              )
-            }
-          >
-            Ver en pantalla completa
-          </FullscreenButton>
-        </ModalImagenWrapper>
-      ) : (
-        <FallbackImagen>Imagen ampliada no disponible</FallbackImagen>
+      {productoActivo && (
+        <Modal onClick={() => setProductoActivo(null)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            {productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0] ? (
+              <ModalImagenWrapper>
+                <ModalImagen
+                  src={productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0]}
+                  alt={productoActivo.nombre}
+                />
+                <FullscreenButton
+                  onClick={() =>
+                    window.open(
+                      productoActivo.imagenes?.[1] || productoActivo.imagenes?.[0],
+                      "_blank"
+                    )
+                  }
+                >
+                  Ver en pantalla completa
+                </FullscreenButton>
+              </ModalImagenWrapper>
+            ) : (
+              <FallbackImagen>Imagen ampliada no disponible</FallbackImagen>
+            )}
+
+            <ModalTexto>
+              <h2>{productoActivo.nombre}</h2>
+              <p>{productoActivo.descripcion}</p>
+              <Precio>
+                ${productoActivo.precioactual?.toLocaleString("es-AR") ?? "0"}
+              </Precio>
+              <Estado $disponible={productoActivo.estado === "disponible"}>
+                {productoActivo.estado}
+              </Estado>
+              <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
+            </ModalTexto>
+          </ModalContent>
+        </Modal>
       )}
-
-      <ModalTexto>
-        <h2>{productoActivo.nombre}</h2>
-        <p>{productoActivo.descripcion}</p>
-        <Precio>
-          ${productoActivo.precioactual?.toLocaleString("es-AR") ?? "0"}
-        </Precio>
-        <Estado $disponible={productoActivo.estado === "disponible"}>
-          {productoActivo.estado}
-        </Estado>
-        <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
-      </ModalTexto>
-    </ModalContent>
-  </Modal>
-)}
-
-
     </MainContainer>
   );
 };
 
 export default Revestimientos;
+
+// styled-components (igual que antes)
 
 const MainContainer = styled.div`
   display: flex;

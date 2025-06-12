@@ -528,7 +528,7 @@ const revestimientos = {
         { nombre: "concrete 521474", precio: 86844.0, imagen: "item5-38" },
         { nombre: "concrete 521481", precio: 86844.0, imagen: "item5-39" },
         { nombre: "concrete 521498", precio: 86844.0, imagen: "item5-40" },
-      ],
+      ], 
       cumaru: [
         { nombre: "cumaru 3303", precio: 86844.0, imagen: "item6-1" },
         {
@@ -658,7 +658,7 @@ const revestimientos = {
           estado: "agotado",
           imagen: "item6-43",
         },
-      ],
+      ],  
       elementum: [
         { nombre: "elementum 1001", precio: 86844.0, imagen: "item7-1" },
         { nombre: "elementum 1002", precio: 86844.0, imagen: "item7-2" },
@@ -1123,7 +1123,6 @@ const revestimientos = {
           imagen: "item9-51",
         },
       ],
-
       highlands: [
         {
           nombre: "highlands 416619",
@@ -1728,6 +1727,9 @@ const revestimientos = {
         },
         { nombre: "murpaint 32120", precio: 40701.0, imagen: "item14-17" },
       ],
+
+      // ❌❌❌❌❌❌❌❌❌
+
       "natural zen": [
         { nombre: "natural zen 34701", precio: 29958.0, imagen: "item15-1" },
         { nombre: "natural zen 34711", precio: 29958.0, imagen: "item15-2" },
@@ -1905,6 +1907,8 @@ const revestimientos = {
           imagen: "item15-40",
         },
       ],
+
+         // ❌❌❌❌❌❌❌❌❌
       nomad: [
         {
           nombre: "nomad 1101",
@@ -1979,7 +1983,7 @@ const revestimientos = {
         { nombre: "nomad 50202", precio: 86844.0, imagen: "item16-31" },
         { nombre: "nomad 50203", precio: 86844.0, imagen: "item16-32" },
       ],
-
+// ❌❌❌❌❌❌❌❌❌
       "picnic nro2": [
         { nombre: "picnic 2 23201", precio: 61916.0, imagen: "item17-1" },
         { nombre: "picnic 2 23202", precio: 61916.0, imagen: "item17-2" },

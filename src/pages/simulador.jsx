@@ -1,76 +1,229 @@
-// import React, { useState } from "react";
-// import styled from "styled-components";
-// import NavItem from "../components/layout/navbar/NavItem.jsx";
-// import Simulador from "../components/ui/Simulador.jsx";
-// import menuData from "@/data/components/melaminas.js";
-// import data from "@/data/data.js";
+import React, { useState } from "react";
+import styled from "styled-components";
+import dataMelamina from "@/data/pages/melaminas";
+import { imagenesSimulador, imagenesGrandes } from "@/data/image/gestorImage";
+import { breakpoints } from "@/styles/breakpoints";
 
-// const fondoAmaranto = {
-//   imagenGrande: "ruta/a/la/imagen/amaranto.png",
-//   nombre: "Amaranto",
-// };
+const recolectarProductos = () => {
+  return Object.values(dataMelamina["Tableros Melaminas"]).flat();
+};
 
-// // Contenedor principal de la página
-// const PageContainer = styled.div`
-//   display: flex;
-//   width: 100%; /* Asegura que ocupe el ancho completo */
-//   height: 80vh;
-//   background-color: #f5f5f5; /* Fondo claro para contraste */
+const Simulador = () => {
+  const productos = recolectarProductos();
+  const [busqueda, setBusqueda] = useState("");
+  const [melaminaSeleccionada, setMelaminaSeleccionada] = useState(null);
+  const [muebleSeleccionado, setMuebleSeleccionado] = useState("simulador-1");
 
-//   @media (max-width: 768px) {
-//     flex-direction: column; /* Cambia a disposición vertical en móviles */
-//     height: auto; /* Ajusta la altura automáticamente */
-//   }
-// `;
+  const productosFiltrados = productos.filter((item) =>
+    item.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
-// // Contenedor del simulador
-// const SimuladorContainer = styled.div`
-//   flex-grow: 1; /* Ocupa el espacio restante */
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: #eaeaea; /* Fondo para destacar el simulador */
-//   border-left: 2px solid #ddd; /* Añade una separación entre menú y simulador */
+  const imagenFondo = melaminaSeleccionada?.imagenGrande
+    ? imagenesGrandes[
+        melaminaSeleccionada.imagenGrande
+          .split("/")
+          .pop()
+          .split(".")[0]
+          .toLowerCase()
+      ]
+    : null;
 
-//   @media (max-width: 768px) {
-//     height: 60vh; /* Ajusta la altura en dispositivos móviles */
-//     border-left: none; /* Quita la separación en móviles */
-//     border-top: 2px solid #ddd; /* Añade separación superior */
-//   }
-// `;
+  const imagenMueble = imagenesSimulador[muebleSeleccionado];
 
-// const simulador = () => {
-//   const [fondoSeleccionado, setFondoSeleccionado] = useState(fondoAmaranto);
-
-//   return (
-//     <PageContainer>
-//       {/* Menú de navegación */}
-//       <NavItem
-//         menuData={Object.values(menuData)} // Asegúrate de convertir el objeto en array
-//         setCardData={setFondoSeleccionado}
-//         style={{ width: "40%" }} // Ajusta el ancho en escritorio
-//       />
-
-//       {/* Contenedor del simulador */}
-//       <SimuladorContainer>
-//         <Simulador
-//           background={data.secciones.simulador.backgroundPage}
-//           fondoSeleccionado={fondoSeleccionado}
-//         />
-//       </SimuladorContainer>
-//     </PageContainer>
-//   );
-// };
-
-// export default simulador;
-
-
-import React from 'react'
-
-const simulador = () => {
   return (
-    <div>simulador</div>
-  )
-}
+    <MainContainer>
+      <Menu>
+        <Busqueda
+          placeholder="Buscar melamina..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+        />
 
-export default simulador
+        {melaminaSeleccionada && (
+          <QuitarBoton
+            onClick={() => {
+              setMelaminaSeleccionada(null);
+              setBusqueda("");
+            }}
+            aria-label="Quitar melamina seleccionada"
+          >
+            ✕ Quitar melamina
+          </QuitarBoton>
+        )}
+
+        <TituloMenu>Melaminas</TituloMenu>
+        {productosFiltrados.map((producto) => (
+          <BotonMenu
+            key={producto.codigo}
+            onClick={() => setMelaminaSeleccionada(producto)}
+            $activo={melaminaSeleccionada?.codigo === producto.codigo}
+          >
+            {producto.nombre}
+          </BotonMenu>
+        ))}
+
+        <TituloMenu>Muebles</TituloMenu>
+        {["simulador-1", "simulador-2"].map((key, i) => (
+          <BotonMenu
+            key={key}
+            onClick={() => setMuebleSeleccionado(key)}
+            $activo={muebleSeleccionado === key}
+          >
+            Mueble {i + 1}
+          </BotonMenu>
+        ))}
+      </Menu>
+
+      <SimuladorArea>
+        <SimuladorContenido>
+          {imagenFondo && (
+            <MelaminaFondo
+              src={imagenFondo}
+              alt="Fondo melamina"
+              loading="lazy"
+            />
+          )}
+          {imagenMueble && <ImagenMueble src={imagenMueble} alt="Mueble" />}
+          {!imagenFondo && (
+            <Instruccion>Seleccioná una melamina para ver el simulador</Instruccion>
+          )}
+        </SimuladorContenido>
+      </SimuladorArea>
+    </MainContainer>
+  );
+};
+
+export default Simulador;
+
+// =======================
+// Estilos
+// =======================
+
+const MainContainer = styled.div`
+  display: flex;
+  height: 100vh;
+  width: 100%;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+    height: auto;
+  }
+`;
+
+const Menu = styled.aside`
+  width: 250px;
+  background: #f1f1f1;
+  padding: 1rem;
+  overflow-y: auto;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #ddd;
+  }
+`;
+
+const TituloMenu = styled.h2`
+  font-size: 1rem;
+  margin: 1.5rem 0 0.5rem;
+  color: #444;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.25rem;
+`;
+
+const BotonMenu = styled.button`
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  background-color: ${({ $activo }) => ($activo ? "#d0eaff" : "white")};
+  color: ${({ $activo }) => ($activo ? "#004080" : "#333")};
+  border: 1px solid ${({ $activo }) => ($activo ? "#007acc" : "#ccc")};
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+
+const QuitarBoton = styled.button`
+  width: 100%;
+  margin: 0.8rem 0 0.6rem;
+  padding: 0.5rem;
+  background-color: #ffdddd;
+  color: #b30000;
+  border: 1px solid #b30000;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #ffbbbb;
+  }
+`;
+
+const Busqueda = styled.input`
+  padding: 0.6rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+`;
+
+const SimuladorArea = styled.main`
+  flex: 1;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+`;
+
+const SimuladorContenido = styled.div`
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MelaminaFondo = styled.img`
+  position: absolute;
+  width: 73%;
+  max-width: 73%;
+  max-height: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.05);
+  z-index: 1;
+`;
+
+const ImagenMueble = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+`;
+
+const Instruccion = styled.p`
+  position: relative;
+  z-index: 3;
+  font-size: 1.1rem;
+  color: #555;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+`;
