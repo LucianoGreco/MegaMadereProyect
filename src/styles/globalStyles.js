@@ -19,13 +19,13 @@ const GlobalStyles = createGlobalStyle`
 
   }
 
-  :root {
-  --navbar-height: 18vh;
-  --navbar-bg: rgba(0, 0, 0, 0.5);
-  --navbar-link-radius: 15px;
-  --navbar-hover-color: rgba(255, 255, 255, 1);
-  --navbar-hover-bg: rgba(0, 0, 0, 1);
-}
+//   :root {
+//   --navbar-height: 18vh;
+//   --navbar-bg: rgba(0, 0, 0, 0.5);
+//   --navbar-link-radius: 15px;
+//   --navbar-hover-color: rgba(255, 255, 255, 1);
+//   --navbar-hover-bg: rgba(0, 0, 0, 1);
+// }
 
 /* --------------> Reset básico <-------------- */
   * {
