@@ -84,7 +84,7 @@ export default Herrajes;
 
 
 const Container = styled.div`
-  padding: 40px 20px;
+  padding: 24px 12px;
   max-width: 1200px;
   margin: auto;
   color: black;
@@ -100,18 +100,26 @@ const FiltroInput = styled.input`
 `;
 
 const Categoria = styled.section`
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 `;
 
 const Titulo = styled.h2`
-  font-size: 26px;
-  margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 16px;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 
 const Grilla = styled.div`
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Card = styled.div`
@@ -124,6 +132,11 @@ const Card = styled.div`
 const Nombre = styled.p`
   font-weight: bold;
   margin-bottom: 10px;
+  font-size: 16px;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 const Galeria = styled.div`
@@ -140,8 +153,14 @@ const Thumb = styled.img`
   cursor: pointer;
   border: 1px solid #ccc;
   transition: transform 0.2s;
+
   &:hover {
     transform: scale(1.05);
+  }
+
+  @media (max-width: 480px) {
+    width: 48px;
+    height: 48px;
   }
 `;
 
@@ -151,38 +170,52 @@ const Modal = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
+  padding: 20px;
 `;
 
 const ModalContent = styled.div`
   position: relative;
   background: white;
-  padding: 20px;
-  max-width: 80vw;
-  max-height: 80vh;
+  padding: 10px;
+  max-width: 90vw;
+  max-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
+  flex-direction: column;
+
+  @media (min-width: 481px) {
+    flex-direction: row;
+  }
 `;
 
 const ImagenModal = styled.img`
-  max-width: 100%;
+  max-width: 90vw;
   max-height: 70vh;
   object-fit: contain;
+
+  @media (max-width: 480px) {
+    max-height: 50vh;
+  }
 `;
 
 const Flecha = styled.button`
   background: none;
   border: none;
-  font-size: 36px;
+  font-size: 30px;
   color: #333;
   cursor: pointer;
-  margin: 0 20px;
+  margin: 10px;
+
+  @media (max-width: 480px) {
+    font-size: 26px;
+  }
 `;
 
 const Cerrar = styled.button`
@@ -194,4 +227,10 @@ const Cerrar = styled.button`
   border: none;
   cursor: pointer;
   color: #333;
+
+  @media (max-width: 480px) {
+    top: 5px;
+    right: 10px;
+    font-size: 24px;
+  }
 `;
