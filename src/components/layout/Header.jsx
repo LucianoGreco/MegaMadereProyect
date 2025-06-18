@@ -28,7 +28,7 @@ const HoverTrigger = styled.div`
 const HeaderContainer = styled.header`
   width: 95vw;
   max-width: 1200px;
-  height: 18vh;
+  min-height: 70px;
   margin: 10px auto;
   border-radius: 32px;
   display: flex;
@@ -41,11 +41,16 @@ const HeaderContainer = styled.header`
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   padding: 1rem;
 
+  @media (max-width: 1024px) {
+    height: auto;
+    padding: 0.8rem;
+    border-radius: 24px;
+  }
+
   @media (max-width: 768px) {
     flex-direction: row;
-    height: auto;
-    padding: 1rem;
-    border-radius: 24px;
+    padding: 0.5rem;
+    justify-content: space-between;
   }
 `;
 
@@ -98,7 +103,7 @@ const SideMenu = styled.nav`
   top: 0;
   right: ${({ $open }) => ($open ? "0" : "-300px")};
   height: 100vh;
-  width: 280px;
+  width: 250px;
   background-color: #fff;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease;
@@ -106,7 +111,13 @@ const SideMenu = styled.nav`
   display: flex;
   flex-direction: column;
   z-index: 1100;
+
+  @media (max-width: 500px) {
+    width: 85%;
+    padding: 1.5rem 1rem;
+  }
 `;
+
 
 const MenuItem = styled(Link)`
   padding: 12px 16px;

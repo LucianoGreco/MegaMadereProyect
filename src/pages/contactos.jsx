@@ -1,93 +1,130 @@
 import styled from "styled-components";
 import contactos from "@/data/pages/contactos";
+
 import {
   FaFacebook,
   FaInstagram,
   FaWhatsapp,
   FaEnvelope,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 
 // Estilos
 const Container = styled.section`
-  height: 300px;
-  width: 700px;
-  margin: 3rem auto;
-  padding: 2.5rem;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 3rem;
   border-radius: 20px;
-  background: linear-gradient(145deg, #e0e0e0, #f8f8f8);
-  box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.6),
-    inset 2px 2px 6px rgba(0, 0, 0, 0.1), 0 12px 25px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 2rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
 `;
 
 const LogoWrapper = styled.div`
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+
   img {
-    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 9999px;
     border: 2px solid #ccc;
+    object-fit: contain;
     background: white;
   }
 `;
 
 const Heading = styled.h1`
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 0.25rem;
+  font-size: 2.2rem;
   font-weight: 700;
+  color: #222;
 `;
 
 const Address = styled.p`
   color: #666;
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
 `;
 
 const InfoRow = styled.div`
-  text-align: center;
   color: #444;
-  margin-bottom: 1.25rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
 
   p {
     margin: 0.3rem 0;
   }
 `;
 
-const Section = styled.div`
-  text-align: center;
-  margin-bottom: 1.5rem;
-`;
+const Section = styled.div``;
 
 const SubHeading = styled.h2`
-  font-size: 1.2rem;
-  color: #222;
+  font-size: 1.3rem;
   font-weight: 600;
-  margin-bottom: 0.3rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 `;
 
 const Text = styled.p`
   color: #555;
-  font-size: 0.95rem;
+  font-size: 1rem;
 `;
 
 const SocialLinks = styled.div`
   display: flex;
   justify-content: center;
-  gap: 1.25rem;
-  margin-top: 1rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 
   a {
-    color: #555;
     transition: transform 0.3s ease, color 0.3s ease;
   }
 
   a:hover {
     transform: scale(1.2);
-    color: #000;
   }
+`;
+
+const WhatsAppButton = styled.a`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #1ebe5d;
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+`;
+
+const MapaIframe = styled.iframe`
+  width: 100%;
+  height: 300px;
+  border: none;
+  border-radius: 12px;
+  margin-top: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 `;
 
 const Contactos = () => {
@@ -103,76 +140,88 @@ const Contactos = () => {
   } = contactos;
 
   return (
-    <Container>
-      {logo && (
-        <LogoWrapper>
-          <img
-            src={logo}
-            alt={`Logo de ${nombreEmpresa}`}
-            width={100}
-            height={100}
-            style={{ borderRadius: "9999px", objectFit: "contain" }}
+    <>
+      <Container>
+        {logo && (
+          <LogoWrapper>
+            <img src={logo} alt={`Logo de ${nombreEmpresa}`} />
+          </LogoWrapper>
+        )}
+
+        <Heading>{nombreEmpresa}</Heading>
+
+        <Address>
+          {direccion.calle}, {direccion.localidad}, {direccion.provincia},{" "}
+          {direccion.pais}
+        </Address>
+
+        <InfoRow>
+          <p>
+            📞 <strong>{telefono}</strong>
+          </p>
+          <p>
+            ✉️ <strong>{correo}</strong>
+          </p>
+        </InfoRow>
+
+        <Section>
+          <SubHeading>Horarios de Atención</SubHeading>
+          <Text>
+            {dias.join(", ")} de {horarios.mañana.apertura} a{" "}
+            {horarios.mañana.cierre} y de {horarios.tarde.apertura} a{" "}
+            {horarios.tarde.cierre} hs
+          </Text>
+        </Section>
+
+        <SocialLinks>
+          {redesSociales.facebook && (
+            <a href={redesSociales.facebook} target="_blank" rel="noopener noreferrer">
+              <FaFacebook size={24} color="#1877F2" />
+            </a>
+          )}
+          {redesSociales.instagram && (
+            <a href={redesSociales.instagram} target="_blank" rel="noopener noreferrer">
+              <FaInstagram size={24} color="#E4405F" />
+            </a>
+          )}
+          {redesSociales.whatsapp && (
+            <a href={redesSociales.whatsapp} target="_blank" rel="noopener noreferrer">
+              <FaWhatsapp size={24} color="#25D366" />
+            </a>
+          )}
+          {redesSociales.correoVentas && (
+            <a href={`mailto:${redesSociales.correoVentas}`}>
+              <FaEnvelope size={24} color="#EA4335" />
+            </a>
+          )}
+          {redesSociales.GoogleMaps && (
+            <a href={redesSociales.GoogleMaps} target="_blank" rel="noopener noreferrer">
+              <FaMapMarkerAlt size={24} color="#EA4335" />
+            </a>
+          )}
+        </SocialLinks>
+
+        {redesSociales.GoogleMaps && (
+          <MapaIframe
+            src="https://maps.google.com/maps?q=Av.%20Moreno%201455%2C%20San%20Rafael%2C%20Mendoza%2C%20Argentina&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
           />
-        </LogoWrapper>
+        )}
+      </Container>
+
+      {redesSociales.whatsapp && (
+        <WhatsAppButton
+          href={redesSociales.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaWhatsapp size={20} />
+          WhatsApp
+        </WhatsAppButton>
       )}
-
-      <Heading>{nombreEmpresa}</Heading>
-      <Address>
-        {direccion.calle}, {direccion.localidad}, {direccion.provincia},{" "}
-        {direccion.pais}
-      </Address>
-
-      <InfoRow>
-        <p>
-          📞 <strong>{telefono}</strong>
-        </p>
-        <p>
-          ✉️ <strong>{correo}</strong>
-        </p>
-      </InfoRow>
-
-      <Section>
-        <SubHeading>Horarios de Atención</SubHeading>
-        <Text>
-          {dias.join(", ")} de {horarios[0]}:00 a {horarios[1]}:00 hs
-        </Text>
-      </Section>
-
-      <SocialLinks>
-        {redesSociales.facebook && (
-          <a
-            href={redesSociales.facebook}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaFacebook size={24} color="#1877F2" />
-          </a>
-        )}
-        {redesSociales.instagram && (
-          <a
-            href={redesSociales.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaInstagram size={24} color="#E4405F" />
-          </a>
-        )}
-        {redesSociales.whatsapp && (
-          <a
-            href={redesSociales.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaWhatsapp size={24} color="#25D366" />
-          </a>
-        )}
-        {redesSociales.correoVentas && (
-          <a href={`mailto:${redesSociales.correoVentas}`}>
-            <FaEnvelope size={24} color="#EA4335" />
-          </a>
-        )}
-      </SocialLinks>
-    </Container>
+    </>
   );
 };
 

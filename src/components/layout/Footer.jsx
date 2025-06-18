@@ -1,61 +1,195 @@
-// src/components/layout/Footer.jsx
-import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import contactos from "@/data/pages/contactos";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaWhatsapp,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
-const FooterContainer = styled.footer`
-  padding: 2rem 1rem;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: var(--text-color);
+// Estilos
+const Container = styled.section`
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 3rem;
+  border-radius: 24px;
+  background: #f3f3f3;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
-  backdrop-filter: blur(10px);
-  width: 100%;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-`;
 
-const FooterLinks = styled.div`
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    padding: 2rem;
+    margin: 2rem 1rem;
+  }
 
-  a {
-    color: var(--text-color);
-    font-weight: bold;
-    text-decoration: none;
-    transition: color 0.3s;
-
-    &:hover {
-      color: var(--hover-background-color);
-      text-decoration: underline;
-    }
+  @media (max-width: 480px) {
+    padding: 1.5rem;
   }
 `;
 
-const FooterText = styled.p`
-  font-size: 0.8rem;
-  opacity: 0.8;
+const Logo = styled.img`
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: contain;
+  border: 3px solid #ccc;
+  margin-bottom: 1rem;
 `;
 
-const Footer = () => (
-  <FooterContainer>
-    <FooterLinks>
-      <Link to="/cookies">Cookies</Link>
-      <span>•</span>
-      <Link to="/terminos">Términos</Link>
-      <span>•</span>
-      <Link to="/privacidad">Privacidad</Link>
-      <span>•</span>
-      <Link to="/contactos">Contacto</Link>
-    </FooterLinks>
-    <FooterText>
-      &copy; {new Date().getFullYear()} Mega Madera. Todos los derechos reservados.
-    </FooterText>
-  </FooterContainer>
-);
+const Heading = styled.h1`
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 
-export default Footer;
+  @media (max-width: 480px) {
+    font-size: 1.8rem;
+  }
+`;
+
+const Address = styled.p`
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+  }
+`;
+
+const ContactInfo = styled.div`
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 2rem;
+
+  p {
+    margin: 0.4rem 0;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+  }
+`;
+
+const Schedule = styled.div`
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+`;
+
+const SubHeading = styled.h2`
+  font-size: 1.3rem;
+  color: #222;
+  margin-bottom: 1rem;
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+  }
+`;
+
+const Text = styled.p`
+  font-size: 0.95rem;
+  color: #555;
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
+`;
+
+const SocialLinks = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+
+  a {
+    color: #555;
+    transition: all 0.3s ease;
+  }
+
+  a:hover {
+    color: #000;
+    transform: scale(1.2);
+  }
+`;
+
+// Componente principal
+const Contactos = () => {
+  const {
+    nombreEmpresa,
+    direccion,
+    telefono,
+    correo,
+    horarios,
+    dias,
+    logo,
+    redesSociales,
+  } = contactos;
+
+  return (
+    <Container>
+      {logo && <Logo src={logo} alt={`Logo de ${nombreEmpresa}`} />}
+      <Heading>{nombreEmpresa}</Heading>
+      <Address>
+        {direccion.calle}, {direccion.localidad}, {direccion.provincia},{" "}
+        {direccion.pais}
+      </Address>
+
+      <ContactInfo>
+        <p>📞 <strong>{telefono}</strong></p>
+        <p>✉️ <strong>{correo}</strong></p>
+      </ContactInfo>
+
+      <Schedule>
+        <SubHeading>Horarios de Atención</SubHeading>
+        <Text>
+          {dias.join(", ")}:
+          <br />
+          Mañana: {horarios.mañana.apertura} - {horarios.mañana.cierre} hs<br />
+          Tarde: {horarios.tarde.apertura} - {horarios.tarde.cierre} hs
+        </Text>
+      </Schedule>
+
+      <SocialLinks>
+        {redesSociales.facebook && (
+          <a href={redesSociales.facebook} target="_blank" rel="noopener noreferrer">
+            <FaFacebook size={24} color="#1877F2" />
+          </a>
+        )}
+        {redesSociales.instagram && (
+          <a href={redesSociales.instagram} target="_blank" rel="noopener noreferrer">
+            <FaInstagram size={24} color="#E4405F" />
+          </a>
+        )}
+        {redesSociales.whatsapp && (
+          <a href={redesSociales.whatsapp} target="_blank" rel="noopener noreferrer">
+            <FaWhatsapp size={24} color="#25D366" />
+          </a>
+        )}
+        {redesSociales.correoVentas && (
+          <a href={`mailto:${redesSociales.correoVentas}`}>
+            <FaEnvelope size={24} color="#EA4335" />
+          </a>
+        )}
+        {redesSociales.GoogleMaps && (
+          <a href={redesSociales.GoogleMaps} target="_blank" rel="noopener noreferrer">
+            <FaMapMarkerAlt size={24} color="#EA4335" />
+          </a>
+        )}
+      </SocialLinks>
+    </Container>
+  );
+};
+
+export default Contactos;

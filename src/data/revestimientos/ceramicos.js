@@ -128,8 +128,10 @@ const productosRaw = [
   },
 ];
 
-// Asignamos las imágenes según el ID
-export const ceramicos = productosRaw.map((producto) => ({
-  ...producto,
-  imagenes: imagenesRevestimiento.pared.ceramicos[producto.id] || [],
-}));
+export const ceramicos = productosRaw.map((producto) => {
+  const claveImagen = producto.id.replace(/-\d+$/, '');
+  return {
+    ...producto,
+    imagenes: imagenesRevestimiento.pared.ceramicos[claveImagen] || [],
+  };
+});

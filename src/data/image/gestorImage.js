@@ -1,35 +1,36 @@
 // src/data/image/gestorImage.js
 
 // Logo de la empresa
-const logos = import.meta.glob('@/assets/logo/*', { eager: true });
+const logos = import.meta.glob('@/assets/logo/*', { eager: true }); // ✅
 
 // Backgrounds por página
-const backgrounds = import.meta.glob('@/assets/background/*', { eager: true });
+const backgrounds = import.meta.glob('@/assets/background/*', { eager: true }); // ✅
 
 // Imagen de fondo para cards en la Home
-const cards = import.meta.glob('@/assets/cardHome/*', { eager: true });
+const cards = import.meta.glob('@/assets/cardHome/*', { eager: true }); // ✅
 
 // Iconos para redes sociales
-const icons = import.meta.glob('@/assets/icons/*', { eager: true });
+const icons = import.meta.glob('@/assets/icons/*/*.{jpg,jpeg,png}*', { eager: true }); // ✅
 
 // Página | Herrajes
-const herrajesMuebles = import.meta.glob('@/assets/products/herrajes/*/*.{jpg,jpeg,png}', { eager: true });
+const herrajesMuebles = import.meta.glob('@/assets/products/herrajes/*/*.{jpg,jpeg,png}', { eager: true }); // ✅
 
 // Página | Melaminas
 // 🚧 Deprecated: solo usar 'melaminasGrandes'
-const melaminasChicas = import.meta.glob('@/assets/products/melaminas/chicas/*', { eager: true });
-const melaminasGrandes = import.meta.glob('@/assets/products/melaminas/grandes/*', { eager: true });
+const melaminasChicas = import.meta.glob('@/assets/products/melaminas/chicas/*', { eager: true }); // ✅
+const melaminasGrandes = import.meta.glob('@/assets/products/melaminas/grandes/*', { eager: true }); // ✅
 
 // Página | Muebles
-const mueblesDisenio = import.meta.glob('@/assets/products/muebles/*.{jpg,jpeg,png}', { eager: true });
+const mueblesDisenio = import.meta.glob('@/assets/products/muebles/*.{jpg,jpeg,png}', { eager: true }); // ✅
 
 // Página | Revestimientos (estructura anidada por tipo)
-const adhesivos = import.meta.glob('@/assets/products/revestimientos/*/*/*.{jpg,jpeg,png}', { eager: true });
-const ceramicos = import.meta.glob('@/assets/products/revestimientos/*/*/*/*.{jpg,jpeg,png}', { eager: true });
-const wallstickers = import.meta.glob('@/assets/products/revestimientos/*/*/*/*.{jpg,jpeg,png}', { eager: true });
+const adhesivos    = import.meta.glob('@/assets/products/revestimientos/*/*/*.{jpg,jpeg,png}', { eager: true }); // ✅
+const ceramicos    = import.meta.glob('@/assets/products/revestimientos/*/*/*/*.{jpg,jpeg,png}', { eager: true }); //❌
+const wallstickers = import.meta.glob('@/assets/products/revestimientos/*/*/*/*.{jpg,jpeg,png}', { eager: true }); //❌
+const empapelados  = import.meta.glob('@/assets/products/revestimientos/*/*/*/*.{jpg,jpeg,png}', { eager: true }); // ✅
 
 // Página | Simulador
-const simuladorImagenes = import.meta.glob('@/assets/products/simulador/*.{jpg,jpeg,png}', { eager: true });
+const simuladorImagenes = import.meta.glob('@/assets/products/simulador/*.{jpg,jpeg,png}', { eager: true }); // ✅
 
 /**
  * Agrupa imágenes por nombre base, sin extensión y sin sufijo numérico final
@@ -79,5 +80,6 @@ export const imagenesRevestimiento = {
     adhesivos: agruparImagenesPorProducto(adhesivos),
     ceramicos: agruparImagenesPorProducto(ceramicos),
     wallstickers: agruparImagenesPorProducto(wallstickers),
+    empapelados : agruparImagenesPorProducto(empapelados)
   },
 };

@@ -1,9 +1,9 @@
-import imagenLogo from "@/assets/logo/logo.png"; // ✅ Si Vite la soporta como import
+import imagenLogo from "@/assets/logo/logo.png";
 
 const contactos = {
   nombreEmpresa: "Mega Madera",
   direccion: {
-    calle: "megamadera",
+    calle: "Av. Moreno 1455",
     localidad: "San Rafael",
     provincia: "Mendoza",
     pais: "Argentina",
@@ -21,13 +21,13 @@ const contactos = {
     },
   },
   dias: ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
-  horarios: [9, 19],
-  logo: imagenLogo, // ⚠️ Este debe ser una URL procesable por el navegador
+  logo: imagenLogo,
   redesSociales: {
     facebook: "https://facebook.com/megamadera",
     instagram: "https://instagram.com/mega.madera",
     whatsapp: "https://wa.me/+549260433172",
     correoVentas: "ventas.megamadera@gmail.com",
+    GoogleMaps: "https://maps.app.goo.gl/ZKd8QbWgY8aJM6gF9"
   },
 };
 

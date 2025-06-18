@@ -72,10 +72,11 @@
   estado: "disponible"
 }
       ];
-
-      // Asignamos las imágenes según el ID
-      export const wallstickers = productosRaw.map((producto) => ({
-        ...producto,
-        imagenes: imagenesRevestimiento.pared.wallstickers[producto.id] || []
-      }));
-      
+// Asignamos las imágenes según clave sin sufijo -1
+export const wallstickers = productosRaw.map((producto) => {
+  const claveImagen = producto.id.replace(/-\d+$/, '');
+  return {
+    ...producto,
+    imagenes: imagenesRevestimiento.pared.wallstickers[claveImagen] || [],
+  };
+});

@@ -42,7 +42,7 @@ const GlobalStyles = createGlobalStyle`
     height: 100vh;
     width: 100vw;
     // background: url(${backgroundPage.home}) center/cover fixed no-repeat;
-    background: rgb(215, 187, 157);
+    background: rgb(185, 176, 176);
 
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     background-attachment:  fixed;

@@ -84,38 +84,46 @@ export default Herrajes;
 
 
 const Container = styled.div`
-  padding: 24px 12px;
-  max-width: 1200px;
+  padding: 2rem 1rem;
+  max-width: 1280px;
   margin: auto;
-  color: black;
+  color: #1a1a1a;
+  font-family: 'Segoe UI', sans-serif;
 `;
 
 const FiltroInput = styled.input`
-  padding: 10px 16px;
-  margin-bottom: 30px;
+  padding: 12px 18px;
+  margin-bottom: 40px;
   width: 100%;
-  font-size: 16px;
-  border: 1px solid #ccc;
+  font-size: 18px;
+  border: 1px solid #bbb;
   border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 `;
 
 const Categoria = styled.section`
-  margin-bottom: 50px;
+  margin-bottom: 64px;
 `;
 
 const Titulo = styled.h2`
-  font-size: 24px;
-  margin-bottom: 16px;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #2c3e50;
 
-  @media (max-width: 480px) {
-    font-size: 20px;
+  @media (max-width: 768px) {
+    font-size: 24px;
   }
 `;
 
 const Grilla = styled.div`
   display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
@@ -123,44 +131,52 @@ const Grilla = styled.div`
 `;
 
 const Card = styled.div`
-  background: #f9f9f9;
-  padding: 12px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  background: white;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+  border: 1px solid #eee;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
 `;
 
 const Nombre = styled.p`
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: #34495e;
 
   @media (max-width: 480px) {
-    font-size: 14px;
+    font-size: 16px;
   }
 `;
 
 const Galeria = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 `;
 
 const Thumb = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  border: 1px solid #ccc;
-  transition: transform 0.2s;
+  border: 1px solid #ddd;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    border-color: #3498db;
   }
 
   @media (max-width: 480px) {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
   }
 `;
 
@@ -170,7 +186,7 @@ const Modal = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,57 +196,64 @@ const Modal = styled.div`
 
 const ModalContent = styled.div`
   position: relative;
-  background: white;
-  padding: 10px;
-  max-width: 90vw;
-  max-height: 85vh;
+  background: #fff;
+  padding: 20px;
+  max-width: 95vw;
+  max-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 16px;
   flex-direction: column;
 
-  @media (min-width: 481px) {
+  @media (min-width: 768px) {
     flex-direction: row;
+    padding: 30px;
   }
 `;
 
 const ImagenModal = styled.img`
-  max-width: 90vw;
+  max-width: 100%;
   max-height: 70vh;
   object-fit: contain;
-
-  @media (max-width: 480px) {
-    max-height: 50vh;
-  }
+  border-radius: 10px;
 `;
 
 const Flecha = styled.button`
   background: none;
   border: none;
-  font-size: 30px;
-  color: #333;
+  font-size: 36px;
+  color: #555;
   cursor: pointer;
-  margin: 10px;
+  padding: 0 20px;
+
+  &:hover {
+    color: #000;
+  }
 
   @media (max-width: 480px) {
-    font-size: 26px;
+    font-size: 30px;
+    padding: 0 10px;
   }
 `;
 
 const Cerrar = styled.button`
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
+  top: 14px;
+  right: 20px;
+  font-size: 30px;
   background: none;
   border: none;
   cursor: pointer;
-  color: #333;
+  color: #999;
+
+  &:hover {
+    color: #e74c3c;
+  }
 
   @media (max-width: 480px) {
-    top: 5px;
-    right: 10px;
-    font-size: 24px;
+    top: 10px;
+    right: 14px;
+    font-size: 26px;
   }
 `;

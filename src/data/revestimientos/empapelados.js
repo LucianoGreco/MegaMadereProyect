@@ -1043,16 +1043,14 @@ const productosRaw = {
 };
 
 
-
-
 // Categorías (las claves de productosRaw)
 export const categoriasEmpapelados = Object.keys(productosRaw);
 
-// Función que agrega id e imagen base
+// Función que agrega ID a cada producto
 const agregarIds = (productos, prefijo) =>
   productos.map((producto) => {
-    const codigo = producto.nombre.split(" ")[1]; // Ej: "8604"
-    const id = `${prefijo}-${codigo}`;
+    const codigo = producto.nombre.split(" ").slice(-1)[0]; // ← importante: último segmento numérico
+    const id = `${prefijo}-${codigo}`.toLowerCase();
     return { ...producto, id };
   });
 
@@ -1064,5 +1062,5 @@ const productosConId = categoriasEmpapelados.flatMap((categoria) =>
 // Agregar imágenes
 export const empapelados = productosConId.map((producto) => ({
   ...producto,
-  imagenes: imagenesRevestimiento.pared.ceramicos[`${producto.id}-1`] || [],
+  imagenes: imagenesRevestimiento.pared.empapelados[producto.id] || [],
 }));
