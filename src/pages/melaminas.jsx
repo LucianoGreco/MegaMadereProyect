@@ -1,293 +1,171 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import dataMelamina from "@/data/pages/melaminas";
-import { breakpoints } from "@/styles/breakpoints";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { obtenerMelaminas, URL_BASE } from '@/api/api.js';
 
-const recolectarProductos = () => {
-  return Object.values(dataMelamina["Tableros Melaminas"]).flat();
+const construirRutaImagen = (img) => {
+  if (!img) return '';
+  const tieneExtension = /\.[a-zA-Z0-9]{3,4}$/.test(img);
+  return `${URL_BASE}/products/melaminas/${img}${tieneExtension ? '' : '.jpg'}`;
 };
 
-const Melaminas = () => {
-  const productos = recolectarProductos();
-  const [busqueda, setBusqueda] = useState("");
-  const [productoActivo, setProductoActivo] = useState(null);
+const MelaminasPage = () => {
+  const [melaminas, setMelaminas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [busqueda, setBusqueda] = useState('');
 
-  const productosFiltrados = productos.filter((item) =>
-    item.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  useEffect(() => {
+    const cargarMelaminas = async () => {
+      try {
+        const data = await obtenerMelaminas();
+        setMelaminas(data);
+      } catch (err) {
+        console.error('❌ Error al cargar melaminas:', err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargarMelaminas();
+  }, []);
+
+  const filtrar = (producto) => {
+    const termino = busqueda.toLowerCase();
+    return producto.nombre?.toLowerCase().includes(termino);
+  };
+
+  if (loading) return <Container>Cargando melaminas...</Container>;
+  if (error) return <Container>Error al cargar los datos.</Container>;
 
   return (
-    <MainContainer>
-      <Menu>
-        <Busqueda
-          placeholder="Buscar..."
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-        />
-        <TituloMenu>Melaminas</TituloMenu>
-        {productosFiltrados.map((producto) => (
-          <BotonMenu
-            key={producto.codigo}
-            onClick={() => setProductoActivo(producto)}
-          >
-            {producto.nombre}
-          </BotonMenu>
-        ))}
-      </Menu>
+    <Container>
+      <TituloPrincipal>Melaminas</TituloPrincipal>
+      <Busqueda
+        type="text"
+        placeholder="Buscar melamina por nombre..."
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
+      />
 
-      <Contenido>
-        <Grid>
-          {productosFiltrados.map((producto) => (
-            <Card key={producto.codigo}>
-              {producto.imagenChica ? (
-                <Imagen src={producto.imagenChica} alt={producto.nombre} />
-              ) : (
-                <FallbackImagen>Imagen no disponible</FallbackImagen>
-              )}
-              <Nombre>{producto.nombre}</Nombre>
-              <Precio>${Number(producto.precio).toLocaleString("es-AR")}</Precio>
-              <Estado $disponible={producto.estado === "disponible"}>
-                {producto.estado}
-              </Estado>
-            </Card>
-          ))}
-        </Grid>
-      </Contenido>
-
-      {productoActivo && (
-        <Modal onClick={() => setProductoActivo(null)}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            {productoActivo.imagenGrande ? (
-              <ModalImagen src={productoActivo.imagenGrande} alt={productoActivo.nombre} />
-            ) : (
-              <FallbackImagen>Imagen grande no disponible</FallbackImagen>
-            )}
-            <ModalTexto>
-              <h2>{productoActivo.nombre}</h2>
-              <p>{productoActivo.descripcion}</p>
-              <p><strong>Medidas:</strong> {productoActivo.medidas}</p>
-              <p><strong>Espesor:</strong> {productoActivo.espesor}</p>
-              <p><strong>Peso:</strong> {productoActivo.peso}</p>
-              <Precio>${Number(productoActivo.precio).toLocaleString("es-AR")}</Precio>
-              <Estado $disponible={productoActivo.estado === "disponible"}>
-                {productoActivo.estado}
-              </Estado>
-              <Cerrar onClick={() => setProductoActivo(null)}>✕ Cerrar</Cerrar>
-            </ModalTexto>
-          </ModalContent>
-        </Modal>
-      )}
-    </MainContainer>
+      {melaminas.map((cat, i) => (
+        <div key={i}>
+          <CategoriaTitulo>{cat.categoria}</CategoriaTitulo>
+          <Grid>
+            {(cat.productos || []).filter(filtrar).map((prod, j) => (
+              <ProductoCard key={j} producto={prod} categoria={cat.categoria} />
+            ))}
+          </Grid>
+        </div>
+      ))}
+    </Container>
   );
 };
 
-export default Melaminas;
+const ProductoCard = ({ producto, categoria }) => {
+  const [imagenActiva, setImagenActiva] = useState(0);
+  const imagenes = Array.isArray(producto.imagenes) ? producto.imagenes : [];
+  const imagenSrc = construirRutaImagen(imagenes[imagenActiva]);
 
-const MainContainer = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
+  return (
+    <Card>
+      {imagenSrc && <Imagen src={imagenSrc} alt={producto.nombre || 'Sin nombre'} />}
+      {imagenes.length > 1 && (
+        <Miniaturas>
+          {imagenes.map((img, idx) => (
+            <Miniatura
+              key={idx}
+              src={construirRutaImagen(img)}
+              alt={`Miniatura ${idx}`}
+              onClick={() => setImagenActiva(idx)}
+              $activa={idx === imagenActiva}
+            />
+          ))}
+        </Miniaturas>
+      )}
+      <Nombre>{producto.nombre}</Nombre>
+      <Descripcion>{producto.descripcion || 'Sin descripción'}</Descripcion>
+    </Card>
+  );
+};
 
-  @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-    height: auto;
-  }
-`;
+export default MelaminasPage;
 
-const Menu = styled.aside`
-  width: 250px;
-  background: #f9f9f9;
-  padding: 1rem;
-  overflow-y: auto;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    background: #f9f9f9;
-    z-index: 10;
-    border-bottom: 1px solid #ddd;
-    padding: 0.5rem 1rem;
-  }
-`;
-
-const TituloMenu = styled.h2`
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  color: #444;
-`;
-
-const BotonMenu = styled.button`
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 0.25rem;
-  font-size: 0.9rem;
-  background-color: white;
-  color: #333;
-  border: none;
-  border-radius: 6px;
-  text-align: left;
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover {
-    background-color: #e0e0e0;
-  }
-`;
-
-const Busqueda = styled.input`
-  padding: 0.6rem;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.9rem;
-`;
-
-const Contenido = styled.main`
-  flex: 1;
+// Estilos
+const Container = styled.div`
   padding: 2rem;
-  overflow-y: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
 
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 1rem;
-  }
+const TituloPrincipal = styled.h1`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #000;
+`;
+
+const CategoriaTitulo = styled.h2`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #000;
 `;
 
 const Grid = styled.div`
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+`;
 
-  @media (max-width: ${breakpoints.mobile}) {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 1rem;
-
-    & > * {
-      flex: 0 0 80%;
-      scroll-snap-align: start;
-    }
-  }
+const Busqueda = styled.input`
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 `;
 
 const Card = styled.div`
-  background: #fafafa;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 0.75rem;
-  text-align: center;
-  min-width: 200px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Imagen = styled.img`
   width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  margin-bottom: 0.5rem;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
 `;
 
-const FallbackImagen = styled.div`
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #eee;
+const Miniaturas = styled.div`
+  margin-top: 0.75rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  font-size: 0.9rem;
+  gap: 0.5rem;
+  overflow-x: auto;
+`;
+
+const Miniatura = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid ${(props) => (props.$activa ? '#000' : '#ccc')};
+  cursor: pointer;
+  transition: border 0.3s;
 `;
 
 const Nombre = styled.h3`
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
-  color: #222;
+  font-size: 1.1rem;
+  margin-top: 0.75rem;
+  color: #000;
 `;
 
-const Precio = styled.p`
-  font-size: 1rem;
-  font-weight: bold;
-  color: #2e7d32;
-`;
-
-const Estado = styled.span`
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  background: ${(p) => (p.$disponible ? "#e8f5e9" : "#ffebee")};
-  color: ${(p) => (p.$disponible ? "#2e7d32" : "#c62828")};
-`;
-
-const Modal = styled.div`
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-`;
-
-const ModalContent = styled.div`
-  background: white;
-  border-radius: 12px;
-  width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    max-height: 100vh;
-  }
-`;
-
-const ModalImagen = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    max-height: 40vh;
-    object-fit: cover;
-  }
-`;
-
-const ModalTexto = styled.div`
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 1rem;
-  }
-
-  h2 {
-    font-size: 1.3rem;
-  }
-
-  p {
-    font-size: 0.95rem;
-    color: #555;
-  }
-`;
-
-const Cerrar = styled.button`
-  align-self: flex-end;
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: #219653;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 1rem;
+const Descripcion = styled.p`
+  font-size: 0.9rem;
+  color: #000;
 `;

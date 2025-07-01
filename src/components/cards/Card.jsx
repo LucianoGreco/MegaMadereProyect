@@ -1,4 +1,3 @@
-// src/components/cards/Card.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -47,13 +46,12 @@ const Descripcion = styled.p`
 `;
 
 const Card = ({ producto }) => {
-  const { nombre, descripcion, imagenChica, galeria = [] } = producto;
-
-  const [imagenActual, setImagenActual] = useState(imagenChica);
+  const { nombre, descripcion, imagenes = [] } = producto;
+  const [imagenActual, setImagenActual] = useState(imagenes[0] || '');
 
   useEffect(() => {
-    setImagenActual(imagenChica); // cuando cambia el producto
-  }, [imagenChica]);
+    setImagenActual(imagenes[0] || '');
+  }, [imagenes]);
 
   return (
     <CardContainer>
@@ -61,9 +59,9 @@ const Card = ({ producto }) => {
       <Nombre>{nombre}</Nombre>
       <Descripcion>{descripcion}</Descripcion>
 
-      {galeria.length > 0 && (
+      {imagenes.length > 1 && (
         <GaleriaContainer>
-          {[imagenChica, ...galeria].map((img, index) => (
+          {imagenes.map((img, index) => (
             <ImagenSecundaria
               key={index}
               src={img}

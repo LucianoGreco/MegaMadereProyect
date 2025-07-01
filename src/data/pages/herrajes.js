@@ -3,7 +3,7 @@ import { imagenesHerrajes } from "@/data/image/gestorImage";
 const herrajesDataRaw = {
   categorias: [
     {
-      nombre: "Amortiguadores",
+      nombre: "Amortiguadore",
       productos: [
         { nombre: "Amortiguador de aplicar", imagen: "amortiguador-aplicar1-1" },
         { nombre: "Amortiguador de embutir corto", imagen: "amortiguador-embutir-blanco1-1" },
@@ -217,6 +217,7 @@ const herrajesDataRaw = {
 /**
  * Transforma los nombres de imagen en rutas válidas importadas desde gestorImage.
  */
+
 function asignarImagenes(data, imagenes) {
   return {
     ...data,

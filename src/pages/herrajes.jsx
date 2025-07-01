@@ -1,259 +1,180 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import herrajesData from "@/data/pages/herrajes";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { fetchHerrajes, URL_BASE } from '@/api/api.js';
 
-const Herrajes = () => {
-  const [filtro, setFiltro] = useState("");
-  const [imagenModal, setImagenModal] = useState(null);
-  const [imagenesModal, setImagenesModal] = useState([]);
-  const [indexModal, setIndexModal] = useState(0);
+// Función única para construir la URL de la imagen
+const construirRutaImagen = (img, categoria = 'otros') => {
+  if (!img) return '';
 
-  const abrirModal = (imagenes, index) => {
-    setImagenesModal(imagenes);
-    setIndexModal(index);
-    setImagenModal(imagenes[index]);
-  };
+  if (img.startsWith('/products/')) {
+    return `${URL_BASE}${img}`; // ya está completo
+  }
 
-  const cerrarModal = () => {
-    setImagenModal(null);
-    setImagenesModal([]);
-    setIndexModal(0);
-  };
+  const slug = categoria.toLowerCase().replace(/\s+/g, '-');
+  const tieneExtension = /\.[a-zA-Z0-9]{3,4}$/.test(img);
 
-  const cambiarImagen = (dir) => {
-    const nuevoIndex = (indexModal + dir + imagenesModal.length) % imagenesModal.length;
-    setIndexModal(nuevoIndex);
-    setImagenModal(imagenesModal[nuevoIndex]);
-  };
+  return `${URL_BASE}/products/herrajes/${slug}/${img}${tieneExtension ? '' : '.jpg'}`;
+};
+
+const HerrajesPage = () => {
+  const [categorias, setCategorias] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const obtenerDatos = async () => {
+      try {
+        const data = await fetchHerrajes();
+        setCategorias(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('❌ Error al obtener herrajes:', err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    obtenerDatos();
+  }, []);
+
+  if (loading) return <Container>Cargando herrajes...</Container>;
+  if (error) return <Container>Error al cargar los datos.</Container>;
 
   return (
     <Container>
-      <FiltroInput
-        type="text"
-        placeholder="Buscar herraje..."
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value.toLowerCase())}
-      />
+      <TituloPrincipal>Herrajes</TituloPrincipal>
 
-      {herrajesData.categorias.map((cat) => {
-        const productosFiltrados = cat.productos.filter((p) =>
-          p.nombre.toLowerCase().includes(filtro)
-        );
-
-        if (productosFiltrados.length === 0) return null;
-
-        return (
-          <Categoria key={cat.nombre}>
-            <Titulo>{cat.nombre}</Titulo>
-            <Grilla>
-              {productosFiltrados.map((producto) => (
-                <Card key={producto.nombre}>
-                  <Nombre>{producto.nombre}</Nombre>
-                  <Galeria>
-                    {producto.imagenes?.map((img, i) => (
-                      <Thumb
-                        key={i}
-                        src={img}
-                        alt={producto.nombre}
-                        onClick={() => abrirModal(producto.imagenes, i)}
-                      />
-                    ))}
-                  </Galeria>
-                </Card>
-              ))}
-            </Grilla>
-          </Categoria>
-        );
-      })}
-
-      {imagenModal && (
-        <Modal onClick={cerrarModal}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <Cerrar onClick={cerrarModal}>✕</Cerrar>
-            <Flecha onClick={() => cambiarImagen(-1)}>&lt;</Flecha>
-            <ImagenModal src={imagenModal} alt="Vista ampliada" />
-            <Flecha onClick={() => cambiarImagen(1)}>&gt;</Flecha>
-          </ModalContent>
-        </Modal>
+      {categorias.length > 0 ? (
+        categorias.map((cat, i) => (
+          <div key={i}>
+            <CategoriaTitulo>{cat.categoria}</CategoriaTitulo>
+            <Grid>
+              {Array.isArray(cat.productos) && cat.productos.length > 0 ? (
+                cat.productos.map((prod, j) => (
+                  <ProductoCard
+                    key={j}
+                    producto={prod}
+                    categoria={cat.categoria}
+                  />
+                ))
+              ) : (
+                <p>No hay productos en esta categoría.</p>
+              )}
+            </Grid>
+          </div>
+        ))
+      ) : (
+        <p>No se encontraron categorías.</p>
       )}
     </Container>
   );
 };
 
-export default Herrajes;
+const ProductoCard = ({ producto, categoria }) => {
+  const [imagenActiva, setImagenActiva] = useState(0);
+
+  const imagenes = Array.isArray(producto.imagenes)
+    ? producto.imagenes
+    : producto.imagen
+    ? [producto.imagen]
+    : [];
+
+  const imagenSrc = construirRutaImagen(imagenes[imagenActiva], categoria);
+
+  return (
+    <Card>
+      {imagenSrc && <Imagen src={imagenSrc} alt={producto.nombre || 'Sin nombre'} />}
+      {imagenes.length > 1 && (
+        <Miniaturas>
+          {imagenes.map((img, idx) => (
+            <Miniatura
+              key={idx}
+              src={construirRutaImagen(img, categoria)}
+              alt={`Miniatura ${idx}`}
+              onClick={() => setImagenActiva(idx)}
+              $activa={idx === imagenActiva}
+            />
+          ))}
+        </Miniaturas>
+      )}
+      <Nombre>{producto.nombre || 'Sin nombre'}</Nombre>
+      <Descripcion>{imagenes[0] || 'Sin imagen'}</Descripcion>
+    </Card>
+  );
+};
+
+export default HerrajesPage;
 
 
+// 🎨 ESTILOS
 const Container = styled.div`
-  padding: 2rem 1rem;
-  max-width: 1280px;
-  margin: auto;
-  color: #1a1a1a;
-  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
-const FiltroInput = styled.input`
-  padding: 12px 18px;
-  margin-bottom: 40px;
-  width: 100%;
-  font-size: 18px;
-  border: 1px solid #bbb;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+const TituloPrincipal = styled.h1`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #000;
 `;
 
-const Categoria = styled.section`
-  margin-bottom: 64px;
+const CategoriaTitulo = styled.h2`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #000;
 `;
 
-const Titulo = styled.h2`
-  font-size: 28px;
-  margin-bottom: 20px;
-  font-weight: 600;
-  color: #2c3e50;
-
-  @media (max-width: 768px) {
-    font-size: 24px;
-  }
-`;
-
-const Grilla = styled.div`
+const Grid = styled.div`
   display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
 `;
 
 const Card = styled.div`
-  background: white;
-  padding: 16px;
-  border-radius: 20px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-  transition: transform 0.2s ease;
-  border: 1px solid #eee;
-
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
   &:hover {
     transform: translateY(-4px);
   }
 `;
 
-const Nombre = styled.p`
-  font-weight: 600;
-  margin-bottom: 12px;
-  font-size: 18px;
-  color: #34495e;
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
-
-const Galeria = styled.div`
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-`;
-
-const Thumb = styled.img`
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.08);
-    border-color: #3498db;
-  }
-
-  @media (max-width: 480px) {
-    width: 60px;
-    height: 60px;
-  }
-`;
-
-const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
+const Imagen = styled.img`
   width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+`;
+
+const Miniaturas = styled.div`
+  margin-top: 0.75rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  padding: 20px;
+  gap: 0.5rem;
+  overflow-x: auto;
 `;
 
-const ModalContent = styled.div`
-  position: relative;
-  background: #fff;
-  padding: 20px;
-  max-width: 95vw;
-  max-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  flex-direction: column;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    padding: 30px;
-  }
-`;
-
-const ImagenModal = styled.img`
-  max-width: 100%;
-  max-height: 70vh;
-  object-fit: contain;
-  border-radius: 10px;
-`;
-
-const Flecha = styled.button`
-  background: none;
-  border: none;
-  font-size: 36px;
-  color: #555;
+const Miniatura = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid ${(props) => (props.$activa ? '#000' : '#ccc')};
   cursor: pointer;
-  padding: 0 20px;
-
-  &:hover {
-    color: #000;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 30px;
-    padding: 0 10px;
-  }
+  transition: border 0.3s;
 `;
 
-const Cerrar = styled.button`
-  position: absolute;
-  top: 14px;
-  right: 20px;
-  font-size: 30px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #999;
+const Nombre = styled.h3`
+  font-size: 1.1rem;
+  margin-top: 0.75rem;
+  color: #000;
+`;
 
-  &:hover {
-    color: #e74c3c;
-  }
-
-  @media (max-width: 480px) {
-    top: 10px;
-    right: 14px;
-    font-size: 26px;
-  }
+const Descripcion = styled.p`
+  font-size: 0.9rem;
+  color: #000;
 `;
