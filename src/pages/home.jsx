@@ -2,22 +2,25 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { breakpoints } from "@/styles/breakpoints";
 
-import { fetchHerrajes, obtenerMelaminas, URL_BASE } from "@/api/api";
+import {
+  getHerrajes,
+  getMelaminas,
+  getRevestimientosNormalizados,
+} from "@/api/api";
 
 import Banner from "@/components/ui/Banner";
-import Carrusel from "@/components/ui/Carrusel";
-import Slider from "@/components/ui/Slider";
-import EmpapeladosSlider from "@/components/ui/EmpapeladosSlider";
 import CardHome from "@/components/cards/CardHome";
+import Slider from "@/components/ui/Slider";
 import data from "@/data/pages/home";
+
+const PAGE_SIZE = 6;
 
 const HomeContainer = styled.div`
   width: 100vw;
   min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   padding: 2rem 1rem;
   box-sizing: border-box;
@@ -28,62 +31,88 @@ const HomeContainer = styled.div`
   }
 
   @media (max-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-    align-items: center;
     padding: 1rem 0.5rem;
     gap: 12px;
   }
 `;
 
 const Home = () => {
-  const [melaminasData, setMelaminasData] = useState([]);
-  const [herrajesData, setHerrajesData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [melaminasFull, setMelaminasFull] = useState([]);
+  const [melaminas, setMelaminas] = useState([]);
+  const [melaminasPage, setMelaminasPage] = useState(1);
+
+  const [herrajesFull, setHerrajesFull] = useState([]);
+  const [herrajes, setHerrajes] = useState([]);
+  const [herrajesPage, setHerrajesPage] = useState(1);
+
+  const [revestimientosFull, setRevestimientosFull] = useState([]);
+  const [revestimientos, setRevestimientos] = useState([]);
+  const [revestimientosPage, setRevestimientosPage] = useState(1);
 
   useEffect(() => {
-    const cargarDatos = async () => {
+    const cargar = async () => {
       try {
-        const melaminas = await obtenerMelaminas();
-        const herrajes = await fetchHerrajes();
+        const [melRes, herRes, revRes] = await Promise.all([
+          getMelaminas(),
+          getHerrajes(),
+          getRevestimientosNormalizados(),
+        ]);
 
-        console.log("📦 Melaminas:", melaminas);
-        console.log("📦 Herrajes:", herrajes);
+        console.log("✅ Melaminas response:", melRes.data);
+        console.log("✅ Herrajes response:", herRes.data);
+        console.log("✅ Revestimientos response:", revRes.data);
 
-        const melaminasFormateadas = Array.isArray(melaminas)
-          ? melaminas.map(c => ({
-              categoria: c.categoria,
-              productos: c.productos || [],
-            }))
-          : [];
+        const mel = Array.isArray(melRes.data?.data) ? melRes.data.data : [];
+        const her = Array.isArray(herRes.data?.data) ? herRes.data.data : [];
+        const rev = Array.isArray(revRes.data) ? revRes.data : [];
 
-        setMelaminasData(melaminasFormateadas);
-        setHerrajesData(herrajes);
-      } catch (error) {
-        console.error("❌ Error al cargar datos en Home:", error);
-      } finally {
-        setLoading(false);
+        setMelaminasFull(mel);
+        setHerrajesFull(her);
+        setRevestimientosFull(rev);
+
+        setMelaminas(mel.slice(0, PAGE_SIZE));
+        setHerrajes(her.slice(0, PAGE_SIZE));
+        setRevestimientos(rev.slice(0, PAGE_SIZE));
+      } catch (err) {
+        console.error("❌ Error al cargar productos:", err);
       }
     };
 
-    cargarDatos();
+    cargar();
   }, []);
+
+  const loadMore = (fullData, currentPage, setPage, setVisible) => {
+    const nextPage = currentPage + 1;
+    const nextItems = fullData.slice(0, nextPage * PAGE_SIZE);
+    setPage(nextPage);
+    setVisible(nextItems);
+  };
 
   return (
     <HomeContainer>
       <Banner />
 
       <Slider
-        titulo="Melaminas Destacadas"
-        data={melaminasData}
+        titulo="Herrajes"
+        data={herrajes}
         categoriaKey="categoria"
         productosKey="productos"
-        buildImagePath={(categoria, img) =>
-          `${URL_BASE}/products/melaminas/${img}`
-        }
+        onLoadMore={() => loadMore(herrajesFull, herrajesPage, setHerrajesPage, setHerrajes)}
       />
-
-      <Carrusel />
-      <EmpapeladosSlider />
+      <Slider
+        titulo="Melaminas"
+        data={melaminas}
+        categoriaKey="categoria"
+        productosKey="productos"
+        onLoadMore={() => loadMore(melaminasFull, melaminasPage, setMelaminasPage, setMelaminas)}
+      />
+      <Slider
+        titulo="Revestimientos"
+        data={revestimientos}
+        categoriaKey="categoria"
+        productosKey="productos"
+        onLoadMore={() => loadMore(revestimientosFull, revestimientosPage, setRevestimientosPage, setRevestimientos)}
+      />
 
       {Object.values(data.secciones).map((seccion) => (
         <CardHome
@@ -94,16 +123,6 @@ const Home = () => {
           page={seccion.page}
         />
       ))}
-
-      <Slider
-        titulo="Herrajes Destacados"
-        data={herrajesData}
-        categoriaKey="nombre"
-        productosKey="productos"
-        buildImagePath={(categoria, img) =>
-          `${URL_BASE}/products/herrajes/${img}`
-        }
-      />
     </HomeContainer>
   );
 };

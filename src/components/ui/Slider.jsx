@@ -1,59 +1,91 @@
-// ✅ Archivo: src/components/ui/Slider.jsx
-
-import React, { useRef } from 'react';
-import styled from 'styled-components';
-import { breakpoints } from '@/styles/breakpoints';
-import { URL_BASE } from '@/api/api';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef } from "react";
+import styled from "styled-components";
+import { breakpoints } from "@/styles/breakpoints";
+import { API_BASE } from "@/api/api";
+import { useNavigate } from "react-router-dom";
 
 const Slider = ({
-  titulo = 'Productos',
+  titulo = "Productos",
   data = [],
-  categoriaKey = 'nombre',
-  productosKey = 'productos',
+  categoriaKey = "nombre",
+  productosKey = "productos",
   buildImagePath,
+  onLoadMore,
 }) => {
   const carruselRef = useRef(null);
   const navigate = useNavigate();
 
+  console.log(`🔷 Renderizando Slider: ${titulo}`);
+  console.log(`📊 Data recibida:`, data);
+
   const scroll = (dir) => {
     if (!carruselRef.current) return;
     const step = 200;
-    carruselRef.current.scrollBy({
-      left: dir === 'left' ? -step : step,
-      behavior: 'smooth',
+    const carrusel = carruselRef.current;
+
+    if (
+      dir === "right" &&
+      carrusel.scrollLeft + carrusel.clientWidth >= carrusel.scrollWidth - 50
+    ) {
+      onLoadMore && onLoadMore();
+    }
+
+    carrusel.scrollBy({
+      left: dir === "left" ? -step : step,
+      behavior: "smooth",
     });
   };
 
-  const defaultBuildImagePath = (categoria, nombreImagen) => {
-    const slugCategoria = categoria?.toLowerCase().replace(/\s+/g, '-') || 'otros';
-    const tieneExtension = /\.[a-zA-Z0-9]{3,4}$/.test(nombreImagen);
-    return `${URL_BASE}/products/${slugCategoria}/${nombreImagen.trim()}${tieneExtension ? '' : '.jpg'}`;
-  };
+const defaultBuildImagePath = (categoria, nombreImagen) => {
+  let path = "";
+
+  if (titulo.toLowerCase().includes("herrajes")) {
+    path = `herrajes/${categoria.toLowerCase().replace(/\s+/g, "-")}/${nombreImagen.trim()}`;
+  } else if (titulo.toLowerCase().includes("melaminas")) {
+    path = `melaminas/${nombreImagen.trim()}`;
+  } else if (titulo.toLowerCase().includes("revestimientos")) {
+    // Reemplaza los "-" por espacios
+    const partes = categoria
+      .split(" - ")
+      .map(s => s.replace(/-/g, " ").trim());
+    const ruta = partes.join("/");
+    path = `revestimientos/pared/${ruta}/${nombreImagen.trim()}`;
+  }
+
+  return `${API_BASE.replace("/api", "")}/products/${path}`;
+};
+
 
   const imagenes = [];
 
-  data.forEach(item => {
-    const categoriaNombre = item[categoriaKey] || 'otros';
-    const productos = Array.isArray(item[productosKey]) ? item[productosKey] : [item];
+  data.forEach((item) => {
+    const categoriaNombre = (item[categoriaKey] || "otros");
+    const productos = Array.isArray(item[productosKey])
+      ? item[productosKey]
+      : [item];
 
-    productos.forEach(prod => {
+    productos.forEach((prod) => {
       const imgs = Array.isArray(prod.imagenes)
         ? prod.imagenes
         : prod.imagen
         ? [prod.imagen]
         : [];
 
-      imgs.forEach(img => {
-        const url = img.startsWith('/products/')
-          ? `${URL_BASE}${img}`
-          : buildImagePath
-          ? buildImagePath(categoriaNombre, img)
-          : defaultBuildImagePath(categoriaNombre, img);
+      imgs.forEach((img) => {
+        let url = "";
+        if (img.startsWith("/products/")) {
+          // ya es ruta relativa desde backend
+          url = `${API_BASE.replace("/api", "")}${img}`;
+        } else {
+          // construimos
+          url = buildImagePath
+            ? buildImagePath(categoriaNombre, img)
+            : defaultBuildImagePath(categoriaNombre, img);
+        }
 
         imagenes.push({
           url,
-          alt: prod.nombre || 'Producto',
+          alt: prod.nombre || "Producto",
           producto: prod,
           categoria: categoriaNombre,
         });
@@ -66,9 +98,8 @@ const Slider = ({
   }
 
   const irADetalle = (producto, categoria) => {
-    // Ruta ejemplo: /producto/herrajes?nombre=Bisagra
     const nombre = encodeURIComponent(producto.nombre);
-    const slugCategoria = categoria.toLowerCase().replace(/\s+/g, '-');
+    const slugCategoria = categoria.replace(/\s+/g, "-");
     navigate(`/producto/${slugCategoria}?nombre=${nombre}`);
   };
 
@@ -77,14 +108,17 @@ const Slider = ({
       <Header>
         <Titulo>{titulo}</Titulo>
         <NavButtons>
-          <Btn onClick={() => scroll('left')}>←</Btn>
-          <Btn onClick={() => scroll('right')}>→</Btn>
+          <Btn onClick={() => scroll("left")}>←</Btn>
+          <Btn onClick={() => scroll("right")}>→</Btn>
         </NavButtons>
       </Header>
 
       <Carrusel ref={carruselRef}>
         {imagenes.map((img, idx) => (
-          <Card key={idx} onClick={() => irADetalle(img.producto, img.categoria)}>
+          <Card
+            key={idx}
+            onClick={() => irADetalle(img.producto, img.categoria)}
+          >
             <Imagen src={img.url} alt={img.alt} />
             <Nombre>{img.alt}</Nombre>
           </Card>
@@ -95,6 +129,8 @@ const Slider = ({
 };
 
 export default Slider;
+
+// 📐 Estilos
 
 const SliderWrapper = styled.div`
   color: black;
@@ -181,11 +217,6 @@ const Card = styled.div`
   &:hover {
     transform: scale(1.05);
   }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 140px;
-    padding: 0.8rem;
-  }
 `;
 
 const Imagen = styled.img`
@@ -195,16 +226,6 @@ const Imagen = styled.img`
   border-radius: 50%;
   border: 2px solid #ddd;
   margin: 0 auto;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 80px;
-    height: 80px;
-  }
 `;
 
 const Nombre = styled.p`
@@ -213,8 +234,4 @@ const Nombre = styled.p`
   padding: 0.6rem;
   color: black;
   background-color: #f9f9f9;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    font-size: 0.8rem;
-  }
 `;

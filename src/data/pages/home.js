@@ -1,8 +1,8 @@
-import { CardHomeImage, backgroundPage } from "@/data/image/gestorImage.js";
-// import { info } from "@/data/image/gestorImage";
+import { CardHomeImage } from "@/data/image/gestorImage.js";
+
 
 const data = {
-  backgroundPage: backgroundPage.home,
+  // backgroundPage: black,
 
   secciones: {
     herrajes: {
@@ -10,16 +10,13 @@ const data = {
       name: "Herrajes",
       description: "",
       image: CardHomeImage.herrajes,
-      backgroundPage: backgroundPage.herrajes,
       page: "/herrajes",
-      // info: info.herrajes,
     },
     melaminas: {
       id: 2,
       name: "Melaminas",
       description: "",
       image: CardHomeImage.melaminas,
-      backgroundPage: backgroundPage.melaminas,
       page: "/melaminas",
       // info: info.melaminas,
     },
@@ -28,7 +25,6 @@ const data = {
       name: "Muebles",
       description: "",
       image: CardHomeImage.muebles,
-      backgroundPage: backgroundPage.muebles,
       page: "/muebles",
       // info: info.muebles,
     },
@@ -37,7 +33,6 @@ const data = {
       name: "Revestimientos",
       description: "",
       image: CardHomeImage.pisos,
-      backgroundPage: backgroundPage.revestimientos,
       page: "/revestimientos",
       // info: info.revestimientoPiso,
     },
@@ -46,7 +41,6 @@ const data = {
       name: "Simulador",
       description: "",
       image: CardHomeImage.simulador,
-      backgroundPage: backgroundPage.simulador,
       page: "/simulador",
       // info: info.simulador,
     },
@@ -55,7 +49,6 @@ const data = {
       name: "Vinilos",
       description: "",
       image: CardHomeImage.vinilovidrios,
-      backgroundPage: backgroundPage.vinilovidiros,
       page: "/viniloParaVidrios",
       // info: info.viniloParaVidrios,
     },
@@ -64,7 +57,6 @@ const data = {
       name: "Contactos",
       description: "",
       image: CardHomeImage.contactos,
-      backgroundPage: backgroundPage.contactos,
       page: "/contactos",
       // info: info.contactos,
     },

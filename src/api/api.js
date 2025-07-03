@@ -1,23 +1,22 @@
-  import axios from 'axios';
+import axios from 'axios';
 
-  export const URL_BASE = 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
-  // Obtener Herrajes
-  export const fetchHerrajes = async () => {
-    try {
-      const res = await axios.get(`${URL_BASE}/api/herrajes`);
-      return res.data?.data || [];
-    } catch (error) {
-      console.error('❌ Error al obtener herrajes desde la API:', error);
-      return [];
-    }
-  };
-export const obtenerMelaminas = async () => {
-  try {
-    const res = await axios.get(`${URL_BASE}/api/melaminas`);
-    return res.data?.data || [];
-  } catch (error) {
-    console.error('❌ Error al obtener melaminas desde la API:', error);
-    return [];
-  }
-};
+// Herrajes
+export const getHerrajes = () => axios.get(`${API_BASE}/herrajes`);
+
+// Melaminas
+export const getMelaminas = () => axios.get(`${API_BASE}/melaminas`);
+
+// Revestimientos (raw)
+export const getRevestimientos = () => axios.get(`${API_BASE}/revestimientos`);
+
+// Revestimientos normalizados
+export const getRevestimientosNormalizados = () =>
+  axios.get(`${API_BASE}/revestimientos/normalizado`);
+
+// Todos los productos
+export const getTodosLosProductos = () =>
+  axios.get(`${API_BASE}/productos-todos`);
+
+export { API_BASE };

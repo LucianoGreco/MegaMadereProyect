@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 //Paginas
 import Home           from "@/pages/home.jsx";
 import Melaminas      from "@/pages/melaminas.jsx";
-import Muebles        from "@/pages/muebles.jsx";
 import Revestimientos from "@/pages/revestimientos.jsx"; 
 import Vinilos        from "@/pages/vinilos.jsx";
 import Herrajes       from "@/pages/herrajes.jsx";
@@ -34,9 +33,7 @@ const App = () => {
         <Routes>
           <Route path="/"                   element={<Home />} />
           <Route path="/melaminas"          element={<Melaminas />} />
-    
           <Route path="/herrajes"           element={<Herrajes />} />
-          <Route path="/muebles"            element={<Muebles />} /> 
           <Route path="/revestimientos"     element={<Revestimientos />} />
           <Route path="/simulador"          element={<Simulador />} />
           <Route path="/vinilos"            element={<Vinilos />} />

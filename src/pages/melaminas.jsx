@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { obtenerMelaminas, URL_BASE } from '@/api/api.js';
+import { getMelaminas, API_BASE } from '@/api/api.js';
 
+// Construye la ruta de la imagen
 const construirRutaImagen = (img) => {
   if (!img) return '';
   const tieneExtension = /\.[a-zA-Z0-9]{3,4}$/.test(img);
-  return `${URL_BASE}/products/melaminas/${img}${tieneExtension ? '' : '.jpg'}`;
+  return `${API_BASE.replace('/api', '')}/products/melaminas/${img}${tieneExtension ? '' : '.jpg'}`;
 };
 
 const MelaminasPage = () => {
@@ -14,20 +15,24 @@ const MelaminasPage = () => {
   const [error, setError] = useState(false);
   const [busqueda, setBusqueda] = useState('');
 
-  useEffect(() => {
-    const cargarMelaminas = async () => {
-      try {
-        const data = await obtenerMelaminas();
-        setMelaminas(data);
-      } catch (err) {
-        console.error('❌ Error al cargar melaminas:', err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-    cargarMelaminas();
-  }, []);
+useEffect(() => {
+  const cargarMelaminas = async () => {
+    try {
+      const { data } = await getMelaminas();
+
+      // Si tu API responde { melaminas: [...] }
+      const arrayMelaminas = Array.isArray(data.melaminas) ? data.melaminas : [];
+
+      setMelaminas(arrayMelaminas);
+    } catch (err) {
+      console.error('❌ Error al cargar melaminas:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+  cargarMelaminas();
+}, []);
 
   const filtrar = (producto) => {
     const termino = busqueda.toLowerCase();
@@ -61,7 +66,7 @@ const MelaminasPage = () => {
   );
 };
 
-const ProductoCard = ({ producto, categoria }) => {
+const ProductoCard = ({ producto }) => {
   const [imagenActiva, setImagenActiva] = useState(0);
   const imagenes = Array.isArray(producto.imagenes) ? producto.imagenes : [];
   const imagenSrc = construirRutaImagen(imagenes[imagenActiva]);
@@ -90,7 +95,7 @@ const ProductoCard = ({ producto, categoria }) => {
 
 export default MelaminasPage;
 
-// Estilos
+// 🎨 Estilos
 const Container = styled.div`
   padding: 2rem;
   max-width: 1200px;
