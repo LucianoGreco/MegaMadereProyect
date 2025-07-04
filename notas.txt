@@ -15,9 +15,19 @@ http://localhost:4000/products/melaminas/tekaartico.jpg
 herrajes:
 http://localhost:4000/products/herrajes/bisagras/bisagra-cazoleta-35mm-45g2-1.jpg
 
+http://localhost:4000/products/herrajes/amortiguadores/amortiguador-embutir-largo.jpg
+http://localhost:4000/products/herrajes/cerraduras/cerradura-cajón-múltiple-lateral1-1.jpg
+http://localhost:4000/products/herrajes/amortiguadores/amortiguador-aplicar1-1.jpg
+
+http://localhost:4000/products/herrajes/caño-oval/caño-oval-para-tira-led1-1.jpg
+
 revestimientos 
 http://localhost:4000/products/revestimientos/pared/empapelados/amazing/amazing-408126-1.jpg
 http://localhost:4000/products/revestimientos/pared/adhesivos/plastiwall-1kg.png
+
+\products\revestimientos\pared\ceramicos y wallstickers\ceramicos venecitas azulejos\azulejo-16211-1.png
+
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickers/ceramicos venecitas azulejos/azulejo-16211-1.png
 
 y lo que me estas entregando es:
 
@@ -26,3 +36,55 @@ y lo que me estas entregando es:
 
 Error: no esta colocando la categoria de empapelados que esta utilizando:
 /products/revestimientos/pared/ceramicos-y-wallstickers/ceramicos venecitas azulejos/azulejo-16211-1.png
+
+
+
+Estas entregando esto:
+http://localhost:4000/products/revestimientos/ceramicos/y wallstickers   ceramicos venecitas azulejos/azulejo-16211-1.png
+
+y debe ser esto:
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickers/ceramicos venecitas azulejos/azulejo-16211-1.png
+
+http://localhost:4000/products/revestimientos/ceramicos/y wallstickers   ceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/(pared)/ceramicos/y wallstickers("ceramicos y wallstickers"/) ceramicos venecitas azulejos/azulejo-16211-1.png
+
+Es
+
+http://localhost:4000/
+products/
+revestimientos/
+pared/  (esta categoria te estas ovidando)
+ceramicos y wallstickers/
+ceramicos venecitas azulejos
+/azulejo-16211-1.png
+
+y me entregas:
+
+http://localhost:4000/products/revestimientos/(ACA VA "pared")/ceramicos-y-wallstickers - ceramicos-venecitas-azulejos/azulejo-16211-1.png
+
+te debe quedar asi:
+
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+http://localhost:4000/products/revestimientos/pared/ceramicos y wallstickersceramicos venecitas azulejos/azulejo-16211-1.png
+
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared
+pared

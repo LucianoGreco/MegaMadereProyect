@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getMelaminas, API_BASE } from '@/api/api.js';
 
-// Construye la ruta de la imagen
 const construirRutaImagen = (img) => {
   if (!img) return '';
   const tieneExtension = /\.[a-zA-Z0-9]{3,4}$/.test(img);
@@ -15,24 +14,25 @@ const MelaminasPage = () => {
   const [error, setError] = useState(false);
   const [busqueda, setBusqueda] = useState('');
 
-useEffect(() => {
-  const cargarMelaminas = async () => {
-    try {
-      const { data } = await getMelaminas();
+  useEffect(() => {
+    const cargarMelaminas = async () => {
+      try {
+        const res = await getMelaminas();
+        console.log("📦 Datos crudos desde API melaminas:", res.data);
 
-      // Si tu API responde { melaminas: [...] }
-      const arrayMelaminas = Array.isArray(data.melaminas) ? data.melaminas : [];
+        const mel = Array.isArray(res.data?.data) ? res.data.data : [];
+        setMelaminas(mel);
+      } catch (err) {
+        console.error('❌ Error al cargar melaminas:', err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargarMelaminas();
+  }, []);
 
-      setMelaminas(arrayMelaminas);
-    } catch (err) {
-      console.error('❌ Error al cargar melaminas:', err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-  cargarMelaminas();
-}, []);
+  console.log("🔷 melaminas en render:", melaminas);
 
   const filtrar = (producto) => {
     const termino = busqueda.toLowerCase();
@@ -41,6 +41,10 @@ useEffect(() => {
 
   if (loading) return <Container>Cargando melaminas...</Container>;
   if (error) return <Container>Error al cargar los datos.</Container>;
+
+  if (!melaminas.length) {
+    return <Container>No hay melaminas para mostrar.</Container>;
+  }
 
   return (
     <Container>
@@ -56,9 +60,19 @@ useEffect(() => {
         <div key={i}>
           <CategoriaTitulo>{cat.categoria}</CategoriaTitulo>
           <Grid>
-            {(cat.productos || []).filter(filtrar).map((prod, j) => (
-              <ProductoCard key={j} producto={prod} categoria={cat.categoria} />
-            ))}
+            {(cat.productos || []).filter(filtrar).length === 0 && (
+              <p>No hay productos en esta categoría.</p>
+            )}
+
+            {(cat.productos || [])
+              .filter(filtrar)
+              .map((prod, j) => (
+                <ProductoCard
+                  key={j}
+                  producto={prod}
+                  categoria={cat.categoria}
+                />
+              ))}
           </Grid>
         </div>
       ))}
@@ -73,7 +87,9 @@ const ProductoCard = ({ producto }) => {
 
   return (
     <Card>
-      {imagenSrc && <Imagen src={imagenSrc} alt={producto.nombre || 'Sin nombre'} />}
+      {imagenSrc && (
+        <Imagen src={imagenSrc} alt={producto.nombre || 'Sin nombre'} />
+      )}
       {imagenes.length > 1 && (
         <Miniaturas>
           {imagenes.map((img, idx) => (
@@ -95,7 +111,7 @@ const ProductoCard = ({ producto }) => {
 
 export default MelaminasPage;
 
-// 🎨 Estilos
+// Estilos
 const Container = styled.div`
   padding: 2rem;
   max-width: 1200px;
