@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 // Estilos Globales
-// import GlobalStyles   from "@/styles/globalStyles";
+import GlobalStyles   from "@/styles/globalStyles";
 
 //Paginas
 import Home           from "@/pages/home.jsx";
@@ -20,13 +20,13 @@ import Terminos       from "@/components/policies/Terminos.jsx";
 // Componentes UI
 
 import Header         from "@/components/layout/Header.jsx";
-import Cursor         from "@/data/components/cursor.js";
+import Cursor         from "@/data/components/cursor.jsx";
 import Footer         from "@/components/layout/Footer.jsx";
 
 const App = () => {
   return (
     <div className="App">
-      {/* <GlobalStyles /> */}
+      <GlobalStyles />
       <Cursor />
       <Router>
         <Header /> 

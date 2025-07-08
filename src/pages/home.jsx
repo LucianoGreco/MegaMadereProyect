@@ -6,6 +6,7 @@ import {
   getHerrajes,
   getMelaminas,
   getRevestimientosNormalizados,
+  API_BASE,
 } from "@/api/api";
 
 import Banner from "@/components/ui/Banner";
@@ -14,27 +15,6 @@ import Slider from "@/components/ui/Slider";
 import data from "@/data/pages/home";
 
 const PAGE_SIZE = 6;
-
-const HomeContainer = styled.div`
-  width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 2rem 1rem;
-  box-sizing: border-box;
-
-  @media (max-width: ${breakpoints.tablet}) {
-    padding: 1.5rem 1rem;
-    gap: 15px;
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 1rem 0.5rem;
-    gap: 12px;
-  }
-`;
 
 const Home = () => {
   const [melaminasFull, setMelaminasFull] = useState([]);
@@ -50,17 +30,13 @@ const Home = () => {
   const [revestimientosPage, setRevestimientosPage] = useState(1);
 
   useEffect(() => {
-    const cargar = async () => {
+    const cargarProductos = async () => {
       try {
         const [melRes, herRes, revRes] = await Promise.all([
           getMelaminas(),
           getHerrajes(),
           getRevestimientosNormalizados(),
         ]);
-
-        console.log("✅ Melaminas response:", melRes.data);
-        console.log("✅ Herrajes response:", herRes.data);
-        console.log("✅ Revestimientos response:", revRes.data);
 
         const mel = Array.isArray(melRes.data?.data) ? melRes.data.data : [];
         const her = Array.isArray(herRes.data?.data) ? herRes.data.data : [];
@@ -78,53 +54,151 @@ const Home = () => {
       }
     };
 
-    cargar();
+    cargarProductos();
   }, []);
 
   const loadMore = (fullData, currentPage, setPage, setVisible) => {
     const nextPage = currentPage + 1;
-    const nextItems = fullData.slice(0, nextPage * PAGE_SIZE);
     setPage(nextPage);
-    setVisible(nextItems);
+    setVisible(fullData.slice(0, nextPage * PAGE_SIZE));
   };
 
+  const handleLoadMoreHerrajes = () =>
+    loadMore(herrajesFull, herrajesPage, setHerrajesPage, setHerrajes);
+
+  const handleLoadMoreMelaminas = () =>
+    loadMore(melaminasFull, melaminasPage, setMelaminasPage, setMelaminas);
+
+  const handleLoadMoreRevestimientos = () =>
+    loadMore(
+      revestimientosFull,
+      revestimientosPage,
+      setRevestimientosPage,
+      setRevestimientos
+    );
+
+  const buildImagePath = (path, nombreImagen) =>
+    `${API_BASE.replace(
+      "/api",
+      ""
+    )}/products/revestimientos/${path}/${nombreImagen}`;
+
   return (
-    <HomeContainer>
+    <HomeSection>
       <Banner />
 
-      <Slider
-        titulo="Herrajes"
-        data={herrajes}
-        categoriaKey="categoria"
-        productosKey="productos"
-        onLoadMore={() => loadMore(herrajesFull, herrajesPage, setHerrajesPage, setHerrajes)}
-      />
-      <Slider
-        titulo="Melaminas"
-        data={melaminas}
-        categoriaKey="categoria"
-        productosKey="productos"
-        onLoadMore={() => loadMore(melaminasFull, melaminasPage, setMelaminasPage, setMelaminas)}
-      />
-      <Slider
-        titulo="Revestimientos"
-        data={revestimientos}
-        categoriaKey="categoria"
-        productosKey="productos"
-        onLoadMore={() => loadMore(revestimientosFull, revestimientosPage, setRevestimientosPage, setRevestimientos)}
-      />
-
-      {Object.values(data.secciones).map((seccion) => (
-        <CardHome
-          key={seccion.id}
-          name={seccion.name}
-          description={seccion.description}
-          image={seccion.image}
-          page={seccion.page}
+      <Section>
+        <SectionTitle>Herrajes</SectionTitle>
+        <Slider
+          titulo="Herrajes"
+          data={herrajes}
+          categoriaKey="categoria"
+          productosKey="productos"
+          onLoadMore={handleLoadMoreHerrajes}
         />
-      ))}
-    </HomeContainer>
+      </Section>
+
+      <Section>
+        <SectionTitle>Melaminas</SectionTitle>
+        <Slider
+          titulo="Melaminas"
+          data={melaminas}
+          categoriaKey="categoria"
+          productosKey="productos"
+          onLoadMore={handleLoadMoreMelaminas}
+        />
+      </Section>
+
+      <Section>
+        <SectionTitle>Revestimientos</SectionTitle>
+        <Slider
+          titulo="Revestimientos"
+          data={revestimientos}
+          categoriaKey="path"
+          productosKey="productos"
+          onLoadMore={handleLoadMoreRevestimientos}
+          buildImagePath={buildImagePath}
+        />
+      </Section>
+
+      <Section>
+        <SectionTitle>Explora nuestras secciones</SectionTitle>
+        <CardsGrid>
+          {Object.values(data.secciones).map((seccion) => (
+            <CardHome
+              key={seccion.id}
+              name={seccion.name}
+              image={seccion.image}
+              page={seccion.page}
+            />
+          ))}
+        </CardsGrid>
+      </Section>
+    </HomeSection>
   );
 };
 
 export default Home;
+
+// 🎨 Estilos
+const HomeSection = styled.main`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  & > section:last-child {
+    margin-bottom: 4rem;
+  }
+`;
+
+const Section = styled.section`
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding: 2rem 1rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    padding: 1.5rem 0.5rem;
+  }
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 2rem;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 1.75rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+`;
+
+const CardsGrid = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    gap: 1rem;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+`;
+

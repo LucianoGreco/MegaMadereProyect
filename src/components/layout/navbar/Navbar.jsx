@@ -8,23 +8,25 @@ const NavbarContainer = styled.nav`
   gap: 1rem;
 
   a {
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    color: var(--text-color);
-    background-color: transparent;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background 0.3s ease, color 0.3s ease;
+    color: #333;
+    text-decoration: none;
 
     &:hover {
-      background-color: var(--text-color);
-      color: var(--background-color);
-      transform: scale(1.05);
+      background-color: #f0f0f0;
     }
 
     &.active {
-      background-color: var(--text-color);
-      color: var(--background-color);
+      color: #0066cc;
+      font-weight: 600;
+      border-bottom: 2px solid #0066cc;
+      background: transparent;
     }
   }
 
